@@ -18,6 +18,8 @@ import {
     BankAccountResolvePagingParams,
 } from './';
 
+import {EasycountLineModule} from '../line/line.module';
+
 let ENTITY_STATES = [
     ...bankAccountRoute,
     ...bankAccountPopupRoute,
@@ -26,7 +28,8 @@ let ENTITY_STATES = [
 @NgModule({
     imports: [
         EasycountSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
+        RouterModule.forRoot(ENTITY_STATES, { useHash: true }),
+        EasycountLineModule
     ],
     declarations: [
         BankAccountComponent,
@@ -35,7 +38,7 @@ let ENTITY_STATES = [
         BankAccountDialogComponent,
         BankAccountDeleteDialogComponent,
         BankAccountPopupComponent,
-        BankAccountDeletePopupComponent,
+        BankAccountDeletePopupComponent
     ],
     entryComponents: [
         BankAccountComponent,

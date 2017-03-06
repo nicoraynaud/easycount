@@ -23,5 +23,6 @@ export class Line {
         public source?: LineSource,
         public categoriesId?: number,
         public bankAccountId?: number,
+        public bankAccountLabel?: string,
     ) { }
 }

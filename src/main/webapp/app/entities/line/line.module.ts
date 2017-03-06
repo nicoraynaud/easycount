@@ -8,6 +8,7 @@ import {
     LinePopupService,
     LineComponent,
     LineDetailComponent,
+    LineRowComponent,
     LineDialogComponent,
     LinePopupComponent,
     LineDeletePopupComponent,
@@ -30,6 +31,7 @@ let ENTITY_STATES = [
     declarations: [
         LineComponent,
         LineDetailComponent,
+        LineRowComponent,
         LineDialogComponent,
         LineDeleteDialogComponent,
         LinePopupComponent,
@@ -46,6 +48,9 @@ let ENTITY_STATES = [
         LineService,
         LinePopupService,
         LineResolvePagingParams,
+    ],
+    exports: [
+        LineRowComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

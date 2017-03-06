@@ -13,6 +13,7 @@ export class BankAccount {
         public type?: BankAccountType,
         public linesId?: number,
         public bankId?: number,
+        public bankLabel?: string,
         public currencyId?: number,
     ) { }
 }

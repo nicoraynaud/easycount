@@ -13,6 +13,7 @@ import java.util.List;
 public interface BankAccountMapper {
 
     @Mapping(source = "bank.id", target = "bankId")
+    @Mapping(source = "bank.label", target = "bankLabel")
     @Mapping(source = "currency.id", target = "currencyId")
     BankAccountDTO bankAccountToBankAccountDTO(BankAccount bankAccount);
 

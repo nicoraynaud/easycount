@@ -58,24 +58,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let line of lines ;trackBy: trackId">
-                        <td>{{line.date | date:'mediumDate'}}</td>
-                        <td>{{line.label}}</td>
-                        <td>{{line.debit}}</td>
-                        <td>{{line.credit}}</td>
-                        <td jhiTranslate="{{'easycountApp.LineStatus.' + line.status}}">{{line.status}}</td>
-                        <td jhiTranslate="{{'easycountApp.LineSource.' + line.source}}">{{line.source}}</td>
-                        <td class="text-xs-right">
-                            <div class="btn-group flex-btn-group-container">
-                                <button type="submit"
-                                        [routerLink]="['/', { outlets: { popup: 'line/'+ line.id + '/delete'} }]"
-                                        replaceUrl="true" class="btn btn-danger btn-sm">
-                                    <span class="fa fa-remove"></span> <span
-                                    class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                        <tr *ngFor="let line of lines ;trackBy: trackId" [jhi-line-row]="line"></tr>
                     </tbody>
                 </table>
             </div>

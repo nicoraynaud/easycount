@@ -28,6 +28,8 @@ public class BankAccountDTO implements Serializable {
 
     private Long currencyId;
 
+    private String bankLabel;
+
     public Long getId() {
         return id;
     }
@@ -71,6 +73,14 @@ public class BankAccountDTO implements Serializable {
 
     public void setCurrencyId(Long currencyId) {
         this.currencyId = currencyId;
+    }
+
+    public String getBankLabel() {
+        return bankLabel;
+    }
+
+    public void setBankLabel(String bankLabel) {
+        this.bankLabel = bankLabel;
     }
 
     @Override

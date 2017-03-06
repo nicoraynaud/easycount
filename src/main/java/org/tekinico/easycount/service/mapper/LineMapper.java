@@ -13,6 +13,7 @@ import java.util.List;
 public interface LineMapper {
 
     @Mapping(source = "bankAccount.id", target = "bankAccountId")
+    @Mapping(target = "bankAccountLabel", expression = "java(line.getBankAccount() != null ? line.getBankAccount().getBank().getLabel() + \" - \" + line.getBankAccount().getLabel() : \"\")")
     LineDTO lineToLineDTO(Line line);
 
     List<LineDTO> linesToLineDTOs(List<Line> lines);
