@@ -1,0 +1,29 @@
+{
+    "easycountApp": {
+        "line" : {
+            "home": {
+                "title": "Lines",
+                "createLabel": "Créer un nouveau Line",
+                "createOrEditLabel": "Créer ou éditer un Line"
+            },
+            "created": "Un nouveau Line a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Line avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Line avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Line {{ id }} ?"
+            },
+            "detail": {
+                "title": "Line"
+            },
+            "date": "Date",
+            "label": "Label",
+            "debit": "Debit",
+            "credit": "Credit",
+            "balance": "Balance",
+            "status": "Status",
+            "source": "Source",
+            "categories": "Categories",
+            "bankAccount": "Bank Account"
+        }
+    }
+}

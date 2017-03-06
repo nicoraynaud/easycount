@@ -1,0 +1,104 @@
+
+<div *ngIf="bankAccount">
+    <h2>{{bankAccount.bankLabel}} - {{bankAccount.label}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row">
+        <div class="col-md-2">
+            <dt><span jhiTranslate="easycountApp.bankAccount.label">Label</span></dt>
+            <dd>
+                <span>{{bankAccount.label}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.number">Number</span></dt>
+            <dd>
+                <span>{{bankAccount.number}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.type">Type</span></dt>
+            <dd>
+                <span jhiTranslate="{{'easycountApp.BankAccountType.' + bankAccount.type}}">{{bankAccount.type}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.bank">Bank</span></dt>
+            <dd>
+                <div *ngIf="bankAccount.bankId">
+                    <a [routerLink]="['bank', bankAccount.bankId]">{{bankAccount.bankId}}</a>
+                </div>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.currency">Currency</span></dt>
+            <dd>
+                <div *ngIf="bankAccount.currencyId">
+                    <a [routerLink]="['currency', bankAccount.currencyId]">{{bankAccount.currencyId}}</a>
+                </div>
+            </dd>
+        </div>
+        <div class="col-md-10">
+            <div class="table-responsive" *ngIf="lines">
+                <table class="table table-striped">
+                    <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse"
+                        [callback]="transition.bind(this)">
+                        <th jhiSortBy="date"><span
+                            jhiTranslate="easycountApp.line.date">Date</span> <span
+                            class="fa fa-sort"></span></th>
+                        <th jhiSortBy="label"><span
+                            jhiTranslate="easycountApp.line.label">Label</span> <span
+                            class="fa fa-sort"></span></th>
+                        <th jhiSortBy="debit"><span
+                            jhiTranslate="easycountApp.line.debit">Debit</span> <span
+                            class="fa fa-sort"></span></th>
+                        <th jhiSortBy="credit"><span
+                            jhiTranslate="easycountApp.line.credit">Credit</span> <span
+                            class="fa fa-sort"></span></th>
+                        <th jhiSortBy="status"><span
+                            jhiTranslate="easycountApp.line.status">Status</span> <span
+                            class="fa fa-sort"></span></th>
+                        <th jhiSortBy="source"><span
+                            jhiTranslate="easycountApp.line.source">Source</span> <span
+                            class="fa fa-sort"></span></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let line of lines ;trackBy: trackId">
+                        <td>{{line.date | date:'mediumDate'}}</td>
+                        <td>{{line.label}}</td>
+                        <td>{{line.debit}}</td>
+                        <td>{{line.credit}}</td>
+                        <td jhiTranslate="{{'easycountApp.LineStatus.' + line.status}}">{{line.status}}</td>
+                        <td jhiTranslate="{{'easycountApp.LineSource.' + line.source}}">{{line.source}}</td>
+                        <td class="text-xs-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit"
+                                        [routerLink]="['/', { outlets: { popup: 'line/'+ line.id + '/delete'} }]"
+                                        replaceUrl="true" class="btn btn-danger btn-sm">
+                                    <span class="fa fa-remove"></span> <span
+                                    class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-xs-center" *ngIf="lines && lines.length">
+                <jhi-item-count [page]="page" [total]="queryCount"
+                                [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"
+                                (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'bank-account/'+ bankAccount.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,65 @@
+entity Category {
+    label String required
+}
+
+entity Bank {
+    label String required
+}
+
+entity Currency {
+    label String required,
+    code String required,
+    symbol String required,
+    decimals Integer required
+}
+
+enum LineSource {
+    MANUAL, GENERATED
+}
+
+enum LineStatus {
+    NEW, TICKED, CANCELLED
+}
+
+enum BankAccountType {
+    CHECKING, SAVINGS, OTHER
+}
+
+entity BankAccount {
+    label String required,
+    number String required,
+    type BankAccountType required,
+}
+
+entity Line {
+    date LocalDate required,
+    label String required,
+    debit Double,
+    credit Double,
+    balance Double,
+    status LineStatus required,
+    source LineSource
+}
+
+relationship ManyToMany {
+    Line{categories} to Category
+}
+
+relationship OneToMany {
+    BankAccount{lines} to Line{bankAccount}
+}
+
+relationship ManyToOne {
+    BankAccount{bank} to Bank{bankAccounts},
+    BankAccount{currency} to Currency
+}
+
+// Set DTO options
+dto * with mapstruct
+
+// Set pagination options
+paginate all with pagination
+
+
+// Set service options to all except few
+service all with serviceImpl except Category, Bank, Currency
