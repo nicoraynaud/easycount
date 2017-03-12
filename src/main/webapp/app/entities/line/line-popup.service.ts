@@ -13,7 +13,7 @@ export class LinePopupService {
 
     ) {}
 
-    open (component: Component, id?: number | any): NgbModalRef {
+    open (component: Component, id?: number, bankAccountId?: number | any): NgbModalRef {
         if (this.isOpen) {
             return;
         }
@@ -31,7 +31,7 @@ export class LinePopupService {
                 this.lineModalRef(component, line);
             });
         } else {
-            return this.lineModalRef(component, new Line());
+            return this.lineModalRef(component, this.lineService.createNew(bankAccountId, false));
         }
     }
 

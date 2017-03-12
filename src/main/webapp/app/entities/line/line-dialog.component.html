@@ -9,92 +9,80 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!line.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="line.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.line.date" for="field_date">Date</label>
-            <div class="input-group">
-                <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="line.date"
-                required/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="dateDp.open()"><i class="fa fa-calendar"></i></button>
-                </span>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.date" for="field_date">Date</label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="line.date"
+                    required/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" (click)="dateDp.open()"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </div>
+                <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
+                    <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.date?.errors?.required" jhiTranslate="entity.validation.required">
+                       This field is required.
+                    </small>
+                </div>
             </div>
-            <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.date?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.bankAccount" for="field_bankAccount">Bank Account</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="field_bankAccount" name="bankAccount" [(ngModel)]="line.bankAccountId">
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="bankAccountOption.id" *ngFor="let bankAccountOption of bankaccounts; trackBy: trackBankAccountById">{{bankAccountOption.bankLabel}} - {{bankAccountOption.label}}</option>
+                </select>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.line.label" for="field_label">Label</label>
-            <input type="text" class="form-control" name="label" id="field_label"
-                [(ngModel)]="line.label"
-            required />
-            <div [hidden]="!(editForm.controls.label?.dirty && editForm.controls.label?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.label?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.line.debit" for="field_debit">Debit</label>
-            <input type="number" class="form-control" name="debit" id="field_debit"
-                [(ngModel)]="line.debit"
-             />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.line.credit" for="field_credit">Credit</label>
-            <input type="number" class="form-control" name="credit" id="field_credit"
-                [(ngModel)]="line.credit"
-             />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.line.balance" for="field_balance">Balance</label>
-            <input type="number" class="form-control" name="balance" id="field_balance"
-                [(ngModel)]="line.balance"
-             />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.line.status" for="field_status">Status</label>
-            <select class="form-control" name="status" [(ngModel)]="line.status" id="field_status"  required>
-                <option value="NEW" jhiTranslate="easycountApp.LineStatus.NEW">NEW</option>
-                <option value="TICKED" jhiTranslate="easycountApp.LineStatus.TICKED">TICKED</option>
-                <option value="CANCELLED" jhiTranslate="easycountApp.LineStatus.CANCELLED">CANCELLED</option>
-            </select>
-            <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.status?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.line.source" for="field_source">Source</label>
-            <select class="form-control" name="source" [(ngModel)]="line.source" id="field_source" >
-                <option value="MANUAL" jhiTranslate="easycountApp.LineSource.MANUAL">MANUAL</option>
-                <option value="GENERATED" jhiTranslate="easycountApp.LineSource.GENERATED">GENERATED</option>
-            </select>
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="easycountApp.line.categories" for="field_categories">Categories</label>
-            <select class="form-control" id="field_categories" multiple name="categories" [(ngModel)]="line.categories">
-                <option [ngValue]="getSelected(line.categories, categoryOption)" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.id}}</option>
-            </select>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.debit" for="field_debit">Debit</label>
+            <div class="col-sm-4">
+                <input type="number" class="form-control" name="debit" id="field_debit"
+                   [(ngModel)]="line.debit"
+                />
+            </div>
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.credit" for="field_credit">Credit</label>
+            <div class="col-sm-4">
+                <input type="number" class="form-control" name="credit" id="field_credit"
+                   [(ngModel)]="line.credit"
+                />
+            </div>
         </div>
-        <div class="form-group">
-            <label jhiTranslate="easycountApp.line.bankAccount" for="field_bankAccount">Bank Account</label>
-            <select class="form-control" id="field_bankAccount" name="bankAccount" [(ngModel)]="line.bankAccountId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="bankAccountOption.id" *ngFor="let bankAccountOption of bankaccounts; trackBy: trackBankAccountById">{{bankAccountOption.id}}</option>
-            </select>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.label" for="field_label">Label</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="label" id="field_label"
+                       [(ngModel)]="line.label"
+                       required />
+                <div [hidden]="!(editForm.controls.label?.dirty && editForm.controls.label?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.label?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.categories" for="field_categories">Categories</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="field_categories" multiple name="categories" [(ngModel)]="line.categories">
+                    <option [ngValue]="getSelected(line.categories, categoryOption)" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.id}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" [hidden]="!line.id">
+            <input type="hidden" class="form-control" id="id" name="id"
+                   [(ngModel)]="line.id" readonly />
+            <input type="hidden" class="form-control" id="field_status" name="status"
+                   [(ngModel)]="line.status" readonly />
+            <input type="hidden" class="form-control" id="field_source" name="source"
+                   [(ngModel)]="line.source" readonly />
+        </div>
+
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

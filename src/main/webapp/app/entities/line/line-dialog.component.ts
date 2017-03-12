@@ -32,7 +32,10 @@ export class LineDialogComponent implements OnInit {
         private bankAccountService: BankAccountService,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['line', 'lineStatus', 'lineSource']);
+        // Use addLocation i/o setLocations in order not to remove other necessary ones in the background
+        this.jhiLanguageService.addLocation('line');
+        this.jhiLanguageService.addLocation('lineStatus');
+        this.jhiLanguageService.addLocation('lineSource');
     }
 
     ngOnInit() {
@@ -42,6 +45,7 @@ export class LineDialogComponent implements OnInit {
             (res: Response) => { this.categories = res.json(); }, (res: Response) => this.onError(res.json()));
         this.bankAccountService.query().subscribe(
             (res: Response) => { this.bankaccounts = res.json(); }, (res: Response) => this.onError(res.json()));
+
     }
     clear () {
         this.activeModal.dismiss('cancel');
@@ -112,6 +116,9 @@ export class LinePopupComponent implements OnInit, OnDestroy {
             if ( params['id'] ) {
                 this.modalRef = this.linePopupService
                     .open(LineDialogComponent, params['id']);
+            } else if ( params['bankAccountId'] ) {
+                this.modalRef = this.linePopupService
+                    .open(LineDialogComponent, null, params['bankAccountId']);
             } else {
                 this.modalRef = this.linePopupService
                     .open(LineDialogComponent);

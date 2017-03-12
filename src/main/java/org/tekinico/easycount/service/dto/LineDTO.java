@@ -37,8 +37,6 @@ public class LineDTO implements Serializable {
 
     private Long bankAccountId;
 
-    private String bankAccountLabel;
-
     public Long getId() {
         return id;
     }
@@ -110,14 +108,6 @@ public class LineDTO implements Serializable {
 
     public void setBankAccountId(Long bankAccountId) {
         this.bankAccountId = bankAccountId;
-    }
-
-    public String getBankAccountLabel() {
-        return bankAccountLabel;
-    }
-
-    public void setBankAccountLabel(String bankAccountLabel) {
-        this.bankAccountLabel = bankAccountLabel;
     }
 
     @Override

@@ -1,12 +1,12 @@
 
-const enum LineStatus {
+export const enum LineStatus {
     'NEW',
     'TICKED',
     'CANCELLED'
 
 };
 
-const enum LineSource {
+export const enum LineSource {
     'MANUAL',
     'GENERATED'
 
@@ -22,7 +22,6 @@ export class Line {
         public status?: LineStatus,
         public source?: LineSource,
         public categoriesId?: number,
-        public bankAccountId?: number,
-        public bankAccountLabel?: string,
+        public bankAccountId?: number
     ) { }
 }

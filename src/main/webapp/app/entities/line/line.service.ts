@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Line } from './line.model';
+import { Line, LineStatus, LineSource } from './line.model';
 import { DateUtils } from 'ng-jhipster';
 @Injectable()
 export class LineService {
@@ -55,6 +55,13 @@ export class LineService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    createNew(bankAccountId: number, generated: boolean) {
+        let line = new Line();
+        if (bankAccountId) line.bankAccountId = Number(bankAccountId);
+        generated ? line.source = LineSource.GENERATED : line.source = LineSource.MANUAL;
+        line.status = LineStatus.NEW;
+        return line;
+    }
 
     private convertResponse(res: any): any {
         let jsonResponse = res.json();

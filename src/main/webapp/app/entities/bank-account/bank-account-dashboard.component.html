@@ -1,6 +1,21 @@
 
-<div *ngIf="bankAccount">
-    <h2>{{bankAccount.bankLabel}} - {{bankAccount.label}}</h2>
+<div *ngIf="bankAccount"
+     (keyup.e)="editLine(line)"
+     (keyup.enter)="onKey($event)"
+     (keydown.v)="validateLine(line)"
+     (keydown.arrowup)="downLine(line)"
+     (keydown.arrowdown)="upLine(line)">
+    <h2>{{bankAccount.bankLabel}} - {{bankAccount.label}}
+
+        <button class="btn btn-primary float-right create-line"
+                [routerLink]="['/', { outlets: { popup: 'line-new/'+ bankAccountId } }]"
+                replaceUrl="false">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="easycountApp.line.home.createLabel">
+            Create new Line
+            </span>
+        </button>
+    </h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row">
@@ -29,6 +44,7 @@
                     <a [routerLink]="['currency', bankAccount.currencyId]">{{bankAccount.currencyId}}</a>
                 </div>
             </dd>
+
         </div>
         <div class="col-md-10">
             <div class="table-responsive" *ngIf="lines">
@@ -58,18 +74,44 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let line of lines ;trackBy: trackId" [jhi-line-row]="line"></tr>
+                    <tr *ngFor="let line of lines ;trackBy: trackId" (click)="setClickedRow(line)"
+                        [class.active]="line == selectedLine">
+                        <td>{{line.date | date:'mediumDate'}}</td>
+                        <td>{{line.label}}</td>
+                        <td>{{line.debit}}</td>
+                        <td>{{line.credit}}</td>
+                        <td jhiTranslate="{{'easycountApp.LineStatus.' + line.status}}">{{line.status}}</td>
+                        <td jhiTranslate="{{'easycountApp.LineSource.' + line.source}}">{{line.source}}</td>
+                        <td class="text-xs-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit"
+                                        [routerLink]="['/', { outlets: { popup: 'line/'+ line.id + '/edit'} }]"
+                                        replaceUrl="false"
+                                        class="btn btn-primary btn-sm">
+                                    <span class="fa fa-pencil"></span>
+                                    <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                                </button>
+                                <button type="submit"
+                                        [routerLink]="['/', { outlets: { popup: 'line/'+ line.id + '/delete'} }]"
+                                        replaceUrl="false" class="btn btn-danger btn-sm">
+                                    <span class="fa fa-remove"></span> <span
+                                    class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="text-xs-center" *ngIf="lines && lines.length">
+            <div class="row justify-content-center" *ngIf="lines && lines.length">
                 <jhi-item-count [page]="page" [total]="queryCount"
                                 [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center" *ngIf="lines && lines.length">
                 <ngb-pagination [collectionSize]="totalItems" [(page)]="page"
                                 (pageChange)="loadPage(page)"></ngb-pagination>
             </div>
         </div>
-
     </dl>
 
     <button type="submit"
