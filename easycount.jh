@@ -52,6 +52,7 @@ relationship OneToMany {
 relationship ManyToOne {
     BankAccount{bank} to Bank{bankAccounts},
     BankAccount{currency} to Currency
+    Category{parentCategory} to Category
 }
 
 // Set DTO options

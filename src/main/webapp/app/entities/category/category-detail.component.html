@@ -8,6 +8,12 @@
         <dd>
             <span>{{category.label}}</span>
         </dd>
+        <dt><span jhiTranslate="easycountApp.category.parentCategory">Parent Category</span></dt>
+        <dd>
+            <div *ngIf="category.parentCategoryId">
+                <a [routerLink]="['/category', category.parentCategoryId]">{{category.parentCategoryId}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

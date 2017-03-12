@@ -27,6 +27,9 @@ public class Category implements Serializable {
     @Column(name = "label", nullable = false)
     private String label;
 
+    @ManyToOne
+    private Category parentCategory;
+
     public Long getId() {
         return id;
     }
@@ -46,6 +49,19 @@ public class Category implements Serializable {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Category getParentCategory() {
+        return parentCategory;
+    }
+
+    public Category parentCategory(Category Category) {
+        this.parentCategory = Category;
+        return this;
+    }
+
+    public void setParentCategory(Category Category) {
+        this.parentCategory = Category;
     }
 
     @Override

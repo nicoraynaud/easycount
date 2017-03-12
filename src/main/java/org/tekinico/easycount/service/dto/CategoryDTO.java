@@ -3,6 +3,8 @@ package org.tekinico.easycount.service.dto;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -14,6 +16,8 @@ public class CategoryDTO implements Serializable {
 
     @NotNull
     private String label;
+
+    private Long parentCategoryId;
 
     public Long getId() {
         return id;
@@ -28,6 +32,14 @@ public class CategoryDTO implements Serializable {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Long getParentCategoryId() {
+        return parentCategoryId;
+    }
+
+    public void setParentCategoryId(Long CategoryId) {
+        this.parentCategoryId = CategoryId;
     }
 
     @Override

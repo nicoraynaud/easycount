@@ -15,7 +15,8 @@
             "detail": {
                 "title": "Category"
             },
-            "label": "Label"
+            "label": "Label",
+            "parentCategory": "Parent Category"
         }
     }
 }

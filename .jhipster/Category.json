@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "parentCategory",
+            "otherEntityName": "Category",
+            "otherEntityField": "id"
+        }
+    ],
     "fields": [
         {
             "fieldName": "label",

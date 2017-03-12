@@ -17,6 +17,8 @@ export class CategoryDialogComponent implements OnInit {
     category: Category;
     authorities: any[];
     isSaving: boolean;
+
+    categories: Category[];
     constructor(
         public activeModal: NgbActiveModal,
         private jhiLanguageService: JhiLanguageService,
@@ -30,6 +32,8 @@ export class CategoryDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.categoryService.query().subscribe(
+            (res: Response) => { this.categories = res.json(); }, (res: Response) => this.onError(res.json()));
     }
     clear () {
         this.activeModal.dismiss('cancel');
@@ -59,6 +63,10 @@ export class CategoryDialogComponent implements OnInit {
 
     private onError (error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackCategoryById(index: number, item: Category) {
+        return item.id;
     }
 }
 
