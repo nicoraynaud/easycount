@@ -63,6 +63,11 @@ export class LineService {
         return line;
     }
 
+    validateLine(line: Line): Observable<Line> {
+        line.status = LineStatus.TICKED;
+        return this.update(line);
+    }
+
     private convertResponse(res: any): any {
         let jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {

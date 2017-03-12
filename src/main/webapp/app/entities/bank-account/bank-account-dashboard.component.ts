@@ -125,9 +125,12 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     validateLine (line) {
         if (line) {
-
+            this.lineService.validateLine(line)
+                .subscribe((res: Line) => this.onSaveSuccess(res), (res: Response) => this.onError(res.json()));
         }
-
+    }
+    private onSaveSuccess (result: Line) {
+        this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
     }
 
     upLine (line) {

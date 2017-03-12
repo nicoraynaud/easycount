@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
@@ -23,6 +23,7 @@ export class LineDialogComponent implements OnInit {
     categories: Category[];
 
     bankaccounts: BankAccount[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiLanguageService: JhiLanguageService,
