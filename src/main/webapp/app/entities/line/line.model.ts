@@ -1,4 +1,5 @@
 
+import {Category} from "../category/category.model";
 export const enum LineStatus {
     'NEW',
     'TICKED',
@@ -21,7 +22,8 @@ export class Line {
         public balance?: number,
         public status?: LineStatus,
         public source?: LineSource,
-        public categoriesId?: number,
+        public categories?: Category[],
+        //public categoriesId?: number[],
         public bankAccountId?: number
     ) { }
 }

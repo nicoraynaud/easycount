@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
@@ -10,6 +10,9 @@ import { LinePopupService } from './line-popup.service';
 import { LineService } from './line.service';
 import { Category, CategoryService } from '../category';
 import { BankAccount, BankAccountService } from '../bank-account';
+
+import { IMultiSelectOption, IMultiSelectSettings,IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+
 @Component({
     selector: 'jhi-line-dialog',
     templateUrl: './line-dialog.component.html'
@@ -20,7 +23,28 @@ export class LineDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    categories: Category[];
+    categoriesOptions: IMultiSelectOption[];
+    categoriesSettings: IMultiSelectSettings = {
+        pullRight: false,
+        enableSearch: true,
+        checkedStyle: 'fontawesome',
+        buttonClasses: 'btn btn-default',
+        selectionLimit: 0,
+        closeOnSelect: false,
+        showCheckAll: false,
+        showUncheckAll: false,
+        dynamicTitleMaxItems: 5,
+        maxHeight: '300px',
+    };
+    categoriesTexts: IMultiSelectTexts = {
+        checkAll: 'Check all',
+        uncheckAll: 'Uncheck all',
+        checked: 'checked',
+        checkedPlural: 'checked',
+        searchPlaceholder: 'Search...',
+        defaultTitle: 'Select',
+    };
+    selectedCategories: number[];
 
     bankaccounts: BankAccount[];
 
@@ -43,11 +67,27 @@ export class LineDialogComponent implements OnInit {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.categoryService.query().subscribe(
-            (res: Response) => { this.categories = res.json(); }, (res: Response) => this.onError(res.json()));
+            (res: Response) => {
+                this.categoriesOptions = [];
+                res.json().forEach(c =>
+                    this.categoriesOptions.push( {id:  c.id, name: c.label} )
+                );
+                this.selectedCategories = new Array<number>();
+                this.line.categories.forEach(c => this.selectedCategories.push(c.id));
+            },
+            (res: Response) => this.onError(res.json()));
         this.bankAccountService.query().subscribe(
             (res: Response) => { this.bankaccounts = res.json(); }, (res: Response) => this.onError(res.json()));
-
     }
+
+    onChange($event) {
+        // reset categories
+        this.line.categories = new Array<Category>();
+        // push again the categories
+        this.selectedCategories.forEach(catId =>
+            this.line.categories.push({ id: catId }));
+    }
+
     clear () {
         this.activeModal.dismiss('cancel');
     }
