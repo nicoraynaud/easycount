@@ -16,6 +16,8 @@ import {
     bankAccountRoute,
     bankAccountPopupRoute,
     BankAccountResolvePagingParams,
+    BankAccountImportLinesDialogComponent,
+    BankAccountImportLinesPopupComponent
 } from './';
 
 import {EasycountLineModule} from '../line/line.module';
@@ -38,7 +40,9 @@ let ENTITY_STATES = [
         BankAccountDialogComponent,
         BankAccountDeleteDialogComponent,
         BankAccountPopupComponent,
-        BankAccountDeletePopupComponent
+        BankAccountDeletePopupComponent,
+        BankAccountImportLinesDialogComponent,
+        BankAccountImportLinesPopupComponent
     ],
     entryComponents: [
         BankAccountComponent,
@@ -46,11 +50,13 @@ let ENTITY_STATES = [
         BankAccountPopupComponent,
         BankAccountDeleteDialogComponent,
         BankAccountDeletePopupComponent,
+        BankAccountImportLinesDialogComponent,
+        BankAccountImportLinesPopupComponent
     ],
     providers: [
         BankAccountService,
         BankAccountPopupService,
-        BankAccountResolvePagingParams,
+        BankAccountResolvePagingParams
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

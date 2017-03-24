@@ -15,6 +15,15 @@
             Create new Line
             </span>
         </button>
+
+        <button class="btn btn-primary float-right create-line"
+                [routerLink]="['/', { outlets: { popup: 'bank-account/'+ bankAccountId + '/import-lines' } }]"
+                replaceUrl="false">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="easycountApp.bankAccount.home.importLines">
+            Import...
+            </span>
+        </button>
     </h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>

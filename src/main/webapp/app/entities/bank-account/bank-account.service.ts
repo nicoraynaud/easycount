@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';
+import { Http, Response, URLSearchParams, BaseRequestOptions, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { BankAccount } from './bank-account.model';
+import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+
 @Injectable()
 export class BankAccountService {
 
     private resourceUrl = 'api/bank-accounts';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http,
+                private localStorage: LocalStorageService,
+                private sessionStorage: SessionStorageService) { }
 
     create(bankAccount: BankAccount): Observable<BankAccount> {
         let copy: BankAccount = Object.assign({}, bankAccount);
@@ -40,7 +44,11 @@ export class BankAccountService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-
+    importLines(id: number, file: File): Observable<Response> {
+        let formData = new FormData();
+        formData.append("file", file, file.name);
+        return this.http.post(`${this.resourceUrl}/${id}/import-lines`, formData);
+    }
 
     private createRequestOption(req?: any): BaseRequestOptions {
         let options: BaseRequestOptions = new BaseRequestOptions();

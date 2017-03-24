@@ -4,7 +4,8 @@
             "home": {
                 "title": "BankAccounts",
                 "createLabel": "Créer un nouveau Bank Account",
-                "createOrEditLabel": "Créer ou éditer un Bank Account"
+                "createOrEditLabel": "Créer ou éditer un Bank Account",
+                "importLines": "Importer des lignes dans le compte"
             },
             "created": "Un nouveau Bank Account a été créé avec l'identifiant {{ param }}",
             "updated": "Le Bank Account avec l'identifiant {{ param }} a été mis à jour",
@@ -20,7 +21,8 @@
             "type": "Type",
             "lines": "Lines",
             "bank": "Bank",
-            "currency": "Currency"
+            "currency": "Currency",
+            "importFile": "Fichier CSV d'import des lignes"
         }
     }
 }

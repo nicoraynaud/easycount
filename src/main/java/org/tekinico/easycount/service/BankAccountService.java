@@ -1,5 +1,6 @@
 package org.tekinico.easycount.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.tekinico.easycount.service.dto.BankAccountDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ public interface BankAccountService {
 
     /**
      *  Get all the bankAccounts.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -40,4 +41,11 @@ public interface BankAccountService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Import lines as CSV to the specified bankAccount
+     *
+     * @param bankAccountId the id of the bank account to import lines to
+     */
+    void importLines(Long bankAccountId, MultipartFile file);
 }

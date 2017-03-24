@@ -1,5 +1,6 @@
 package org.tekinico.easycount.service.impl;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.tekinico.easycount.service.BankAccountService;
 import org.tekinico.easycount.domain.BankAccount;
 import org.tekinico.easycount.repository.BankAccountRepository;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class BankAccountServiceImpl implements BankAccountService{
 
     private final Logger log = LoggerFactory.getLogger(BankAccountServiceImpl.class);
-    
+
     private final BankAccountRepository bankAccountRepository;
 
     private final BankAccountMapper bankAccountMapper;
@@ -51,7 +52,7 @@ public class BankAccountServiceImpl implements BankAccountService{
 
     /**
      *  Get all the bankAccounts.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -87,5 +88,10 @@ public class BankAccountServiceImpl implements BankAccountService{
     public void delete(Long id) {
         log.debug("Request to delete BankAccount : {}", id);
         bankAccountRepository.delete(id);
+    }
+
+    @Override
+    public void importLines(Long bankAccountId, MultipartFile file) {
+
     }
 }
