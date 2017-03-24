@@ -87,8 +87,8 @@
                         [class.active]="line == selectedLine">
                         <td>{{line.date | date:'mediumDate'}}</td>
                         <td>{{line.label}}</td>
-                        <td>{{line.debit}}</td>
-                        <td>{{line.credit}}</td>
+                        <td>{{line.debit | number : '1.0-0'}}</td>
+                        <td>{{line.credit | number : '1.0-0'}}</td>
                         <td jhiTranslate="{{'easycountApp.LineStatus.' + line.status}}">{{line.status}}</td>
                         <td jhiTranslate="{{'easycountApp.LineSource.' + line.source}}">{{line.source}}</td>
                         <td class="text-xs-right">

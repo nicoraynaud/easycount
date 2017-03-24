@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { BankAccount } from './bank-account.model';
 import { BankAccountPopupService } from './bank-account-popup.service';
@@ -26,7 +26,6 @@ export class BankAccountImportLinesDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
         private alertService: AlertService,
         private bankAccountService: BankAccountService,
         private eventManager: EventManager
@@ -36,12 +35,10 @@ export class BankAccountImportLinesDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-
     }
 
     onFileChange(event) {
         var files = event.srcElement.files;
-        console.log(files);
         this.file = files[0];
     }
 

@@ -1,10 +1,13 @@
 package org.tekinico.easycount.service.impl;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.tekinico.easycount.domain.Line;
 import org.tekinico.easycount.service.BankAccountService;
 import org.tekinico.easycount.domain.BankAccount;
 import org.tekinico.easycount.repository.BankAccountRepository;
+import org.tekinico.easycount.service.LineService;
 import org.tekinico.easycount.service.dto.BankAccountDTO;
+import org.tekinico.easycount.service.exceptions.ImportException;
 import org.tekinico.easycount.service.mapper.BankAccountMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +33,12 @@ public class BankAccountServiceImpl implements BankAccountService{
 
     private final BankAccountMapper bankAccountMapper;
 
-    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, BankAccountMapper bankAccountMapper) {
+    private final LineService lineService;
+
+    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, BankAccountMapper bankAccountMapper, LineService lineService) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountMapper = bankAccountMapper;
+        this.lineService = lineService;
     }
 
     /**
@@ -92,6 +98,18 @@ public class BankAccountServiceImpl implements BankAccountService{
 
     @Override
     public void importLines(Long bankAccountId, MultipartFile file) {
+        log.debug("Request to import lines into bank account : {}", bankAccountId);
 
+        BankAccount ba = bankAccountRepository.getOne(bankAccountId);
+
+        if (ba == null) {
+            throw new ImportException("The bank account cannot be null when importing new lines");
+        }
+
+        // Parse the lines
+        List<Line> linesToImport = lineService.importLines(file, ba);
+
+        // Save all
+        bankAccountRepository.saveAndFlush(ba);
     }
 }

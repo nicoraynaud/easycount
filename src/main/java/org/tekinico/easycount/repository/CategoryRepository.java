@@ -1,10 +1,9 @@
 package org.tekinico.easycount.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.tekinico.easycount.domain.Category;
 
-import org.springframework.data.jpa.repository.*;
-
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data JPA repository for the Category entity.
@@ -12,4 +11,5 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
+    Category findFirstByLabelLike(String label);
 }
