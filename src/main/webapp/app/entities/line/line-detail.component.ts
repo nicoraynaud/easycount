@@ -32,7 +32,6 @@ export class LineDetailComponent implements OnInit, OnDestroy {
             this.line = line;
         });
     }
-
     previousState() {
         window.history.back();
     }

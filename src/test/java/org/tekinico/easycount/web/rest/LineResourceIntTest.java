@@ -108,13 +108,13 @@ public class LineResourceIntTest {
      */
     public static Line createEntity(EntityManager em) {
         Line line = new Line()
-                .date(DEFAULT_DATE)
-                .label(DEFAULT_LABEL)
-                .debit(DEFAULT_DEBIT)
-                .credit(DEFAULT_CREDIT)
-                .balance(DEFAULT_BALANCE)
-                .status(DEFAULT_STATUS)
-                .source(DEFAULT_SOURCE);
+            .date(DEFAULT_DATE)
+            .label(DEFAULT_LABEL)
+            .debit(DEFAULT_DEBIT)
+            .credit(DEFAULT_CREDIT)
+            .balance(DEFAULT_BALANCE)
+            .status(DEFAULT_STATUS)
+            .source(DEFAULT_SOURCE);
         return line;
     }
 
@@ -130,7 +130,6 @@ public class LineResourceIntTest {
 
         // Create the Line
         LineDTO lineDTO = lineMapper.lineToLineDTO(line);
-
         restLineMockMvc.perform(post("/api/lines")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(lineDTO)))
@@ -155,14 +154,13 @@ public class LineResourceIntTest {
         int databaseSizeBeforeCreate = lineRepository.findAll().size();
 
         // Create the Line with an existing ID
-        Line existingLine = new Line();
-        existingLine.setId(1L);
-        LineDTO existingLineDTO = lineMapper.lineToLineDTO(existingLine);
+        line.setId(1L);
+        LineDTO lineDTO = lineMapper.lineToLineDTO(line);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restLineMockMvc.perform(post("/api/lines")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingLineDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(lineDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -285,13 +283,13 @@ public class LineResourceIntTest {
         // Update the line
         Line updatedLine = lineRepository.findOne(line.getId());
         updatedLine
-                .date(UPDATED_DATE)
-                .label(UPDATED_LABEL)
-                .debit(UPDATED_DEBIT)
-                .credit(UPDATED_CREDIT)
-                .balance(UPDATED_BALANCE)
-                .status(UPDATED_STATUS)
-                .source(UPDATED_SOURCE);
+            .date(UPDATED_DATE)
+            .label(UPDATED_LABEL)
+            .debit(UPDATED_DEBIT)
+            .credit(UPDATED_CREDIT)
+            .balance(UPDATED_BALANCE)
+            .status(UPDATED_STATUS)
+            .source(UPDATED_SOURCE);
         LineDTO lineDTO = lineMapper.lineToLineDTO(updatedLine);
 
         restLineMockMvc.perform(put("/api/lines")
@@ -349,6 +347,7 @@ public class LineResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Line.class);
     }

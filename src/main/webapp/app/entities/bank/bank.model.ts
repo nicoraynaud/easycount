@@ -3,5 +3,6 @@ export class Bank {
         public id?: number,
         public label?: string,
         public bankAccountsId?: number,
-    ) { }
+    ) {
+    }
 }

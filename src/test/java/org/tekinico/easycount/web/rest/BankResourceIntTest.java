@@ -67,7 +67,7 @@ public class BankResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            BankResource bankResource = new BankResource(bankRepository, bankMapper);
+        BankResource bankResource = new BankResource(bankRepository, bankMapper);
         this.restBankMockMvc = MockMvcBuilders.standaloneSetup(bankResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -82,7 +82,7 @@ public class BankResourceIntTest {
      */
     public static Bank createEntity(EntityManager em) {
         Bank bank = new Bank()
-                .label(DEFAULT_LABEL);
+            .label(DEFAULT_LABEL);
         return bank;
     }
 
@@ -98,7 +98,6 @@ public class BankResourceIntTest {
 
         // Create the Bank
         BankDTO bankDTO = bankMapper.bankToBankDTO(bank);
-
         restBankMockMvc.perform(post("/api/banks")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(bankDTO)))
@@ -117,14 +116,13 @@ public class BankResourceIntTest {
         int databaseSizeBeforeCreate = bankRepository.findAll().size();
 
         // Create the Bank with an existing ID
-        Bank existingBank = new Bank();
-        existingBank.setId(1L);
-        BankDTO existingBankDTO = bankMapper.bankToBankDTO(existingBank);
+        bank.setId(1L);
+        BankDTO bankDTO = bankMapper.bankToBankDTO(bank);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBankMockMvc.perform(post("/api/banks")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingBankDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(bankDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -197,7 +195,7 @@ public class BankResourceIntTest {
         // Update the bank
         Bank updatedBank = bankRepository.findOne(bank.getId());
         updatedBank
-                .label(UPDATED_LABEL);
+            .label(UPDATED_LABEL);
         BankDTO bankDTO = bankMapper.bankToBankDTO(updatedBank);
 
         restBankMockMvc.perform(put("/api/banks")
@@ -249,6 +247,7 @@ public class BankResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Bank.class);
     }

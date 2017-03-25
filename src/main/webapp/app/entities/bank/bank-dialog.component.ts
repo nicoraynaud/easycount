@@ -9,6 +9,7 @@ import { Bank } from './bank.model';
 import { BankPopupService } from './bank-popup.service';
 import { BankService } from './bank.service';
 import { BankAccount, BankAccountService } from '../bank-account';
+
 @Component({
     selector: 'jhi-bank-dialog',
     templateUrl: './bank-dialog.component.html'
@@ -45,10 +46,12 @@ export class BankDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.bank.id !== undefined) {
             this.bankService.update(this.bank)
-                .subscribe((res: Bank) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                .subscribe((res: Bank) =>
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         } else {
             this.bankService.create(this.bank)
-                .subscribe((res: Bank) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                .subscribe((res: Bank) =>
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         }
     }
 

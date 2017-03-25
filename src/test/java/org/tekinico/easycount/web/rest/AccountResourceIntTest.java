@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Test class for the AccountResource REST controller.
  *
- * @see UserService
+ * @see AccountResource
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EasycountApp.class)
@@ -79,21 +79,21 @@ public class AccountResourceIntTest {
     @Test
     public void testNonAuthenticatedUser() throws Exception {
         restUserMockMvc.perform(get("/api/authenticate")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().string(""));
     }
 
     @Test
     public void testAuthenticatedUser() throws Exception {
         restUserMockMvc.perform(get("/api/authenticate")
-                .with(request -> {
-                    request.setRemoteUser("test");
-                    return request;
-                })
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string("test"));
+            .with(request -> {
+                request.setRemoteUser("test");
+                return request;
+            })
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().string("test"));
     }
 
     @Test
@@ -109,19 +109,21 @@ public class AccountResourceIntTest {
         user.setLastName("doe");
         user.setEmail("john.doe@jhipster.com");
         user.setImageUrl("http://placehold.it/50x50");
+        user.setLangKey("en");
         user.setAuthorities(authorities);
         when(mockUserService.getUserWithAuthorities()).thenReturn(user);
 
         restUserMockMvc.perform(get("/api/account")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.login").value("test"))
-                .andExpect(jsonPath("$.firstName").value("john"))
-                .andExpect(jsonPath("$.lastName").value("doe"))
-                .andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
-                .andExpect(jsonPath("$.imageUrl").value("http://placehold.it/50x50"))
-                .andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.ADMIN));
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.login").value("test"))
+            .andExpect(jsonPath("$.firstName").value("john"))
+            .andExpect(jsonPath("$.lastName").value("doe"))
+            .andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
+            .andExpect(jsonPath("$.imageUrl").value("http://placehold.it/50x50"))
+            .andExpect(jsonPath("$.langKey").value("en"))
+            .andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.ADMIN));
     }
 
     @Test
@@ -129,8 +131,8 @@ public class AccountResourceIntTest {
         when(mockUserService.getUserWithAuthorities()).thenReturn(null);
 
         restUserMockMvc.perform(get("/api/account")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError());
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isInternalServerError());
     }
 
     @Test
@@ -269,8 +271,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedDate
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
 
-        // Duplicate login, different e-mail
-        ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
+        // Duplicate login, different email
+        ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getFirstName(), validUser.getLastName(),
             "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities());
 
         // Good user

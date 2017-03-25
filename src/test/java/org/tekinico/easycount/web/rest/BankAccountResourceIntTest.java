@@ -93,9 +93,9 @@ public class BankAccountResourceIntTest {
      */
     public static BankAccount createEntity(EntityManager em) {
         BankAccount bankAccount = new BankAccount()
-                .label(DEFAULT_LABEL)
-                .number(DEFAULT_NUMBER)
-                .type(DEFAULT_TYPE);
+            .label(DEFAULT_LABEL)
+            .number(DEFAULT_NUMBER)
+            .type(DEFAULT_TYPE);
         return bankAccount;
     }
 
@@ -111,7 +111,6 @@ public class BankAccountResourceIntTest {
 
         // Create the BankAccount
         BankAccountDTO bankAccountDTO = bankAccountMapper.bankAccountToBankAccountDTO(bankAccount);
-
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
@@ -132,14 +131,13 @@ public class BankAccountResourceIntTest {
         int databaseSizeBeforeCreate = bankAccountRepository.findAll().size();
 
         // Create the BankAccount with an existing ID
-        BankAccount existingBankAccount = new BankAccount();
-        existingBankAccount.setId(1L);
-        BankAccountDTO existingBankAccountDTO = bankAccountMapper.bankAccountToBankAccountDTO(existingBankAccount);
+        bankAccount.setId(1L);
+        BankAccountDTO bankAccountDTO = bankAccountMapper.bankAccountToBankAccountDTO(bankAccount);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingBankAccountDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -254,9 +252,9 @@ public class BankAccountResourceIntTest {
         // Update the bankAccount
         BankAccount updatedBankAccount = bankAccountRepository.findOne(bankAccount.getId());
         updatedBankAccount
-                .label(UPDATED_LABEL)
-                .number(UPDATED_NUMBER)
-                .type(UPDATED_TYPE);
+            .label(UPDATED_LABEL)
+            .number(UPDATED_NUMBER)
+            .type(UPDATED_TYPE);
         BankAccountDTO bankAccountDTO = bankAccountMapper.bankAccountToBankAccountDTO(updatedBankAccount);
 
         restBankAccountMockMvc.perform(put("/api/bank-accounts")
@@ -310,6 +308,7 @@ public class BankAccountResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(BankAccount.class);
     }

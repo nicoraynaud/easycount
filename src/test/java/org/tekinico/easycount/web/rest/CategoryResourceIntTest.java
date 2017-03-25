@@ -67,7 +67,7 @@ public class CategoryResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            CategoryResource categoryResource = new CategoryResource(categoryRepository, categoryMapper);
+        CategoryResource categoryResource = new CategoryResource(categoryRepository, categoryMapper);
         this.restCategoryMockMvc = MockMvcBuilders.standaloneSetup(categoryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -82,7 +82,7 @@ public class CategoryResourceIntTest {
      */
     public static Category createEntity(EntityManager em) {
         Category category = new Category()
-                .label(DEFAULT_LABEL);
+            .label(DEFAULT_LABEL);
         return category;
     }
 
@@ -98,7 +98,6 @@ public class CategoryResourceIntTest {
 
         // Create the Category
         CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(category);
-
         restCategoryMockMvc.perform(post("/api/categories")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
@@ -117,14 +116,13 @@ public class CategoryResourceIntTest {
         int databaseSizeBeforeCreate = categoryRepository.findAll().size();
 
         // Create the Category with an existing ID
-        Category existingCategory = new Category();
-        existingCategory.setId(1L);
-        CategoryDTO existingCategoryDTO = categoryMapper.categoryToCategoryDTO(existingCategory);
+        category.setId(1L);
+        CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(category);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCategoryMockMvc.perform(post("/api/categories")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingCategoryDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -197,7 +195,7 @@ public class CategoryResourceIntTest {
         // Update the category
         Category updatedCategory = categoryRepository.findOne(category.getId());
         updatedCategory
-                .label(UPDATED_LABEL);
+            .label(UPDATED_LABEL);
         CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(updatedCategory);
 
         restCategoryMockMvc.perform(put("/api/categories")
@@ -249,6 +247,7 @@ public class CategoryResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Category.class);
     }

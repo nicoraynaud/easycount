@@ -6,9 +6,9 @@ import {PaginationUtil} from 'ng-jhipster';
 
 import {BankAccountComponent} from './bank-account.component';
 import {BankAccountDetailComponent} from './bank-account-detail.component';
-import {BankAccountDashboardComponent} from './bank-account-dashboard.component';
 import {BankAccountPopupComponent} from './bank-account-dialog.component';
 import {BankAccountDeletePopupComponent} from './bank-account-delete-dialog.component';
+import {BankAccountDashboardComponent} from './bank-account-dashboard.component';
 import {BankAccountImportLinesPopupComponent} from './bank-account-import-lines-dialog.component';
 
 import {Principal} from '../../shared';

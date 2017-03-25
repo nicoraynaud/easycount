@@ -13,7 +13,7 @@ module.exports = function (config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine', 'intl-shim'],
 
         // list of files / patterns to load in the browser
         files: [
@@ -58,7 +58,7 @@ module.exports = function (config) {
                         loaders: ['to-string-loader', 'css-loader', 'sass-loader']
                     },
                     {
-                        test: /src\/main\/webapp\/.+\.ts$/,
+                        test: /src[\/|\\]main[\/|\\]webapp[\/|\\].+\.ts$/,
                         enforce: 'post',
                         exclude: /(test|node_modules)/,
                         loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true'
@@ -85,7 +85,7 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['dots', 'junit', 'progress', 'coverage', 'karma-remap-istanbul'],
+        reporters: ['dots', 'junit', 'progress', 'karma-remap-istanbul'],
 
         junitReporter: {
             outputFile: '../../../../build/test-results/karma/TESTS-results.xml'

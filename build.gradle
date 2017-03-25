@@ -219,7 +219,7 @@ task cleanResources(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+    gradleVersion = '3.4.1'
 }
 
 task stage(dependsOn: 'bootRepackage') {
@@ -227,9 +227,9 @@ task stage(dependsOn: 'bootRepackage') {
 
 if (project.hasProperty('nodeInstall')) {
     node {
-        version = '${node_version}'
-        npmVersion = '${npm_version}'
-        yarnVersion = '${yarn_version}'
+        version = "${node_version}"
+        npmVersion = "${npm_version}"
+        yarnVersion = "${yarn_version}"
         download = true
     }
 }

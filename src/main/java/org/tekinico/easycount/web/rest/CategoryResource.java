@@ -98,12 +98,10 @@ public class CategoryResource {
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/categories")
     @Timed
-    public ResponseEntity<List<CategoryDTO>> getAllCategories(@ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<CategoryDTO>> getAllCategories(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Categories");
         Page<Category> page = categoryRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/categories");

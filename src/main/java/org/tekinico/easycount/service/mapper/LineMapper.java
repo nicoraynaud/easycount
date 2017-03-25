@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Mapper for the entity Line and its DTO LineDTO.
  */
-@Mapper(componentModel = "spring", uses = {CategoryMapper.class, })
+@Mapper(componentModel = "spring", uses = {CategoryMapper.class, BankAccountMapper.class, })
 public interface LineMapper {
 
     @Mapping(source = "bankAccount.id", target = "bankAccountId")
@@ -22,13 +22,20 @@ public interface LineMapper {
 
     List<Line> lineDTOsToLines(List<LineDTO> lineDTOs);
 
-    default Category categoryFromId(Long id) {
+    /**
+     * generating the fromId for all mappers if the databaseType is sql, as the class has relationship to it might need it, instead of
+     * creating a new attribute to know if the entity has any relationship from some other entity
+     *
+     * @param id id of the entity
+     * @return the entity instance
+     */
+    default Line lineFromId(Long id) {
         if (id == null) {
             return null;
         }
-        Category category = new Category();
-        category.setId(id);
-        return category;
+        Line line = new Line();
+        line.setId(id);
+        return line;
     }
 
     default BankAccount bankAccountFromId(Long id) {
@@ -39,4 +46,6 @@ public interface LineMapper {
         bankAccount.setId(id);
         return bankAccount;
     }
+
+
 }

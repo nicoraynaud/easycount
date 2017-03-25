@@ -31,7 +31,7 @@
             <label jhiTranslate="easycountApp.category.parentCategory" for="field_parentCategory">Parent Category</label>
             <select class="form-control" id="field_parentCategory" name="parentCategory" [(ngModel)]="category.parentCategoryId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="CategoryOption.id" *ngFor="let CategoryOption of categories; trackBy: trackCategoryById">{{CategoryOption.label}}</option>
+                <option [ngValue]="CategoryOption.id" *ngFor="let CategoryOption of categories; trackBy: trackCategoryById">{{CategoryOption.id}}</option>
             </select>
         </div>
     </div>

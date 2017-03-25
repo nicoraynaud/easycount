@@ -5,5 +5,6 @@ export class Currency {
         public code?: string,
         public symbol?: string,
         public decimals?: number,
-    ) { }
+    ) {
+    }
 }

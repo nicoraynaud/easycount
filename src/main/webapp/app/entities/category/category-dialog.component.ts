@@ -8,6 +8,7 @@ import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
 import { Category } from './category.model';
 import { CategoryPopupService } from './category-popup.service';
 import { CategoryService } from './category.service';
+
 @Component({
     selector: 'jhi-category-dialog',
     templateUrl: './category-dialog.component.html'
@@ -43,10 +44,12 @@ export class CategoryDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.category.id !== undefined) {
             this.categoryService.update(this.category)
-                .subscribe((res: Category) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                .subscribe((res: Category) =>
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         } else {
             this.categoryService.create(this.category)
-                .subscribe((res: Category) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                .subscribe((res: Category) =>
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         }
     }
 

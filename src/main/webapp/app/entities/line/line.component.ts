@@ -15,7 +15,7 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 })
 export class LineComponent implements OnInit, OnDestroy {
 
-    currentAccount: any;
+currentAccount: any;
     lines: Line[];
     error: any;
     success: any;

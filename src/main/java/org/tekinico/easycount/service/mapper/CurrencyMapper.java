@@ -19,4 +19,22 @@ public interface CurrencyMapper {
     Currency currencyDTOToCurrency(CurrencyDTO currencyDTO);
 
     List<Currency> currencyDTOsToCurrencies(List<CurrencyDTO> currencyDTOs);
+    /**
+     * generating the fromId for all mappers if the databaseType is sql, as the class has relationship to it might need it, instead of
+     * creating a new attribute to know if the entity has any relationship from some other entity
+     *
+     * @param id id of the entity
+     * @return the entity instance
+     */
+     
+    default Currency currencyFromId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Currency currency = new Currency();
+        currency.setId(id);
+        return currency;
+    }
+    
+
 }

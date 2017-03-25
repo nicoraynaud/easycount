@@ -98,12 +98,10 @@ public class CurrencyResource {
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of currencies in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/currencies")
     @Timed
-    public ResponseEntity<List<CurrencyDTO>> getAllCurrencies(@ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<CurrencyDTO>> getAllCurrencies(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Currencies");
         Page<Currency> page = currencyRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/currencies");

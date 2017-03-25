@@ -8,6 +8,7 @@ import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
 import { Currency } from './currency.model';
 import { CurrencyPopupService } from './currency-popup.service';
 import { CurrencyService } from './currency.service';
+
 @Component({
     selector: 'jhi-currency-dialog',
     templateUrl: './currency-dialog.component.html'
@@ -39,10 +40,12 @@ export class CurrencyDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.currency.id !== undefined) {
             this.currencyService.update(this.currency)
-                .subscribe((res: Currency) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                .subscribe((res: Currency) =>
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         } else {
             this.currencyService.create(this.currency)
-                .subscribe((res: Currency) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+                .subscribe((res: Currency) =>
+                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         }
     }
 

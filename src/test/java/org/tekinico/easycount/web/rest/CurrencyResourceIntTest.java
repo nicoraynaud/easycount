@@ -76,7 +76,7 @@ public class CurrencyResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-            CurrencyResource currencyResource = new CurrencyResource(currencyRepository, currencyMapper);
+        CurrencyResource currencyResource = new CurrencyResource(currencyRepository, currencyMapper);
         this.restCurrencyMockMvc = MockMvcBuilders.standaloneSetup(currencyResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -91,10 +91,10 @@ public class CurrencyResourceIntTest {
      */
     public static Currency createEntity(EntityManager em) {
         Currency currency = new Currency()
-                .label(DEFAULT_LABEL)
-                .code(DEFAULT_CODE)
-                .symbol(DEFAULT_SYMBOL)
-                .decimals(DEFAULT_DECIMALS);
+            .label(DEFAULT_LABEL)
+            .code(DEFAULT_CODE)
+            .symbol(DEFAULT_SYMBOL)
+            .decimals(DEFAULT_DECIMALS);
         return currency;
     }
 
@@ -110,7 +110,6 @@ public class CurrencyResourceIntTest {
 
         // Create the Currency
         CurrencyDTO currencyDTO = currencyMapper.currencyToCurrencyDTO(currency);
-
         restCurrencyMockMvc.perform(post("/api/currencies")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(currencyDTO)))
@@ -132,14 +131,13 @@ public class CurrencyResourceIntTest {
         int databaseSizeBeforeCreate = currencyRepository.findAll().size();
 
         // Create the Currency with an existing ID
-        Currency existingCurrency = new Currency();
-        existingCurrency.setId(1L);
-        CurrencyDTO existingCurrencyDTO = currencyMapper.currencyToCurrencyDTO(existingCurrency);
+        currency.setId(1L);
+        CurrencyDTO currencyDTO = currencyMapper.currencyToCurrencyDTO(currency);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCurrencyMockMvc.perform(post("/api/currencies")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingCurrencyDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(currencyDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -275,10 +273,10 @@ public class CurrencyResourceIntTest {
         // Update the currency
         Currency updatedCurrency = currencyRepository.findOne(currency.getId());
         updatedCurrency
-                .label(UPDATED_LABEL)
-                .code(UPDATED_CODE)
-                .symbol(UPDATED_SYMBOL)
-                .decimals(UPDATED_DECIMALS);
+            .label(UPDATED_LABEL)
+            .code(UPDATED_CODE)
+            .symbol(UPDATED_SYMBOL)
+            .decimals(UPDATED_DECIMALS);
         CurrencyDTO currencyDTO = currencyMapper.currencyToCurrencyDTO(updatedCurrency);
 
         restCurrencyMockMvc.perform(put("/api/currencies")
@@ -333,6 +331,7 @@ public class CurrencyResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Currency.class);
     }
