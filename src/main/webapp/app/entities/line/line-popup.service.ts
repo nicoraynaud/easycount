@@ -1,19 +1,21 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Line } from './line.model';
 import { LineService } from './line.service';
 @Injectable()
 export class LinePopupService {
     private isOpen = false;
     constructor (
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private lineService: LineService
 
     ) {}
 
-    open (component: Component, id?: number, bankAccountId?: number | any): NgbModalRef {
+    open (component: Component, id?: number | any, bankAccountId?: number | any): NgbModalRef {
         if (this.isOpen) {
             return;
         }
@@ -26,6 +28,15 @@ export class LinePopupService {
                         year: line.date.getFullYear(),
                         month: line.date.getMonth() + 1,
                         day: line.date.getDate()
+                    };
+                }
+                line.createDate = this.datePipe
+                    .transform(line.createDate, 'yyyy-MM-ddThh:mm');
+                if (line.effectiveDate) {
+                    line.effectiveDate = {
+                        year: line.effectiveDate.getFullYear(),
+                        month: line.effectiveDate.getMonth() + 1,
+                        day: line.effectiveDate.getDate()
                     };
                 }
                 this.lineModalRef(component, line);

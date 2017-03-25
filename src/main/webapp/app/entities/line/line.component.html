@@ -24,6 +24,8 @@
             <th jhiSortBy="balance"><span jhiTranslate="easycountApp.line.balance">Balance</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="status"><span jhiTranslate="easycountApp.line.status">Status</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="source"><span jhiTranslate="easycountApp.line.source">Source</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createDate"><span jhiTranslate="easycountApp.line.createDate">Create Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="effectiveDate"><span jhiTranslate="easycountApp.line.effectiveDate">Effective Date</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="bankAccountId"><span jhiTranslate="easycountApp.line.bankAccount">Bank Account</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -38,6 +40,8 @@
                 <td>{{line.balance}}</td>
                 <td jhiTranslate="{{'easycountApp.LineStatus.' + line.status}}">{{line.status}}</td>
                 <td jhiTranslate="{{'easycountApp.LineSource.' + line.source}}">{{line.source}}</td>
+                <td>{{line.createDate | date:'medium'}}</td>
+                <td>{{line.effectiveDate | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="line.bankAccountId">
                         <a [routerLink]="['../bank-account', line.bankAccountId  ]" >{{line.bankAccountId}}</a>

@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -75,7 +78,7 @@ public class LineServiceImplTest {
     }
 
     @Test
-    public void test_parseLines_returns3NewLines_OneCategryPresentTwice_OneCategoryPresentInDB() throws URISyntaxException, IOException {
+    public void test_parseLines_returns4NewLines_OneCategryPresentTwice_OneCategoryPresentInDB() throws URISyntaxException, IOException {
 
         // Given
         File csv = new File(this.getClass().getResource("/files/import_line_test_4_lines.csv").toURI());
@@ -87,6 +90,8 @@ public class LineServiceImplTest {
         // Then
         assertThat(result.size()).isEqualTo(4);
         assertThat(result.get(0).getDate()).isEqualTo(LocalDate.of(2017, 4, 15));
+        assertThat(result.get(0).getCreateDate()).isEqualTo(ZonedDateTime.of(2017, 2, 9, 6, 11, 1, 0, ZoneId.systemDefault()));
+        assertThat(result.get(0).getEffectiveDate()).isNull();
         assertThat(result.get(0).getLabel()).isEqualTo("CHQ. J7 #3 1878484");
         assertThat(result.get(0).getDebit()).isEqualTo(202543.0);
         assertThat(result.get(0).getCredit()).isNull();
@@ -95,6 +100,8 @@ public class LineServiceImplTest {
         assertThat(result.get(0).getCategories().iterator().next().getLabel()).isEqualTo("Travaux");
 
         assertThat(result.get(1).getDate()).isEqualTo(LocalDate.of(2017, 3, 28));
+        assertThat(result.get(1).getCreateDate()).isEqualTo(ZonedDateTime.of(2017, 2, 9, 6, 11, 1, 0, ZoneId.systemDefault()));
+        assertThat(result.get(1).getEffectiveDate()).isNull();
         assertThat(result.get(1).getLabel()).isEqualTo("Prlv. OPT Mobilis");
         assertThat(result.get(1).getDebit()).isEqualTo(2500.0);
         assertThat(result.get(1).getCredit()).isNull();
@@ -103,6 +110,8 @@ public class LineServiceImplTest {
         assertThat(result.get(1).getCategories().iterator().next().getLabel()).isEqualTo("Mobilis");
 
         assertThat(result.get(2).getDate()).isEqualTo(LocalDate.of(2017, 3, 16));
+        assertThat(result.get(2).getCreateDate()).isEqualTo(ZonedDateTime.of(2017, 2, 9, 6, 11, 1, 0, ZoneId.systemDefault()));
+        assertThat(result.get(2).getEffectiveDate()).isNull();
         assertThat(result.get(2).getLabel()).isEqualTo("Aide Crêche MDF");
         assertThat(result.get(2).getDebit()).isNull();
         assertThat(result.get(2).getCredit()).isEqualTo(9900.0);
@@ -111,6 +120,8 @@ public class LineServiceImplTest {
         assertThat(result.get(2).getCategories().iterator().next().getLabel()).isEqualTo("Creche");
 
         assertThat(result.get(3).getDate()).isEqualTo(LocalDate.of(2017, 3, 15));
+        assertThat(result.get(3).getCreateDate()).isEqualTo(ZonedDateTime.of(2017, 2, 9, 6, 11, 1, 0, ZoneId.systemDefault()));
+        assertThat(result.get(3).getEffectiveDate()).isEqualTo(LocalDate.of(2017, 3, 16));
         assertThat(result.get(3).getLabel()).isEqualTo("CHQ. J7 #2 1878481");
         assertThat(result.get(3).getDebit()).isEqualTo(200000.0);
         assertThat(result.get(3).getCredit()).isNull();

@@ -49,12 +49,21 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="create_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="effective_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
             <column name="bank_account_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="line" columnName="create_date" columnDataType="datetime"/>
         
         <createTable tableName="line_categories">
             <column name="categories_id" type="bigint">

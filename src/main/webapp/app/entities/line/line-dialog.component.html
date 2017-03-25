@@ -10,6 +10,19 @@
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
         <div class="form-group row">
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.bankAccount" for="field_bankAccount">Bank Account</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="field_bankAccount" name="bankAccount" [(ngModel)]="line.bankAccountId">
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="bankAccountOption.id" *ngFor="let bankAccountOption of bankaccounts; trackBy: trackBankAccountById">{{bankAccountOption.bankLabel}} - {{bankAccountOption.label}}</option>
+                </select>
+            </div>
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.createDate">Create Date</label>
+            <div class="col-sm-4" style="margin-top: 6px;">
+                {{line.createDate | date : 'y-MM-dd HH:mm:ss'}}
+            </div>
+        </div>
+        <div class="form-group row">
             <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.date" for="field_date">Date</label>
             <div class="col-sm-4">
                 <div class="input-group">
@@ -26,13 +39,17 @@
                     </small>
                 </div>
             </div>
-            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.bankAccount" for="field_bankAccount">Bank Account</label>
+
+            <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.effectiveDate" for="field_effective_date">Date</label>
             <div class="col-sm-4">
-                <select class="form-control" id="field_bankAccount" name="bankAccount" [(ngModel)]="line.bankAccountId">
-                    <option [ngValue]="null"></option>
-                    <option [ngValue]="bankAccountOption.id" *ngFor="let bankAccountOption of bankaccounts; trackBy: trackBankAccountById">{{bankAccountOption.bankLabel}} - {{bankAccountOption.label}}</option>
-                </select>
+                <div class="input-group">
+                    <input autofocus id="field_effective_date" type="text" class="form-control" name="effectiveDate" ngbDatepicker  #dateDp2="ngbDatepicker" [(ngModel)]="line.effectiveDate" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" (click)="dateDp2.open()"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </div>
             </div>
+
         </div>
 
         <div class="form-group row">
@@ -65,15 +82,6 @@
             </div>
         </div>
 
-        <!--<div class="form-group row">-->
-            <!--<label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.categories" for="field_categories">Categories</label>-->
-            <!--<div class="col-sm-10">-->
-                <!--<select class="form-control" id="field_categories" multiple name="categories" [(ngModel)]="line.categories">-->
-                    <!--<option [ngValue]="getSelected(line.categories, categoryOption)" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.label}}</option>-->
-                <!--</select>-->
-            <!--</div>-->
-        <!--</div>-->
-
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.line.categories" for="field_categories">Categories</label>
             <div class="col-sm-10">
@@ -87,6 +95,7 @@
                     (ngModelChange)="onChange($event)">
                 </ss-multiselect-dropdown>
             </div>
+
         </div>
 
         <div class="form-group" [hidden]="!line.id">

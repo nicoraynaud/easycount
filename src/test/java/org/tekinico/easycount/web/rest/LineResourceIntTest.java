@@ -25,9 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static org.tekinico.easycount.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -64,6 +68,12 @@ public class LineResourceIntTest {
 
     private static final LineSource DEFAULT_SOURCE = LineSource.MANUAL;
     private static final LineSource UPDATED_SOURCE = LineSource.GENERATED;
+
+    private static final ZonedDateTime DEFAULT_CREATE_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATE_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
+    private static final LocalDate DEFAULT_EFFECTIVE_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_EFFECTIVE_DATE = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private LineRepository lineRepository;
@@ -114,7 +124,9 @@ public class LineResourceIntTest {
             .credit(DEFAULT_CREDIT)
             .balance(DEFAULT_BALANCE)
             .status(DEFAULT_STATUS)
-            .source(DEFAULT_SOURCE);
+            .source(DEFAULT_SOURCE)
+            .createDate(DEFAULT_CREATE_DATE)
+            .effectiveDate(DEFAULT_EFFECTIVE_DATE);
         return line;
     }
 
@@ -146,6 +158,8 @@ public class LineResourceIntTest {
         assertThat(testLine.getBalance()).isEqualTo(DEFAULT_BALANCE);
         assertThat(testLine.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testLine.getSource()).isEqualTo(DEFAULT_SOURCE);
+        assertThat(testLine.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
+        assertThat(testLine.getEffectiveDate()).isEqualTo(DEFAULT_EFFECTIVE_DATE);
     }
 
     @Test
@@ -227,6 +241,25 @@ public class LineResourceIntTest {
 
     @Test
     @Transactional
+    public void checkCreateDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = lineRepository.findAll().size();
+        // set the field null
+        line.setCreateDate(null);
+
+        // Create the Line, which fails.
+        LineDTO lineDTO = lineMapper.lineToLineDTO(line);
+
+        restLineMockMvc.perform(post("/api/lines")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(lineDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Line> lineList = lineRepository.findAll();
+        assertThat(lineList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllLines() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
@@ -242,7 +275,9 @@ public class LineResourceIntTest {
             .andExpect(jsonPath("$.[*].credit").value(hasItem(DEFAULT_CREDIT.doubleValue())))
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE.toString())));
+            .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE.toString())))
+            .andExpect(jsonPath("$.[*].createDate").value(hasItem(sameInstant(DEFAULT_CREATE_DATE))))
+            .andExpect(jsonPath("$.[*].effectiveDate").value(hasItem(DEFAULT_EFFECTIVE_DATE.toString())));
     }
 
     @Test
@@ -262,7 +297,9 @@ public class LineResourceIntTest {
             .andExpect(jsonPath("$.credit").value(DEFAULT_CREDIT.doubleValue()))
             .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.doubleValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.source").value(DEFAULT_SOURCE.toString()));
+            .andExpect(jsonPath("$.source").value(DEFAULT_SOURCE.toString()))
+            .andExpect(jsonPath("$.createDate").value(sameInstant(DEFAULT_CREATE_DATE)))
+            .andExpect(jsonPath("$.effectiveDate").value(DEFAULT_EFFECTIVE_DATE.toString()));
     }
 
     @Test
@@ -289,7 +326,9 @@ public class LineResourceIntTest {
             .credit(UPDATED_CREDIT)
             .balance(UPDATED_BALANCE)
             .status(UPDATED_STATUS)
-            .source(UPDATED_SOURCE);
+            .source(UPDATED_SOURCE)
+            .createDate(UPDATED_CREATE_DATE)
+            .effectiveDate(UPDATED_EFFECTIVE_DATE);
         LineDTO lineDTO = lineMapper.lineToLineDTO(updatedLine);
 
         restLineMockMvc.perform(put("/api/lines")
@@ -308,6 +347,8 @@ public class LineResourceIntTest {
         assertThat(testLine.getBalance()).isEqualTo(UPDATED_BALANCE);
         assertThat(testLine.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testLine.getSource()).isEqualTo(UPDATED_SOURCE);
+        assertThat(testLine.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
+        assertThat(testLine.getEffectiveDate()).isEqualTo(UPDATED_EFFECTIVE_DATE);
     }
 
     @Test

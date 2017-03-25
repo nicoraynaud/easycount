@@ -23,7 +23,9 @@
             "status": "Status",
             "source": "Source",
             "categories": "Categories",
-            "bankAccount": "Bank Account"
+            "bankAccount": "Bank Account",
+            "createDate": "Created",
+            "effectiveDate": "Effective Date"
         }
     }
 }

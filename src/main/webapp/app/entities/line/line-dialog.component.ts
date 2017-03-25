@@ -73,7 +73,9 @@ export class LineDialogComponent implements OnInit {
                     this.categoriesOptions.push( {id:  c.id, name: c.label} )
                 );
                 this.selectedCategories = new Array<number>();
-                this.line.categories.forEach(c => this.selectedCategories.push(c.id));
+                if (this.line.categories) {
+                    this.line.categories.forEach(c => this.selectedCategories.push(c.id));
+                }
             },
             (res: Response) => this.onError(res.json()));
         this.bankAccountService.query().subscribe(

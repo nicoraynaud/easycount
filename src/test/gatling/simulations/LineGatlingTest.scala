@@ -68,7 +68,7 @@ class LineGatlingTest extends Simulation {
             .exec(http("Create new line")
             .post("/api/lines")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "date":"2020-01-01T00:00:00.000Z", "label":"SAMPLE_TEXT", "debit":null, "credit":null, "balance":null, "status":null, "source":null}""")).asJSON
+            .body(StringBody("""{"id":null, "date":"2020-01-01T00:00:00.000Z", "label":"SAMPLE_TEXT", "debit":null, "credit":null, "balance":null, "status":null, "source":null, "createDate":"2020-01-01T00:00:00.000Z", "effectiveDate":"2020-01-01T00:00:00.000Z"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_line_url"))).exitHereIfFailed
             .pause(10)

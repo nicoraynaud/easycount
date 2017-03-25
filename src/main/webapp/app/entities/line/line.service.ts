@@ -16,6 +16,10 @@ export class LineService {
         let copy: Line = Object.assign({}, line);
         copy.date = this.dateUtils
             .convertLocalDateToServer(line.date);
+        copy.createDate = this.dateUtils.toDate(line.createDate);
+        copy.effectiveDate = this.dateUtils
+            .convertLocalDateToServer(line.effectiveDate);
+
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -25,6 +29,10 @@ export class LineService {
         let copy: Line = Object.assign({}, line);
         copy.date = this.dateUtils
             .convertLocalDateToServer(line.date);
+        copy.createDate = this.dateUtils.toDate(line.createDate);
+        copy.effectiveDate = this.dateUtils
+            .convertLocalDateToServer(line.effectiveDate);
+
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -35,6 +43,11 @@ export class LineService {
             let jsonResponse = res.json();
             jsonResponse.date = this.dateUtils
                 .convertLocalDateFromServer(jsonResponse.date);
+            jsonResponse.createDate = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse.createDate);
+            jsonResponse.effectiveDate = this.dateUtils
+                .convertLocalDateFromServer(jsonResponse.effectiveDate);
+
             return jsonResponse;
         });
     }
@@ -73,6 +86,10 @@ export class LineService {
         for (let i = 0; i < jsonResponse.length; i++) {
             jsonResponse[i].date = this.dateUtils
                 .convertLocalDateFromServer(jsonResponse[i].date);
+            jsonResponse[i].createDate = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse[i].createDate);
+            jsonResponse[i].effectiveDate = this.dateUtils
+                .convertLocalDateFromServer(jsonResponse[i].effectiveDate);
         }
         res._body = jsonResponse;
         return res;

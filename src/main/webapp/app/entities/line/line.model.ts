@@ -23,7 +23,8 @@ export class Line {
         public status?: LineStatus,
         public source?: LineSource,
         public categories?: Category[],
-        //public categoriesId?: number[],
-        public bankAccountId?: number
+        public bankAccountId?: number,
+        public createDate?: any,
+        public effectiveDate?: any,
     ) { }
 }

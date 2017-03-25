@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -55,6 +56,13 @@ public class Line implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "source")
     private LineSource source;
+
+    @NotNull
+    @Column(name = "create_date", nullable = false)
+    private ZonedDateTime createDate;
+
+    @Column(name = "effective_date")
+    private LocalDate effectiveDate;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -165,6 +173,32 @@ public class Line implements Serializable {
         this.source = source;
     }
 
+    public ZonedDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public Line createDate(ZonedDateTime createDate) {
+        this.createDate = createDate;
+        return this;
+    }
+
+    public void setCreateDate(ZonedDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDate getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public Line effectiveDate(LocalDate effectiveDate) {
+        this.effectiveDate = effectiveDate;
+        return this;
+    }
+
+    public void setEffectiveDate(LocalDate effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
     public Set<Category> getCategories() {
         return categories;
     }
@@ -232,6 +266,8 @@ public class Line implements Serializable {
             ", balance='" + balance + "'" +
             ", status='" + status + "'" +
             ", source='" + source + "'" +
+            ", createDate='" + createDate + "'" +
+            ", effectiveDate='" + effectiveDate + "'" +
             '}';
     }
 }

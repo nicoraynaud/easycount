@@ -55,11 +55,22 @@
             "fieldName": "source",
             "fieldType": "LineSource",
             "fieldValues": "MANUAL,GENERATED"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "effectiveDate",
+            "fieldType": "LocalDate"
         }
     ],
     "changelogDate": "20170306025910",
-    "entityTableName": "line",
     "dto": "mapstruct",
-    "pagination": "pagination",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "line",
+    "pagination": "pagination"
 }

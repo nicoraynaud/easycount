@@ -1,6 +1,7 @@
 package org.tekinico.easycount.service.dto;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -32,6 +33,10 @@ public class LineDTO implements Serializable {
     private LineStatus status;
 
     private LineSource source;
+
+    private ZonedDateTime createDate;
+
+    private LocalDate effectiveDate;
 
     private Set<CategoryDTO> categories = new HashSet<>();
 
@@ -94,10 +99,23 @@ public class LineDTO implements Serializable {
         this.source = source;
     }
 
+    public ZonedDateTime getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(ZonedDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDate getEffectiveDate() {
+        return effectiveDate;
+    }
+    public void setEffectiveDate(LocalDate effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
     public Set<CategoryDTO> getCategories() {
         return categories;
     }
-
     public void setCategories(Set<CategoryDTO> categories) {
         this.categories = categories;
     }
@@ -105,7 +123,6 @@ public class LineDTO implements Serializable {
     public Long getBankAccountId() {
         return bankAccountId;
     }
-
     public void setBankAccountId(Long bankAccountId) {
         this.bankAccountId = bankAccountId;
     }
@@ -142,6 +159,8 @@ public class LineDTO implements Serializable {
             ", balance='" + balance + "'" +
             ", status='" + status + "'" +
             ", source='" + source + "'" +
+            ", createDate='" + createDate + "'" +
+            ", effectiveDate='" + effectiveDate + "'" +
             '}';
     }
 }

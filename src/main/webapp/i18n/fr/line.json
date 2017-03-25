@@ -16,14 +16,16 @@
                 "title": "Line"
             },
             "date": "Date",
-            "label": "Label",
-            "debit": "Debit",
-            "credit": "Credit",
+            "label": "Description",
+            "debit": "Débit",
+            "credit": "Crédit",
             "balance": "Balance",
             "status": "Status",
             "source": "Source",
-            "categories": "Categories",
-            "bankAccount": "Bank Account"
+            "categories": "Catégories",
+            "bankAccount": "Compte",
+            "createDate": "Création",
+            "effectiveDate": "Date d'effet"
         }
     }
 }

@@ -26,6 +26,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +48,8 @@ public class LineServiceImpl implements LineService{
 
     private final CategoryRepository categoryRepository;
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.FRENCH);
+
     public LineServiceImpl(LineRepository lineRepository, LineMapper lineMapper, CategoryRepository categoryRepository) {
         this.lineRepository = lineRepository;
         this.lineMapper = lineMapper;
@@ -60,6 +66,12 @@ public class LineServiceImpl implements LineService{
     public LineDTO save(LineDTO lineDTO) {
         log.debug("Request to save Line : {}", lineDTO);
         Line line = lineMapper.lineDTOToLine(lineDTO);
+
+        // In case of a new line, set its creation date
+        if (line.getId() == null) {
+            line.setCreateDate(ZonedDateTime.now(ZoneId.systemDefault()));
+        }
+
         line = lineRepository.save(line);
         LineDTO result = lineMapper.lineToLineDTO(line);
         return result;
@@ -183,8 +195,13 @@ public class LineServiceImpl implements LineService{
         Line line = new Line();
         // Date -- 1
         line.setDate(LocalDate.parse(properties.get(1)));
-        // dont use properties.get(2)
-        // dont use properties.get(3)
+        // Effective date
+        if (StringUtils.isNotBlank(properties.get(2))) {
+            line.setEffectiveDate(LocalDate.parse(properties.get(2)));
+        }
+        // Creation date
+        LocalDateTime createDate = LocalDateTime.parse(properties.get(3), formatter);
+        line.setCreateDate(createDate.atZone(ZoneId.systemDefault()));
         // Label-- 4
         line.setLabel(properties.get(4));
         // Credit -- 5
