@@ -89,6 +89,13 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         );
     }
 
+    loadPage (page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
+    }
+
     @HostListener('window:keydown', ['$event'])
     onKey($event) {
         switch ($event.code) {
