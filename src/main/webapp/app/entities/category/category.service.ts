@@ -30,6 +30,14 @@ export class CategoryService {
         });
     }
 
+    findAll(): Observable<Category> {
+        let req = {
+            page: 0,
+            size: 500
+        };
+        return this.query(req);
+    }
+
     query(req?: any): Observable<Response> {
         let options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
@@ -39,8 +47,6 @@ export class CategoryService {
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
-
-
 
     private createRequestOption(req?: any): BaseRequestOptions {
         let options: BaseRequestOptions = new BaseRequestOptions();
