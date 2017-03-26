@@ -93,6 +93,10 @@ public class BankAccountServiceImpl implements BankAccountService{
         BankAccount bankAccount = bankAccountRepository.findOne(id);
         BankAccountDTO bankAccountDTO = bankAccountMapper.bankAccountToBankAccountDTO(bankAccount);
 
+        if (bankAccountDTO == null) {
+            return null;
+        }
+
         // Fetch its current balance (as of today)
         Double balance = lineRepository.banlanceOfAccount(id, LocalDate.now());
         bankAccountDTO.setBalance(balance);

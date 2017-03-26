@@ -74,6 +74,7 @@ public class LineRepositoryTest {
         ba.setType(BankAccountType.CHECKING);
         bankAccountRepository.saveAndFlush(ba);
 
+        // - 9 000
         Line line1 = new Line();
         line1.setCreateDate(ZonedDateTime.now());
         line1.setLabel("debit 1");
@@ -84,6 +85,7 @@ public class LineRepositoryTest {
         line1.setBankAccount(ba);
         lineRepository.saveAndFlush(line1);
 
+        // - 10 000
         Line line2 = new Line();
         line2.setCreateDate(ZonedDateTime.now());
         line2.setLabel("debit 2");
@@ -91,19 +93,21 @@ public class LineRepositoryTest {
         line2.setDate(LocalDate.of(2017,3,9));
         line2.setStatus(LineStatus.NEW);
         line2.setSource(LineSource.MANUAL);
-        line1.setBankAccount(ba);
+        line2.setBankAccount(ba);
         lineRepository.saveAndFlush(line2);
 
+        // + 5 000
         Line line3 = new Line();
         line3.setCreateDate(ZonedDateTime.now());
         line3.setLabel("credit 3");
-        line3.setCredit(5000.0);
+        line3.setCredit(15000.0);
         line3.setDate(LocalDate.of(2017,3,9));
         line3.setStatus(LineStatus.NEW);
         line3.setSource(LineSource.MANUAL);
         line3.setBankAccount(ba);
         lineRepository.saveAndFlush(line3);
 
+        // + 6 000 --not taken
         Line line4 = new Line();
         line4.setCreateDate(ZonedDateTime.now());
         line4.setLabel("credit 4");
@@ -114,20 +118,32 @@ public class LineRepositoryTest {
         line4.setBankAccount(ba);
         lineRepository.saveAndFlush(line4);
 
+        // - 10 000
         Line line5 = new Line();
         line5.setCreateDate(ZonedDateTime.now());
         line5.setLabel("debit 5");
         line5.setDebit(10000.0);
         line5.setDate(LocalDate.of(2017,3,7));
-        line5.setStatus(LineStatus.CANCELLED);
+        line5.setStatus(LineStatus.NEW);
         line5.setSource(LineSource.MANUAL);
         line5.setBankAccount(ba);
         lineRepository.saveAndFlush(line5);
 
+        // - 150 000 --not taken
+        Line line6 = new Line();
+        line6.setCreateDate(ZonedDateTime.now());
+        line6.setLabel("debit 6");
+        line6.setDebit(150000.0);
+        line6.setDate(LocalDate.of(2017,3,7));
+        line6.setStatus(LineStatus.CANCELLED);
+        line6.setSource(LineSource.MANUAL);
+        line6.setBankAccount(ba);
+        lineRepository.saveAndFlush(line6);
+
         // When
-        Double balance = lineRepository.banlanceOfAccount(ba.getId(), LocalDate.of(2017,3,15));
+        Double balance = lineRepository.banlanceOfAccount(ba.getId(), LocalDate.of(2017,4,15));
 
         // Then
-        assertThat(balance).isEqualTo(-24000.0);
+        assertThat(balance).isEqualTo(-14000.0);
     }
 }

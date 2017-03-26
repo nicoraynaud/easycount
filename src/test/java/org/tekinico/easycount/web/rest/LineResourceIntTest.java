@@ -158,7 +158,9 @@ public class LineResourceIntTest {
         assertThat(testLine.getBalance()).isEqualTo(DEFAULT_BALANCE);
         assertThat(testLine.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testLine.getSource()).isEqualTo(DEFAULT_SOURCE);
-        assertThat(testLine.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
+        assertThat(testLine.getCreateDate().getDayOfMonth()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getDayOfMonth());
+        assertThat(testLine.getCreateDate().getMonth()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getMonth());
+        assertThat(testLine.getCreateDate().getYear()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getYear());
         assertThat(testLine.getEffectiveDate()).isEqualTo(DEFAULT_EFFECTIVE_DATE);
     }
 
@@ -241,7 +243,7 @@ public class LineResourceIntTest {
 
     @Test
     @Transactional
-    public void checkCreateDateIsRequired() throws Exception {
+    public void checkCreateDateIsSetAtCreationTime() throws Exception {
         int databaseSizeBeforeTest = lineRepository.findAll().size();
         // set the field null
         line.setCreateDate(null);
@@ -252,10 +254,10 @@ public class LineResourceIntTest {
         restLineMockMvc.perform(post("/api/lines")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(lineDTO)))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isOk());
 
         List<Line> lineList = lineRepository.findAll();
-        assertThat(lineList).hasSize(databaseSizeBeforeTest);
+        assertThat(lineList).hasSize(databaseSizeBeforeTest + 1);
     }
 
     @Test
