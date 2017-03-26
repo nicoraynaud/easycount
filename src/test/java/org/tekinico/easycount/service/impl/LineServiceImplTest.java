@@ -9,12 +9,16 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.tekinico.easycount.EasycountApp;
+import org.tekinico.easycount.domain.Bank;
+import org.tekinico.easycount.domain.BankAccount;
 import org.tekinico.easycount.domain.Category;
 import org.tekinico.easycount.domain.Line;
 import org.tekinico.easycount.domain.enumeration.LineSource;
 import org.tekinico.easycount.domain.enumeration.LineStatus;
 import org.tekinico.easycount.repository.CategoryRepository;
+import org.tekinico.easycount.repository.LineRepository;
 import org.tekinico.easycount.service.LineService;
+import org.tekinico.easycount.service.dto.LineDTO;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +42,9 @@ public class LineServiceImplTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private LineRepository lineRepository;
 
     @Autowired
     private LineService lineService;
@@ -133,4 +140,66 @@ public class LineServiceImplTest {
         assertThat(categories.size()).isEqualTo(3);
     }
 
+    public void test_save_calculateBalanceOfAccount() {
+        // Given
+        Bank b = new Bank();
+        b.setLabel("BCI");
+
+
+        BankAccount ba = new BankAccount();
+        ba.setLabel("BCI");
+        ba.setBank(b);
+
+        Line line1 = new Line();
+        line1.setLabel("debit 1");
+        line1.setDebit(9000.0);
+        line1.setDate(LocalDate.of(2017,3,9));
+        line1.setStatus(LineStatus.NEW);
+        line1.setSource(LineSource.MANUAL);
+        lineRepository.saveAndFlush(line1);
+
+        Line line2 = new Line();
+        line2.setLabel("debit 2");
+        line2.setDebit(10000.0);
+        line2.setDate(LocalDate.of(2017,3,9));
+        line2.setStatus(LineStatus.NEW);
+        line2.setSource(LineSource.MANUAL);
+        lineRepository.saveAndFlush(line2);
+
+        Line line3 = new Line();
+        line3.setLabel("credit 3");
+        line3.setCredit(5000.0);
+        line3.setDate(LocalDate.of(2017,3,9));
+        line3.setStatus(LineStatus.NEW);
+        line3.setSource(LineSource.MANUAL);
+        lineRepository.saveAndFlush(line3);
+
+        Line line4 = new Line();
+        line4.setLabel("credit 4");
+        line4.setCredit(5000.0);
+        line4.setDate(LocalDate.of(2018,3,9));
+        line4.setStatus(LineStatus.NEW);
+        line4.setSource(LineSource.MANUAL);
+        lineRepository.saveAndFlush(line4);
+
+        Line line5 = new Line();
+        line5.setLabel("debit 5");
+        line5.setDebit(10000.0);
+        line5.setDate(LocalDate.of(2017,3,7));
+        line5.setStatus(LineStatus.CANCELLED);
+        line5.setSource(LineSource.MANUAL);
+        lineRepository.saveAndFlush(line2);
+
+        LineDTO lineDTO = new LineDTO();
+        lineDTO.setLabel("new line");
+        lineDTO.setCredit(1000.0);
+        lineDTO.setDate(LocalDate.of(2017,3,8));
+        lineDTO.setStatus(LineStatus.NEW);
+        lineDTO.setSource(LineSource.MANUAL);
+
+        // When
+        lineService.save(lineDTO);
+
+        // Then
+    }
 }

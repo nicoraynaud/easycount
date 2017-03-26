@@ -22,7 +22,11 @@
             "lines": "Lines",
             "bank": "Bank",
             "currency": "Currency",
-            "importFile": "CSV File of lines to import"
+            "importFile": "CSV File of lines to import",
+            "balance": "Balance",
+            "balanceTicked": "Ticked balance",
+            "balanceEom": "EOM Balance",
+            "balanceEomP1": "EOM +1 Balance"
         }
     }
 }

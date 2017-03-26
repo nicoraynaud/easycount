@@ -2,6 +2,7 @@ package org.tekinico.easycount.service.impl;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.tekinico.easycount.domain.Line;
+import org.tekinico.easycount.repository.LineRepository;
 import org.tekinico.easycount.service.BankAccountService;
 import org.tekinico.easycount.domain.BankAccount;
 import org.tekinico.easycount.repository.BankAccountRepository;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,10 +39,16 @@ public class BankAccountServiceImpl implements BankAccountService{
 
     private final LineService lineService;
 
-    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, BankAccountMapper bankAccountMapper, LineService lineService) {
+    private final LineRepository lineRepository;
+
+    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository,
+                                  BankAccountMapper bankAccountMapper,
+                                  LineService lineService,
+                                  LineRepository lineRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountMapper = bankAccountMapper;
         this.lineService = lineService;
+        this.lineRepository = lineRepository;
     }
 
     /**
@@ -82,6 +92,25 @@ public class BankAccountServiceImpl implements BankAccountService{
         log.debug("Request to get BankAccount : {}", id);
         BankAccount bankAccount = bankAccountRepository.findOne(id);
         BankAccountDTO bankAccountDTO = bankAccountMapper.bankAccountToBankAccountDTO(bankAccount);
+
+        // Fetch its current balance (as of today)
+        Double balance = lineRepository.banlanceOfAccount(id, LocalDate.now());
+        bankAccountDTO.setBalance(balance);
+
+        // Fetch its ticked balance
+        Double balanceTicked = lineRepository.banlanceOfAccountAndTicked(id);
+        bankAccountDTO.setBalanceTicked(balanceTicked);
+
+        // Fetch its End Of Month balance
+        Double balanceEom = lineRepository.banlanceOfAccount(id, LocalDate.now().with( TemporalAdjusters.lastDayOfMonth() ));
+        bankAccountDTO.setBalanceEom(balanceEom);
+
+        // Fetch its End Of Month +1 balance
+        Double balanceEomP1 = lineRepository.banlanceOfAccount(id, LocalDate.now()
+            .with( TemporalAdjusters.firstDayOfNextMonth() )
+            .with( TemporalAdjusters.lastDayOfMonth() ));
+        bankAccountDTO.setBalanceEomP1(balanceEomP1);
+
         return bankAccountDTO;
     }
 

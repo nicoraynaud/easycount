@@ -22,7 +22,11 @@
             "lines": "Lines",
             "bank": "Bank",
             "currency": "Currency",
-            "importFile": "Fichier CSV d'import des lignes"
+            "importFile": "Fichier CSV d'import des lignes",
+            "balance": "Solde",
+            "balanceTicked": "Solde rapproché",
+            "balanceEom": "Solde EOM",
+            "balanceEomP1": "Solde EOM +1"
         }
     }
 }

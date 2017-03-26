@@ -53,6 +53,22 @@
                     <a [routerLink]="['currency', bankAccount.currencyId]">{{bankAccount.currencyId}}</a>
                 </div>
             </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balance">Balance</span></dt>
+            <dd>
+                <span>{{bankAccount.balance | number : '1.0-0'}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balanceTicked">Balance Ticked</span></dt>
+            <dd>
+                <span>{{bankAccount.balanceTicked | number : '1.0-0'}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balanceEom">BalanceEom</span></dt>
+            <dd>
+                <span>{{bankAccount.balanceEom | number : '1.0-0'}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balanceEomP1">BalanceEomP1</span></dt>
+            <dd>
+                <span>{{bankAccount.balanceEomP1 | number : '1.0-0'}}</span>
+            </dd>
 
         </div>
         <div class="col-md-10">

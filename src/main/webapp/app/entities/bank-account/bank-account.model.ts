@@ -15,5 +15,9 @@ export class BankAccount {
         public bankId?: number,
         public bankLabel?: string,
         public currencyId?: number,
+        public balance? :number,
+        public balanceTicked? :number,
+        public balanceEom? :number,
+        public balanceEomP1? :number
     ) { }
 }

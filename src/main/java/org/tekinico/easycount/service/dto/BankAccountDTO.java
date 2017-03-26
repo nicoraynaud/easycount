@@ -30,6 +30,14 @@ public class BankAccountDTO implements Serializable {
 
     private String bankLabel;
 
+    private Double balance;
+
+    private Double balanceTicked;
+
+    private Double balanceEom;
+
+    private Double balanceEomP1;
+
     public Long getId() {
         return id;
     }
@@ -81,6 +89,38 @@ public class BankAccountDTO implements Serializable {
 
     public void setBankLabel(String bankLabel) {
         this.bankLabel = bankLabel;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public Double getBalanceTicked() {
+        return balanceTicked;
+    }
+
+    public void setBalanceTicked(Double balanceTicked) {
+        this.balanceTicked = balanceTicked;
+    }
+
+    public Double getBalanceEom() {
+        return balanceEom;
+    }
+
+    public void setBalanceEom(Double balanceEom) {
+        this.balanceEom = balanceEom;
+    }
+
+    public Double getBalanceEomP1() {
+        return balanceEomP1;
+    }
+
+    public void setBalanceEomP1(Double balanceEomP1) {
+        this.balanceEomP1 = balanceEomP1;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     @Override
