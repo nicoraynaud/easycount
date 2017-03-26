@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Mapper for the entity BankAccount and its DTO BankAccountDTO.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BankAccountMapper {
 
     @Mapping(source = "bank.id", target = "bankId")
