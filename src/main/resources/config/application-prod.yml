@@ -23,7 +23,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://localhost:5432/easycount
         username: easycount
-        password:
+        password: easycount
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -63,7 +63,7 @@ liquibase:
 #        keyAlias: easycount
 # ===================================================================
 server:
-    port: 8080
+    port: 8123
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json

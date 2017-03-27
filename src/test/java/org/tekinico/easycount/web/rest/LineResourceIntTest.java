@@ -254,7 +254,7 @@ public class LineResourceIntTest {
         restLineMockMvc.perform(post("/api/lines")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(lineDTO)))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
 
         List<Line> lineList = lineRepository.findAll();
         assertThat(lineList).hasSize(databaseSizeBeforeTest + 1);
