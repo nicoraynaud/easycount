@@ -9,7 +9,8 @@ import {
     JhiLanguageHelper,
     FindLanguageFromKeyPipe,
     JhiAlertComponent,
-    JhiAlertErrorComponent
+    JhiAlertErrorComponent,
+    CurrencyFormatPipe
 } from './';
 
 
@@ -26,7 +27,8 @@ export function alertServiceProvider(sanitizer: Sanitizer, translateService: Tra
     declarations: [
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        CurrencyFormatPipe
     ],
     providers: [
         JhiLanguageHelper,
@@ -41,7 +43,8 @@ export function alertServiceProvider(sanitizer: Sanitizer, translateService: Tra
         EasycountSharedLibsModule,
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        CurrencyFormatPipe
     ]
 })
 export class EasycountSharedCommonModule {}

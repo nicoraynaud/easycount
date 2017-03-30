@@ -113,6 +113,38 @@ public class LineResource {
     }
 
     /**
+     * PUT  /lines/:id/tick : tick/untick the "id" line.
+     *
+     * @param id the id of the line to tick/untick
+     * @return the ResponseEntity with status 200 (OK) and with body the lineDTO, or with status 404 (Not Found)
+     */
+    @PutMapping("/lines/{id}/tick")
+    @Timed
+    public ResponseEntity<LineDTO> toggleTickLine(@PathVariable Long id) {
+        log.debug("REST request to tick Line : {}", id);
+        LineDTO result = lineService.toggleTickLine(id);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    /**
+     * PUT  /lines/:id/cancel : cancel/uncancel the "id" line.
+     *
+     * @param id the id of the line to cancel/uncancel
+     * @return the ResponseEntity with status 200 (OK) and with body the lineDTO, or with status 404 (Not Found)
+     */
+    @PutMapping("/lines/{id}/cancel")
+    @Timed
+    public ResponseEntity<LineDTO> toggleCancelLine(@PathVariable Long id) {
+        log.debug("REST request to tick Line : {}", id);
+        LineDTO result = lineService.toggleCancelLine(id);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    /**
      * DELETE  /lines/:id : delete the "id" line.
      *
      * @param id the id of the lineDTO to delete

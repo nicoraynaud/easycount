@@ -1,6 +1,6 @@
 import { Line } from '../line/line.model';
 import { LineService } from '../line/line.service';
-import {Component, OnInit, OnDestroy, HostListener} from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
 import { BankAccount } from './bank-account.model';
@@ -10,6 +10,8 @@ import { ITEMS_PER_PAGE, Principal } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 import { Response } from '@angular/http';
 import { Subscription } from 'rxjs';
+import { Currency } from '../currency/currency.model';
+import { CurrencyService } from '../currency/currency.service';
 
 @Component({
     selector: 'jhi-bank-account-dashboard',
@@ -20,6 +22,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     bankAccountId: number;
     bankAccount: BankAccount;
+    currency: Currency;
     lines: Line[];
     private subscription: any;
     eventSubscriber: Subscription;
@@ -41,6 +44,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         private bankAccountService: BankAccountService,
         private parseLinks: ParseLinks,
         private lineService: LineService,
+        private currencyService: CurrencyService,
         private route: ActivatedRoute,
         private router: Router,
         private eventManager: EventManager,
@@ -74,9 +78,12 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     load (id) {
         this.bankAccountId = id;
         this.bankAccountService.find(this.bankAccountId).subscribe(bankAccount => {
-            this.bankAccount = bankAccount;
+            this.currencyService.find(bankAccount.currencyId).subscribe(currency => {
+                this.currency = currency;
+                this.bankAccount = bankAccount;
+                this.loadLines();
+            });
         });
-        this.loadLines();
     }
 
     loadLines() {
@@ -84,7 +91,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()}).subscribe(
-            (res: Response) => this.onSuccess(res.json(), res.headers),
+            (res: Response) => this.onLoadLineSuccess(res.json(), res.headers),
             (res: Response) => this.onError(res.json())
         );
     }
@@ -96,6 +103,54 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         }
     }
 
+    createLine() {
+        this.router.navigate([{ outlets: { popup: 'line-new/'+ this.bankAccountId }}], { replaceUrl: true });
+    }
+
+    editLine (line) {
+        if (line) {
+            this.router.navigate([{outlets: {popup: 'line/' + line.id + '/edit'}}], {replaceUrl: true});
+        }
+    }
+
+    tickLine (line) {
+        if (line) {
+            this.lineService.tickLine(line)
+                .subscribe((res: Line) => this.onSaveSuccess(res), (res: Response) => this.onError(res.json()));
+        }
+    }
+
+    cancelLine (line) {
+        if (line) {
+            this.lineService.cancelLine(line)
+                .subscribe((res: Line) => this.onSaveSuccess(res), (res: Response) => this.onError(res.json()));
+        }
+    }
+
+    private onSaveSuccess (result: Line) {
+        this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
+    }
+
+    /** STYLING / INTERFACE **/
+
+    getColorOfStatusTicked (status: string, modulo: number) {
+        if (status === 'TICKED') {
+            return "green";
+        } else {
+            return modulo%2 == 0 ? "white" : "whitesmoke";
+        }
+    }
+
+    getColorOfStatusCancelled (status: string, modulo: number) {
+        if (status === 'CANCELLED') {
+            return "red";
+        } else {
+            return modulo%2 == 0 ? "white" : "whitesmoke";
+        }
+    }
+
+    /** KEY SHORTCUTS FOR NAVIGATION **/
+
     @HostListener('window:keydown', ['$event'])
     onKey($event) {
         switch ($event.code) {
@@ -104,9 +159,6 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
                 break;
             case 'KeyE':
                 this.editLine(this.selectedLine);
-                break;
-            case 'KeyV':
-                this.validateLine(this.selectedLine);
                 break;
             case 'ArrowUp':
                 this.upLine(this.selectedLine);
@@ -119,26 +171,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    /** KEY SHORTCUTS FOR NAVIGATION **/
-    createLine() {
-        this.router.navigate([{ outlets: { popup: 'line-new/'+ this.bankAccountId }}], { replaceUrl: true });
-    }
-
-    editLine (line) {
-        if (line) {
-            this.router.navigate([{outlets: {popup: 'line/' + line.id + '/edit'}}], {replaceUrl: true});
-        }
-    }
-
-    validateLine (line) {
-        if (line) {
-            this.lineService.validateLine(line)
-                .subscribe((res: Line) => this.onSaveSuccess(res), (res: Response) => this.onError(res.json()));
-        }
-    }
-    private onSaveSuccess (result: Line) {
-        this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
-    }
+    /** NAVIGATION OF LINES **/
 
     upLine (line) {
         if (line && this.lines.indexOf(line) !== 0) {
@@ -156,7 +189,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    /** NAVIGATION OF LINES **/
+    /** END NAVIGATION OF LINES **/
 
     previousState() {
         window.history.back();
@@ -170,7 +203,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         this.loadLines();
     }
 
-    private onSuccess (data, headers) {
+    private onLoadLineSuccess (data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
@@ -191,7 +224,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     }
 
     sort () {
-        let result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        let result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc'), 'id,asc'];
         return result;
     }
 }

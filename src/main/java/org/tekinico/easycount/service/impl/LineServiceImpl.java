@@ -131,6 +131,32 @@ public class LineServiceImpl implements LineService{
         lineRepository.delete(id);
     }
 
+    @Override
+    public LineDTO toggleTickLine(Long id) {
+        log.debug("Request to tick Line : {}", id);
+        Line lineToTick = lineRepository.findOne(id);
+        LineStatus newStatus = lineToTick.getStatus() == LineStatus.NEW ? LineStatus.TICKED : LineStatus.NEW;
+
+        return updateLineWithStatus(lineToTick, newStatus);
+    }
+
+    @Override
+    public LineDTO toggleCancelLine(Long id) {
+        log.debug("Request to cancel Line : {}", id);
+        Line lineTocancel = lineRepository.findOne(id);
+        LineStatus newStatus = lineTocancel.getStatus() == LineStatus.NEW ? LineStatus.CANCELLED : LineStatus.NEW;
+
+        return updateLineWithStatus(lineTocancel, newStatus);
+    }
+
+    protected LineDTO updateLineWithStatus(Line line, LineStatus status) {
+        line.setStatus(status);
+        lineRepository.save(line);
+        LineDTO lineDTO = lineMapper.lineToLineDTO(line);
+
+        return lineDTO;
+    }
+
     /**
      * Import a list of lines in a CSV file
      *

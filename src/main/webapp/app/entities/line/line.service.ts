@@ -76,9 +76,18 @@ export class LineService {
         return line;
     }
 
-    validateLine(line: Line): Observable<Line> {
-        line.status = LineStatus.TICKED;
-        return this.update(line);
+    tickLine(line: Line): Observable<Line> {
+        let copy: Line = Object.assign({}, line);
+        return this.http.put(`${this.resourceUrl}/${line.id}/tick`, null).map((res: Response) => {
+            return res.json();
+        });
+    }
+
+    cancelLine(line: Line): Observable<Line> {
+        let copy: Line = Object.assign({}, line);
+        return this.http.put(`${this.resourceUrl}/${line.id}/cancel`, null).map((res: Response) => {
+            return res.json();
+        });
     }
 
     private convertResponse(res: any): any {

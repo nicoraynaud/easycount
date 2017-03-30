@@ -130,9 +130,9 @@ public class BankAccountResource {
     }
 
     /**
-     * DELETE  /bank-accounts/:id : delete the "id" bankAccount.
+     * POST  /bank-accounts/:id/import-lines : imports lines as CSV.
      *
-     * @param id the id of the bankAccountDTO to delete
+     * @param id the id of the bankAccount to import the lines to
      * @return the ResponseEntity with status 200 (OK)
      */
     @PostMapping("/bank-accounts/{id}/import-lines")

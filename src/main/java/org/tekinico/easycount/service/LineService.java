@@ -56,6 +56,22 @@ public interface LineService {
     void delete(Long id);
 
     /**
+     * Toggle tick the "id" line
+     *
+     * @param id the id of the entity
+     * @return the entity
+     */
+    LineDTO toggleTickLine(Long id);
+
+    /**
+     * Toggle cancel the "id" line
+     *
+     * @param id the id of the entity
+     * @return the entity
+     */
+    LineDTO toggleCancelLine(Long id);
+
+    /**
      * Import a list of lines in a CSV file
      *
      * @param file the CSV file

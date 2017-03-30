@@ -10,6 +10,7 @@ export * from './auth/has-any-authority.directive';
 export * from './language/language.constants';
 export * from './language/language.helper';
 export * from './language/language.pipe';
+export * from './language/currency-format.pipe';
 export * from './login/login.component';
 export * from './login/login.service';
 export * from './login/login-modal.service';

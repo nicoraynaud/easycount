@@ -55,19 +55,19 @@
             </dd>
             <dt><span jhiTranslate="easycountApp.bankAccount.balance">Balance</span></dt>
             <dd>
-                <span>{{bankAccount.balance | number : '1.0-0'}}</span>
+                <span>{{bankAccount.balance | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
             </dd>
             <dt><span jhiTranslate="easycountApp.bankAccount.balanceTicked">Balance Ticked</span></dt>
             <dd>
-                <span>{{bankAccount.balanceTicked | number : '1.0-0'}}</span>
+                <span>{{bankAccount.balanceTicked | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
             </dd>
             <dt><span jhiTranslate="easycountApp.bankAccount.balanceEom">BalanceEom</span></dt>
             <dd>
-                <span>{{bankAccount.balanceEom | number : '1.0-0'}}</span>
+                <span>{{bankAccount.balanceEom | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
             </dd>
             <dt><span jhiTranslate="easycountApp.bankAccount.balanceEomP1">BalanceEomP1</span></dt>
             <dd>
-                <span>{{bankAccount.balanceEomP1 | number : '1.0-0'}}</span>
+                <span>{{bankAccount.balanceEomP1 | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
             </dd>
 
         </div>
@@ -89,24 +89,32 @@
                         <th jhiSortBy="credit"><span
                             jhiTranslate="easycountApp.line.credit">Credit</span> <span
                             class="fa fa-sort"></span></th>
-                        <th jhiSortBy="status"><span
-                            jhiTranslate="easycountApp.line.status">Status</span> <span
-                            class="fa fa-sort"></span></th>
-                        <th jhiSortBy="source"><span
-                            jhiTranslate="easycountApp.line.source">Source</span> <span
-                            class="fa fa-sort"></span></th>
+                        <th>
+                            <span jhiTranslate="easycountApp.line.status">Status</span>
+                        </th>
+                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let line of lines ;trackBy: trackId" (click)="setClickedRow(line)"
+                    <tr *ngFor="let line of lines ;let i = index; trackBy: trackId" (click)="setClickedRow(line)"
                         [class.active]="line == selectedLine">
                         <td>{{line.date | date:'mediumDate'}}</td>
                         <td>{{line.label}}</td>
-                        <td>{{line.debit | number : '1.0-0'}}</td>
-                        <td>{{line.credit | number : '1.0-0'}}</td>
-                        <td jhiTranslate="{{'easycountApp.LineStatus.' + line.status}}">{{line.status}}</td>
-                        <td jhiTranslate="{{'easycountApp.LineSource.' + line.source}}">{{line.source}}</td>
+                        <td class="text-right">{{line.debit | currencyFormat :'':currency.decimals:' ':'.':3}}</td>
+                        <td class="text-right">{{line.credit | currencyFormat :'':currency.decimals:' ':'.':3}}</td>
+                        <td>
+                            <a (click)="tickLine(line)" *ngIf="line.status !== 'CANCELLED'">
+                                <i class="fa fa-check" [style.color]="getColorOfStatusTicked(line.status, i)">
+                                </i>
+                            </a>
+                            <a (click)="cancelLine(line)" *ngIf="line.status !== 'TICKED'">
+                                <i class="fa fa-ban" [style.color]="getColorOfStatusCancelled(line.status, i)"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <i class="fa fa-cog" ngbTooltip="line.source" *ngIf="line.source === 'GENERATED'"></i>
+                        </td>
                         <td class="text-xs-right">
                             <div class="btn-group flex-btn-group-container">
                                 <button type="submit"
