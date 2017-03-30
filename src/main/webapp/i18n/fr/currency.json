@@ -2,23 +2,23 @@
     "easycountApp": {
         "currency" : {
             "home": {
-                "title": "Currencies",
-                "createLabel": "Créer un nouveau Currency",
-                "createOrEditLabel": "Créer ou éditer un Currency"
+                "title": "Devises",
+                "createLabel": "Créer une nouvelle Devise",
+                "createOrEditLabel": "Créer ou éditer une Devise"
             },
-            "created": "Un nouveau Currency a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Currency avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Currency avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle Devise a été créée avec l'identifiant {{ param }}",
+            "updated": "La Devise avec l'identifiant {{ param }} a été mise à jour",
+            "deleted": "La Devise avec l'identifiant {{ param }} a été supprimée",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Currency {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la Devise {{ id }} ?"
             },
             "detail": {
-                "title": "Currency"
+                "title": "Devise"
             },
-            "label": "Label",
+            "label": "Libellé",
             "code": "Code",
-            "symbol": "Symbol",
-            "decimals": "Decimals"
+            "symbol": "Symbôle",
+            "decimals": "Décimales"
         }
     }
 }

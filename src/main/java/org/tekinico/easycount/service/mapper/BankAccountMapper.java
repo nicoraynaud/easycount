@@ -15,6 +15,7 @@ public interface BankAccountMapper {
     @Mapping(source = "bank.id", target = "bankId")
     @Mapping(source = "bank.label", target = "bankLabel")
     @Mapping(source = "currency.id", target = "currencyId")
+    @Mapping(source = "currency.label", target = "currencyLabel")
     BankAccountDTO bankAccountToBankAccountDTO(BankAccount bankAccount);
 
     List<BankAccountDTO> bankAccountsToBankAccountDTOs(List<BankAccount> bankAccounts);

@@ -2,26 +2,26 @@
     "easycountApp": {
         "bankAccount" : {
             "home": {
-                "title": "BankAccounts",
-                "createLabel": "Créer un nouveau Bank Account",
-                "createOrEditLabel": "Créer ou éditer un Bank Account",
+                "title": "Comptes Bancaire",
+                "createLabel": "Créer un nouveau Compte Bancaire",
+                "createOrEditLabel": "Créer ou éditer un Compte Bancaire",
                 "importLines": "Importer des lignes dans le compte"
             },
-            "created": "Un nouveau Bank Account a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Bank Account avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Bank Account avec l'identifiant {{ param }} a été supprimé",
+            "created": "Un nouveau Compte Bancaire a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Compte Bancaire avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Compte Bancaire avec l'identifiant {{ param }} a été supprimé",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Bank Account {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer le Compte Bancaire {{ id }} ?"
             },
             "detail": {
-                "title": "Bank Account"
+                "title": "Compte Bancaire"
             },
-            "label": "Label",
-            "number": "Number",
+            "label": "Libellé",
+            "number": "Numéro",
             "type": "Type",
-            "lines": "Lines",
-            "bank": "Bank",
-            "currency": "Currency",
+            "lines": "Lignes",
+            "bank": "Banque",
+            "currency": "Devise",
             "importFile": "Fichier CSV d'import des lignes",
             "balance": "Solde",
             "balanceTicked": "Solde rapproché",

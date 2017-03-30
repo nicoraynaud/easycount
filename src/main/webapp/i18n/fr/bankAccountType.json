@@ -2,9 +2,9 @@
     "easycountApp": {
         "BankAccountType" : {
             "null": "",
-            "CHECKING": "CHECKING",
-            "SAVINGS": "SAVINGS",
-            "OTHER": "OTHER"
+            "CHECKING": "Compte de dépôt",
+            "SAVINGS": "Compte d'épargne",
+            "OTHER": "Autre"
         }
     }
 }

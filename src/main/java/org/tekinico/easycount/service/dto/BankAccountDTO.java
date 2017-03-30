@@ -28,6 +28,8 @@ public class BankAccountDTO implements Serializable {
 
     private Long currencyId;
 
+    private String currencyLabel;
+
     private String bankLabel;
 
     private Double balance;
@@ -81,6 +83,14 @@ public class BankAccountDTO implements Serializable {
 
     public void setCurrencyId(Long currencyId) {
         this.currencyId = currencyId;
+    }
+
+    public String getCurrencyLabel() {
+        return currencyLabel;
+    }
+
+    public void setCurrencyLabel(String currencyLabel) {
+        this.currencyLabel = currencyLabel;
     }
 
     public String getBankLabel() {

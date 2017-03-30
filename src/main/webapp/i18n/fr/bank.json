@@ -2,21 +2,21 @@
     "easycountApp": {
         "bank" : {
             "home": {
-                "title": "Banks",
-                "createLabel": "Créer un nouveau Bank",
-                "createOrEditLabel": "Créer ou éditer un Bank"
+                "title": "Banques",
+                "createLabel": "Créer une nouvelle Banque",
+                "createOrEditLabel": "Créer ou éditer une Banque"
             },
-            "created": "Un nouveau Bank a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Bank avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Bank avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle Banque a été créée avec l'identifiant {{ param }}",
+            "updated": "La Banque avec l'identifiant {{ param }} a été mise à jour",
+            "deleted": "La Banque avec l'identifiant {{ param }} a été supprimée",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Bank {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la Banque {{ id }} ?"
             },
             "detail": {
-                "title": "Bank"
+                "title": "Banque"
             },
-            "label": "Label",
-            "bankAccounts": "Bank Accounts"
+            "label": "Libellé",
+            "bankAccounts": "Comptes"
         }
     }
 }

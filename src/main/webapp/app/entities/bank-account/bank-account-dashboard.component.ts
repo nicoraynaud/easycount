@@ -68,7 +68,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInLines() {
-        this.eventSubscriber = this.eventManager.subscribe('lineListModification', (response) => this.loadLines());
+        this.eventSubscriber = this.eventManager.subscribe('lineListModification', (response) => this.load(this.bankAccountId));
     }
 
     load (id) {

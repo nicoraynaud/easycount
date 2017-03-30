@@ -16,6 +16,25 @@
                     <span jhiTranslate="global.menu.home">Home</span>
                 </a>
             </li>
+            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer">
+                <a class="nav-link dropdown-toggle" routerLinkActive="active" ngbDropdownToggle href="javascript:void(0);" id="bank-account-menu">
+                    <span>
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        <span jhiTranslate="global.menu.bankAccount.main">
+                            Bank Accounts
+                        </span>
+                        <b class="caret"></b>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                    <li *ngFor="let bankAccount of bankAccounts" uiSrefActive="active">
+                        <a class="dropdown-item" [routerLink]="['/bank-account', bankAccount.id, 'dashboard']" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-credit-card" aria-hidden="true"></i>
+                            <span>{{ bankAccount.bankLabel }} - {{ bankAccount.label }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer">
                 <a class="nav-link dropdown-toggle" routerLinkActive="active" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">

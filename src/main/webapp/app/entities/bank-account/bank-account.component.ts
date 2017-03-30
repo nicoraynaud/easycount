@@ -15,7 +15,7 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 })
 export class BankAccountComponent implements OnInit, OnDestroy {
 
-currentAccount: any;
+    currentAccount: any;
     bankAccounts: BankAccount[];
     error: any;
     success: any;

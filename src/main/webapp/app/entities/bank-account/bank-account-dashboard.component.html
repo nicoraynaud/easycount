@@ -44,13 +44,13 @@
             <dt><span jhiTranslate="easycountApp.bankAccount.bank">Bank</span></dt>
             <dd>
                 <div *ngIf="bankAccount.bankId">
-                    <a [routerLink]="['bank', bankAccount.bankId]">{{bankAccount.bankId}}</a>
+                    <a [routerLink]="['/bank', bankAccount.bankId]">{{bankAccount.bankLabel}}</a>
                 </div>
             </dd>
             <dt><span jhiTranslate="easycountApp.bankAccount.currency">Currency</span></dt>
             <dd>
                 <div *ngIf="bankAccount.currencyId">
-                    <a [routerLink]="['currency', bankAccount.currencyId]">{{bankAccount.currencyId}}</a>
+                    <a [routerLink]="['/currency', bankAccount.currencyId]">{{bankAccount.currencyLabel}}</a>
                 </div>
             </dd>
             <dt><span jhiTranslate="easycountApp.bankAccount.balance">Balance</span></dt>

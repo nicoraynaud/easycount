@@ -33,12 +33,12 @@
                 <td jhiTranslate="{{'easycountApp.BankAccountType.' + bankAccount.type}}">{{bankAccount.type}}</td>
                 <td>
                     <div *ngIf="bankAccount.bankId">
-                        <a [routerLink]="['../bank', bankAccount.bankId  ]" >{{bankAccount.bankId}}</a>
+                        <a [routerLink]="['../bank', bankAccount.bankId  ]" >{{bankAccount.bankLabel}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="bankAccount.currencyId">
-                        <a [routerLink]="['../currency', bankAccount.currencyId  ]" >{{bankAccount.currencyId}}</a>
+                        <a [routerLink]="['../currency', bankAccount.currencyId  ]" >{{bankAccount.currencyLabel}}</a>
                     </div>
                 </td>
                 <td class="text-right">

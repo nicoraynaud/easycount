@@ -7,6 +7,8 @@ import { ProfileService } from '../profiles/profile.service'; // FIXME barrel do
 import { JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
+import { BankAccountService } from '../../entities/bank-account/bank-account.service';
+import { BankAccount } from '../../entities/bank-account/bank-account.model';
 
 @Component({
     selector: 'jhi-navbar',
@@ -24,6 +26,8 @@ export class NavbarComponent implements OnInit {
     modalRef: NgbModalRef;
     version: string;
 
+    bankAccounts: BankAccount[];
+
     constructor(
         private loginService: LoginService,
         private languageHelper: JhiLanguageHelper,
@@ -31,7 +35,8 @@ export class NavbarComponent implements OnInit {
         private principal: Principal,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
-        private router: Router
+        private router: Router,
+        private bankAccountService: BankAccountService
     ) {
         this.version = DEBUG_INFO_ENABLED ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -46,6 +51,10 @@ export class NavbarComponent implements OnInit {
         this.profileService.getProfileInfo().subscribe(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+
+        this.bankAccountService.query().subscribe(res => {
+            this.bankAccounts = res.json();
         });
     }
 

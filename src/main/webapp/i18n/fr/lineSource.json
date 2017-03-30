@@ -2,8 +2,8 @@
     "easycountApp": {
         "LineSource" : {
             "null": "",
-            "MANUAL": "MANUAL",
-            "GENERATED": "GENERATED"
+            "MANUAL": "Manuelle",
+            "GENERATED": "Générée"
         }
     }
 }

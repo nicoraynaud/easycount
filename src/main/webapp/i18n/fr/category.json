@@ -2,21 +2,21 @@
     "easycountApp": {
         "category" : {
             "home": {
-                "title": "Categories",
-                "createLabel": "Créer un nouveau Category",
-                "createOrEditLabel": "Créer ou éditer un Category"
+                "title": "Catégories",
+                "createLabel": "Créer une nouvelle Catégorie",
+                "createOrEditLabel": "Créer ou éditer une Catégorie"
             },
-            "created": "Un nouveau Category a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Category avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Category avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle Catégorie a été créée avec l'identifiant {{ param }}",
+            "updated": "La Catégorie avec l'identifiant {{ param }} a été mise à jour",
+            "deleted": "La Catégorie avec l'identifiant {{ param }} a été supprimée",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Category {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la Catégorie {{ id }} ?"
             },
             "detail": {
-                "title": "Category"
+                "title": "Catégorie"
             },
-            "label": "Label",
-            "parentCategory": "Parent Category"
+            "label": "Libellé",
+            "parentCategory": "Catégorie parente"
         }
     }
 }

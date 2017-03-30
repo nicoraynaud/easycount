@@ -2,25 +2,25 @@
     "easycountApp": {
         "line" : {
             "home": {
-                "title": "Lines",
-                "createLabel": "Créer un nouveau Line",
-                "createOrEditLabel": "Créer ou éditer un Line"
+                "title": "Lignes",
+                "createLabel": "Créer une nouvelle Ligne",
+                "createOrEditLabel": "Créer ou éditer une Ligne"
             },
-            "created": "Un nouveau Line a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Line avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Line avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle Ligne a été créée avec l'identifiant {{ param }}",
+            "updated": "La Ligne avec l'identifiant {{ param }} a été mise à jour",
+            "deleted": "La Ligne avec l'identifiant {{ param }} a été supprimée",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Line {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la Ligne {{ id }} ?"
             },
             "detail": {
-                "title": "Line"
+                "title": "Ligne"
             },
             "date": "Date",
             "label": "Description",
             "debit": "Débit",
             "credit": "Crédit",
             "balance": "Balance",
-            "status": "Status",
+            "status": "Statut",
             "source": "Source",
             "categories": "Catégories",
             "bankAccount": "Compte",

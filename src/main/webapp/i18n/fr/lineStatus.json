@@ -2,9 +2,9 @@
     "easycountApp": {
         "LineStatus" : {
             "null": "",
-            "NEW": "NEW",
-            "TICKED": "TICKED",
-            "CANCELLED": "CANCELLED"
+            "NEW": "Nouvelle",
+            "TICKED": "Validée",
+            "CANCELLED": "Annulée"
         }
     }
 }
