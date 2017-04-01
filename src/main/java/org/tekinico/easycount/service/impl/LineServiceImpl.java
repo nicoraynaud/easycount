@@ -1,37 +1,44 @@
 package org.tekinico.easycount.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.tekinico.easycount.domain.BankAccount;
-import org.tekinico.easycount.domain.Category;
-import org.tekinico.easycount.domain.enumeration.LineSource;
-import org.tekinico.easycount.domain.enumeration.LineStatus;
-import org.tekinico.easycount.repository.CategoryRepository;
-import org.tekinico.easycount.service.LineService;
-import org.tekinico.easycount.domain.Line;
-import org.tekinico.easycount.repository.LineRepository;
-import org.tekinico.easycount.service.dto.LineDTO;
-import org.tekinico.easycount.service.exceptions.ImportException;
-import org.tekinico.easycount.service.mapper.LineMapper;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.tekinico.easycount.domain.BankAccount;
+import org.tekinico.easycount.domain.Category;
+import org.tekinico.easycount.domain.Line;
+import org.tekinico.easycount.domain.enumeration.LineSource;
+import org.tekinico.easycount.domain.enumeration.LineStatus;
+import org.tekinico.easycount.repository.CategoryRepository;
+import org.tekinico.easycount.repository.LineRepository;
+import org.tekinico.easycount.repository.search.LineSearchRepository;
+import org.tekinico.easycount.service.LineService;
+import org.tekinico.easycount.service.dto.LineDTO;
+import org.tekinico.easycount.service.exceptions.ImportException;
+import org.tekinico.easycount.service.mapper.LineMapper;
 import org.tekinico.easycount.service.util.CSVUtils;
+import sun.security.util.DisabledAlgorithmConstraints;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
+
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing Line.
@@ -46,13 +53,16 @@ public class LineServiceImpl implements LineService{
 
     private final LineMapper lineMapper;
 
+    private final LineSearchRepository lineSearchRepository;
+
     private final CategoryRepository categoryRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.FRENCH);
 
-    public LineServiceImpl(LineRepository lineRepository, LineMapper lineMapper, CategoryRepository categoryRepository) {
+    public LineServiceImpl(LineRepository lineRepository, LineMapper lineMapper, LineSearchRepository lineSearchRepository, CategoryRepository categoryRepository) {
         this.lineRepository = lineRepository;
         this.lineMapper = lineMapper;
+        this.lineSearchRepository = lineSearchRepository;
         this.categoryRepository = categoryRepository;
     }
 
@@ -74,6 +84,7 @@ public class LineServiceImpl implements LineService{
 
         line = lineRepository.save(line);
         LineDTO result = lineMapper.lineToLineDTO(line);
+        lineSearchRepository.save(line);
         return result;
     }
 
@@ -129,6 +140,23 @@ public class LineServiceImpl implements LineService{
     public void delete(Long id) {
         log.debug("Request to delete Line : {}", id);
         lineRepository.delete(id);
+        lineSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the line corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<LineDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Lines for query {}", query);
+        QueryStringQueryBuilder q = queryStringQuery(query);
+        Page<Line> result = lineSearchRepository.search(q, pageable);
+        return result.map(line -> lineMapper.lineToLineDTO(line));
     }
 
     @Override
@@ -152,6 +180,7 @@ public class LineServiceImpl implements LineService{
     protected LineDTO updateLineWithStatus(Line line, LineStatus status) {
         line.setStatus(status);
         lineRepository.save(line);
+        lineSearchRepository.save(line);
         LineDTO lineDTO = lineMapper.lineToLineDTO(line);
 
         return lineDTO;
@@ -172,6 +201,7 @@ public class LineServiceImpl implements LineService{
         parsedLines.forEach(l -> l.setBankAccount(bankAccount));
 
         lineRepository.save(parsedLines);
+        lineSearchRepository.save(parsedLines);
 
         return parsedLines;
     }
@@ -258,5 +288,12 @@ public class LineServiceImpl implements LineService{
         }
 
         return line;
+    }
+
+    @Override
+    public void reIndexAllLines() {
+        lineRepository.findAll().stream().forEach(
+            l -> lineSearchRepository.save(l)
+        );
     }
 }

@@ -5,6 +5,7 @@ import org.tekinico.easycount.EasycountApp;
 import org.tekinico.easycount.domain.Line;
 import org.tekinico.easycount.repository.LineRepository;
 import org.tekinico.easycount.service.LineService;
+import org.tekinico.easycount.repository.search.LineSearchRepository;
 import org.tekinico.easycount.service.dto.LineDTO;
 import org.tekinico.easycount.service.mapper.LineMapper;
 import org.tekinico.easycount.web.rest.errors.ExceptionTranslator;
@@ -85,6 +86,9 @@ public class LineResourceIntTest {
     private LineService lineService;
 
     @Autowired
+    private LineSearchRepository lineSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -132,6 +136,7 @@ public class LineResourceIntTest {
 
     @Before
     public void initTest() {
+        lineSearchRepository.deleteAll();
         line = createEntity(em);
     }
 
@@ -162,6 +167,10 @@ public class LineResourceIntTest {
         assertThat(testLine.getCreateDate().getMonth()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getMonth());
         assertThat(testLine.getCreateDate().getYear()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getYear());
         assertThat(testLine.getEffectiveDate()).isEqualTo(DEFAULT_EFFECTIVE_DATE);
+
+        // Validate the Line in Elasticsearch
+        Line lineEs = lineSearchRepository.findOne(testLine.getId());
+        //assertThat(lineEs).isEqualToComparingFieldByField(testLine);
     }
 
     @Test
@@ -317,6 +326,7 @@ public class LineResourceIntTest {
     public void updateLine() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
+        lineSearchRepository.save(line);
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
 
         // Update the line
@@ -351,6 +361,10 @@ public class LineResourceIntTest {
         assertThat(testLine.getSource()).isEqualTo(UPDATED_SOURCE);
         assertThat(testLine.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testLine.getEffectiveDate()).isEqualTo(UPDATED_EFFECTIVE_DATE);
+
+        // Validate the Line in Elasticsearch
+        Line lineEs = lineSearchRepository.findOne(testLine.getId());
+        assertThat(lineEs).isEqualToComparingFieldByField(testLine);
     }
 
     @Test
@@ -377,6 +391,7 @@ public class LineResourceIntTest {
     public void deleteLine() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
+        lineSearchRepository.save(line);
         int databaseSizeBeforeDelete = lineRepository.findAll().size();
 
         // Get the line
@@ -384,9 +399,36 @@ public class LineResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean lineExistsInEs = lineSearchRepository.exists(line.getId());
+        assertThat(lineExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Line> lineList = lineRepository.findAll();
         assertThat(lineList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchLine() throws Exception {
+        // Initialize the database
+        lineRepository.saveAndFlush(line);
+        lineSearchRepository.save(line);
+
+        // Search the line
+        restLineMockMvc.perform(get("/api/_search/lines?query=id:" + line.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(line.getId().intValue())))
+            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())))
+            .andExpect(jsonPath("$.[*].debit").value(hasItem(DEFAULT_DEBIT.doubleValue())))
+            .andExpect(jsonPath("$.[*].credit").value(hasItem(DEFAULT_CREDIT.doubleValue())))
+            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE.toString())))
+            .andExpect(jsonPath("$.[*].createDate").value(hasItem(sameInstant(DEFAULT_CREATE_DATE))))
+            .andExpect(jsonPath("$.[*].effectiveDate").value(hasItem(DEFAULT_EFFECTIVE_DATE.toString())));
     }
 
     @Test

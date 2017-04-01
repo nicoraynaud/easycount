@@ -1,13 +1,12 @@
 package org.tekinico.easycount.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import org.tekinico.easycount.domain.BankAccount;
 import org.tekinico.easycount.domain.Line;
 import org.tekinico.easycount.service.dto.LineDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -88,4 +87,20 @@ public interface LineService {
      * @return the list of lines that have been parsed
      */
     List<Line> parseLines(MultipartFile file);
+
+    /**
+     * Search for the line corresponding to the query.
+     *
+     *  @param query the query of the search
+     *
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    Page<LineDTO> search(String query, Pageable pageable);
+
+    /**
+     * Reindexes all lines in DB in the elasticsearch index
+     *
+     */
+    void reIndexAllLines();
 }

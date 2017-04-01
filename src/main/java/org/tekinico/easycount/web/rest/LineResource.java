@@ -86,12 +86,10 @@ public class LineResource {
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of lines in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/lines")
     @Timed
-    public ResponseEntity<List<LineDTO>> getAllLines(@ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<LineDTO>> getAllLines(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Lines");
         Page<LineDTO> page = lineService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/lines");
@@ -174,4 +172,36 @@ public class LineResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/bank-accounts/" + bankAccountId + "/lines");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    /**
+     * SEARCH  /_search/lines?query=:query : search for the line corresponding
+     * to the query.
+     *
+     * @param query the query of the line search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/lines")
+    @Timed
+    public ResponseEntity<List<LineDTO>> searchLines(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Lines for query {}", query);
+        Page<LineDTO> page = lineService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/lines");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /lines/reindex
+     * Re-indexes all lines in DB in the search engine index
+     *
+     */
+    @GetMapping("/lines/reindex")
+    @Timed
+    public ResponseEntity<Void> reindexLines() {
+        log.debug("REST request to reindex all lines in elastic search");
+        lineService.reIndexAllLines();
+        return ResponseEntity.ok().build();
+    }
+
+
 }

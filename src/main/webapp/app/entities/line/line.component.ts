@@ -20,6 +20,7 @@ currentAccount: any;
     error: any;
     success: any;
     eventSubscriber: Subscription;
+    currentSearch: string;
     routeData: any;
     links: any;
     totalItems: any;
@@ -49,10 +50,21 @@ currentAccount: any;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
+        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
         this.jhiLanguageService.setLocations(['line', 'lineStatus', 'lineSource']);
     }
 
     loadAll() {
+        if (this.currentSearch) {
+            this.lineService.search({
+                query: this.currentSearch,
+                size: this.itemsPerPage,
+                sort: this.sort()}).subscribe(
+                    (res: Response) => this.onSuccess(res.json(), res.headers),
+                    (res: Response) => this.onError(res.json())
+                );
+            return;
+        }
         this.lineService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
@@ -72,6 +84,7 @@ currentAccount: any;
             {
                 page: this.page,
                 size: this.itemsPerPage,
+                search: this.currentSearch,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
@@ -80,12 +93,36 @@ currentAccount: any;
 
     clear() {
         this.page = 0;
+        this.currentSearch = '';
         this.router.navigate(['/line', {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
         this.loadAll();
     }
+    search (query) {
+        if (!query) {
+            return this.clear();
+        }
+        this.page = 0;
+        this.currentSearch = query;
+        this.router.navigate(['/line', {
+            search: this.currentSearch,
+            page: this.page,
+            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        }]);
+        this.loadAll();
+    }
+
+    reindex() {
+        this.lineService.reIndex().subscribe(response => {
+            this.eventManager.broadcast({
+                name: 'lineListModification',
+                content: 'Reindexed all lines'
+            });
+        });
+    }
+
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {

@@ -4,7 +4,9 @@
             "home": {
                 "title": "Lines",
                 "createLabel": "Create a new Line",
-                "createOrEditLabel": "Create or edit a Line"
+                "reindexLabel": "Re-index all lines",
+                "createOrEditLabel": "Create or edit a Line",
+                "search": "Search lines"
             },
             "created": "A new Line is created with identifier {{ param }}",
             "updated": "A Line is updated with identifier {{ param }}",

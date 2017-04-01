@@ -4,7 +4,9 @@
             "home": {
                 "title": "Lignes",
                 "createLabel": "Créer une nouvelle Ligne",
-                "createOrEditLabel": "Créer ou éditer une Ligne"
+                "reindexLabel": "Ré-indexer les lignes",
+                "createOrEditLabel": "Créer ou éditer une Ligne",
+                "search": "Rechercher des lignes"
             },
             "created": "Une nouvelle Ligne a été créée avec l'identifiant {{ param }}",
             "updated": "La Ligne avec l'identifiant {{ param }} a été mise à jour",

@@ -2,6 +2,7 @@ package org.tekinico.easycount.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -22,6 +23,7 @@ import org.tekinico.easycount.domain.enumeration.LineSource;
 @Entity
 @Table(name = "line")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "line")
 public class Line implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -9,6 +9,7 @@ export class LineService {
 
     private resourceUrl = 'api/lines';
     private bankAccountResourceUrl = 'api/bank-accounts/:bankAccountId/lines';
+    private resourceSearchUrl = 'api/_search/lines';
 
     constructor(private http: Http, private dateUtils: DateUtils) { }
 
@@ -66,6 +67,17 @@ export class LineService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    reIndex(): Observable<Response> {
+        return this.http.get(`${this.resourceUrl}/reindex`);
+    }
+
+    search(req?: any): Observable<Response> {
+        let options = this.createRequestOption(req);
+        return this.http.get(this.resourceSearchUrl, options)
+            .map((res: any) => this.convertResponse(res))
+            ;
     }
 
     createNew(bankAccountId: number, generated: boolean) {

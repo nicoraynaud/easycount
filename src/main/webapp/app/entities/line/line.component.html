@@ -3,13 +3,32 @@
         <span jhiTranslate="easycountApp.line.home.title">Lines</span>
         <button class="btn btn-primary float-right create-line" [routerLink]="['/', { outlets: { popup: ['line-new'] } }]">
             <span class="fa fa-plus"></span>
-            <span  jhiTranslate="easycountApp.line.home.createLabel">
+            <span class="hidden-sm-down"  jhiTranslate="easycountApp.line.home.createLabel">
             Create new Line
+            </span>
+        </button>
+        <button class="btn btn-primary float-right" (click)="reindex()">
+            <span class="fa fa-retweet"></span>
+            <span class="hidden-sm-down"  jhiTranslate="easycountApp.line.home.reindexLabel">
+            Reindex all lines
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
+        <div class="col-sm-12 no-padding-right">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'easycountApp.line.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <br/>
     <div class="table-responsive" *ngIf="lines">
