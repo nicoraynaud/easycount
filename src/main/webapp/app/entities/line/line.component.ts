@@ -73,12 +73,14 @@ currentAccount: any;
             (res: Response) => this.onError(res.json())
         );
     }
+
     loadPage (page: number) {
         if (page !== this.previousPage) {
             this.previousPage = page;
             this.transition();
         }
     }
+
     transition() {
         this.router.navigate(['/line'], {queryParams:
             {
@@ -100,6 +102,7 @@ currentAccount: any;
         }]);
         this.loadAll();
     }
+
     search (query) {
         if (!query) {
             return this.clear();

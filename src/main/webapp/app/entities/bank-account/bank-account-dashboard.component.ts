@@ -27,7 +27,8 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     private subscription: any;
     eventSubscriber: Subscription;
 
-    routeData: any;
+    // routeData: any;
+    currentSearch: string;
     links: any;
     totalItems: any;
     queryCount: any;
@@ -72,6 +73,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInLines() {
+        console.log("changed");
         this.eventSubscriber = this.eventManager.subscribe('lineListModification', (response) => this.load(this.bankAccountId));
     }
 
@@ -86,7 +88,18 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         });
     }
 
-    loadLines() {
+    loadLines(searchString?: string) {
+        if (searchString) {
+            this.lineService.search({
+                query: searchString,
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()}).subscribe(
+                (res: Response) => this.onLoadLineSuccess(res.json(), res.headers),
+                (res: Response) => this.onError(res.json())
+            );
+            return;
+        }
         this.lineService.findByBankAccount(this.bankAccountId, {
             page: this.page - 1,
             size: this.itemsPerPage,
@@ -101,6 +114,22 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
             this.previousPage = page;
             this.transition();
         }
+    }
+
+    clear () {
+        this.page = 0;
+        this.currentSearch = '';
+        this.loadLines();
+    }
+
+    search (query) {
+        if (!query) {
+            return this.clear();
+        }
+        this.page = 0;
+        this.currentSearch = query;
+        const actualSearchString = `bankAccount.id:${this.bankAccountId} AND ${query}`;
+        this.loadLines(actualSearchString);
     }
 
     createLine() {
@@ -154,18 +183,18 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     @HostListener('window:keydown', ['$event'])
     onKey($event) {
         switch ($event.code) {
-            case 'KeyC':
-                this.createLine();
-                break;
-            case 'KeyE':
-                this.editLine(this.selectedLine);
-                break;
-            case 'ArrowUp':
-                this.upLine(this.selectedLine);
-                break;
-            case 'ArrowDown':
-                this.downLine(this.selectedLine);
-                break;
+            // case 'KeyC':
+            //     this.createLine();
+            //     break;
+            // case 'KeyE':
+            //     this.editLine(this.selectedLine);
+            //     break;
+            // case 'ArrowUp':
+            //     this.upLine(this.selectedLine);
+            //     break;
+            // case 'ArrowDown':
+            //     this.downLine(this.selectedLine) ;
+            //     break;
             default:
                 break;
         }
