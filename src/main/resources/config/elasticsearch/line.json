@@ -1,0 +1,51 @@
+{
+    "line": {
+        "properties": {
+            "id": {
+                "type": "long"
+            },
+            "label": {
+                "type": "string"
+            },
+            "debit": {
+                "type": "double"
+            },
+            "credit": {
+                "type": "double"
+            },
+            "status": {
+                "type": "string"
+            },
+            "source": {
+                "type": "string"
+            },
+            "createDate": {
+                "type": "date",
+                "format": "date_time_no_millis"
+            },
+            "effectiveDate": {
+                "type": "string"
+            },
+            "bankAccount": {
+                "properties": {
+                    "id": {
+                        "type": "long"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                }
+            },
+            "categories": {
+                "properties": {
+                    "id": {
+                        "type": "long"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

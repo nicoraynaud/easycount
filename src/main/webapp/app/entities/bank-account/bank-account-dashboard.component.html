@@ -78,6 +78,16 @@
                     </button>
                 </div>
             </form>
+            <div>
+                <br/>
+                <div class="alert alert-info" role="alert">
+                    &bull; <strong><em>date:[2017-02-26 TO 2017-02-28] AND categories.label:courses</em></strong> search for lines between two dates and with a specific label.<br/>
+                    &bull; <strong><em>debit:[180000 TO *]</em></strong> debit gte 180 000.<br/>
+                    &bull; <strong><em>createDate:&#123;* TO 2017-01-01&#125;</em></strong> creation date strictly gt 2017-01-01.<br/>
+                    &bull; <strong><em>debit:[25000 TO *] AND date:[2017-03-06 TO *]</em></strong> debit gte 25 000 and date gte 2017-03-06.<br/>
+                </div>
+                <br/>
+            </div>
             <div class="table-responsive" *ngIf="lines">
                 <table class="table table-striped">
                     <thead>

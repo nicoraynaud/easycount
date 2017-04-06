@@ -3,8 +3,6 @@
 <configuration scan="true">
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-<!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
-<!--
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -20,7 +18,7 @@
         <queueSize>512</queueSize>
         <appender-ref ref="FILE"/>
     </appender>
--->
+
 
     <logger name="org.tekinico.easycount" level="#logback.loglevel#"/>
 
@@ -60,8 +58,17 @@
         <resetJUL>true</resetJUL>
     </contextListener>
 
-    <root level="#logback.loglevel#">
-        <appender-ref ref="CONSOLE"/>
+    <springProfile name="dev">
+        <root level="#logback.loglevel#">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+    <springProfile name="prod">
+        <root level="#logback.loglevel#">
+        <appender-ref ref="ASYNC"/>
     </root>
+    </springProfile>
+
+
 
 </configuration>

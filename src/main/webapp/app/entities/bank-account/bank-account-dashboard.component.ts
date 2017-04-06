@@ -29,6 +29,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     // routeData: any;
     currentSearch: string;
+    searchQuery: string;
     links: any;
     totalItems: any;
     queryCount: any;
@@ -88,10 +89,10 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         });
     }
 
-    loadLines(searchString?: string) {
-        if (searchString) {
+    loadLines() {
+        if (this.searchQuery && this.searchQuery !== '') {
             this.lineService.search({
-                query: searchString,
+                query: this.searchQuery,
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()}).subscribe(
@@ -118,7 +119,8 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     clear () {
         this.page = 0;
-        this.currentSearch = '';
+        this.currentSearch = null;
+        this.searchQuery = null;
         this.loadLines();
     }
 
@@ -127,9 +129,8 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
             return this.clear();
         }
         this.page = 0;
-        this.currentSearch = query;
-        const actualSearchString = `bankAccount.id:${this.bankAccountId} AND ${query}`;
-        this.loadLines(actualSearchString);
+        this.searchQuery = `bankAccount.id:${this.bankAccountId} AND ${query}`;
+        this.loadLines();
     }
 
     createLine() {

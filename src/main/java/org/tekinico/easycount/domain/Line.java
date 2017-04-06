@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import org.springframework.data.elasticsearch.annotations.Mapping;
 import org.tekinico.easycount.domain.enumeration.LineStatus;
 
 import org.tekinico.easycount.domain.enumeration.LineSource;
@@ -24,6 +25,7 @@ import org.tekinico.easycount.domain.enumeration.LineSource;
 @Table(name = "line")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "line")
+@Mapping(mappingPath = "/config/elasticsearch/line.json")
 public class Line implements Serializable {
 
     private static final long serialVersionUID = 1L;
