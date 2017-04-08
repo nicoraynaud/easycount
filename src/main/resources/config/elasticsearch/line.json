@@ -21,7 +21,7 @@
             },
             "createDate": {
                 "type": "date",
-                "format": "date_time_no_millis"
+                "format": "date_time_no_millis||basic_date_time||date_time"
             },
             "effectiveDate": {
                 "type": "string"

@@ -41,6 +41,8 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     selectedLine : Line;
 
+    showHelp: boolean;
+
     constructor(
         private jhiLanguageService: JhiLanguageService,
         private bankAccountService: BankAccountService,
@@ -159,6 +161,10 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     private onSaveSuccess (result: Line) {
         this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
+    }
+
+    showHelpToggle() {
+        this.showHelp = !this.showHelp;
     }
 
     /** STYLING / INTERFACE **/

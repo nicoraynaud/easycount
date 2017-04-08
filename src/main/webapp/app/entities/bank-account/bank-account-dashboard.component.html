@@ -3,6 +3,14 @@
     <h2>{{bankAccount.bankLabel}} - {{bankAccount.label}}
 
         <button class="btn btn-primary float-right create-line"
+                style="margin-left: 10px;" *jhiHasAnyAuthority="ROLE_ADMIN"
+                (click)="reindex()"
+                replaceUrl="false">
+            <span class="fa fa-refresh"></span>
+            </span>
+        </button>
+        <button class="btn btn-primary float-right create-line"
+                style="margin-left: 10px;"
                 [routerLink]="['/', { outlets: { popup: 'line-new/'+ bankAccountId } }]"
                 replaceUrl="false">
             <span class="fa fa-plus"></span>
@@ -10,7 +18,6 @@
             Create new Line
             </span>
         </button>
-
         <button class="btn btn-primary float-right create-line"
                 [routerLink]="['/', { outlets: { popup: 'bank-account/'+ bankAccountId + '/import-lines' } }]"
                 replaceUrl="false">
@@ -76,9 +83,12 @@
                     <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
                         <span class="fa fa-trash-o"></span>
                     </button>
+                    <button class="input-group-addon btn secondary" (click)="showHelpToggle()">
+                        <span class="fa fa-question"></span>
+                    </button>
                 </div>
             </form>
-            <div>
+            <div *ngIf="showHelp">
                 <br/>
                 <div class="alert alert-info" role="alert">
                     &bull; <strong><em>date:[2017-02-26 TO 2017-02-28] AND categories.label:courses</em></strong> search for lines between two dates and with a specific label.<br/>
