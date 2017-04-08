@@ -110,7 +110,7 @@ if (project.hasProperty('prometheus')) {
 }
 
 group = 'org.tekinico.easycount'
-version = '1.0.0'
+version = '1.0.1'
 
 description = ''
 
