@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiLanguageService } from 'ng-jhipster';
+import { EventManager, JhiLanguageService } from 'ng-jhipster';
 
+import { Subscription } from 'rxjs';
 import { ProfileService } from '../profiles/profile.service'; // FIXME barrel doesn't work here
 import { JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
 
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    eventSubscriber: Subscription;
 
     bankAccounts: BankAccount[];
 
@@ -36,7 +38,8 @@ export class NavbarComponent implements OnInit {
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router,
-        private bankAccountService: BankAccountService
+        private bankAccountService: BankAccountService,
+        private eventManager: EventManager
     ) {
         this.version = DEBUG_INFO_ENABLED ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -53,6 +56,11 @@ export class NavbarComponent implements OnInit {
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
 
+        this.loadBankAccounts();
+        this.eventSubscriber = this.eventManager.subscribe('authenticationSuccess', (response) => this.loadBankAccounts());
+    }
+
+    loadBankAccounts() {
         this.bankAccountService.query().subscribe(res => {
             this.bankAccounts = res.json();
         });

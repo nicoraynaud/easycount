@@ -3,13 +3,6 @@
     <h2>{{bankAccount.bankLabel}} - {{bankAccount.label}}
 
         <button class="btn btn-primary float-right create-line"
-                style="margin-left: 10px;" *jhiHasAnyAuthority="ROLE_ADMIN"
-                (click)="reindex()"
-                replaceUrl="false">
-            <span class="fa fa-refresh"></span>
-            </span>
-        </button>
-        <button class="btn btn-primary float-right create-line"
                 style="margin-left: 10px;"
                 [routerLink]="['/', { outlets: { popup: 'line-new/'+ bankAccountId } }]"
                 replaceUrl="false">

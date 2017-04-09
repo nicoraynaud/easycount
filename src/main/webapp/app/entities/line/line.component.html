@@ -1,18 +1,23 @@
 <div>
     <h2>
         <span jhiTranslate="easycountApp.line.home.title">Lines</span>
+
+        <button class="btn btn-primary float-right"
+                style="margin-left: 10px;"
+                (click)="reindex()" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <span class="fa fa-refresh"></span>
+            <span class="hidden-sm-down"  jhiTranslate="easycountApp.line.home.reindexLabel">
+            Reindex all lines
+            </span>
+        </button>
+
         <button class="btn btn-primary float-right create-line" [routerLink]="['/', { outlets: { popup: ['line-new'] } }]">
             <span class="fa fa-plus"></span>
             <span class="hidden-sm-down"  jhiTranslate="easycountApp.line.home.createLabel">
             Create new Line
             </span>
         </button>
-        <button class="btn btn-primary float-right" (click)="reindex()">
-            <span class="fa fa-retweet"></span>
-            <span class="hidden-sm-down"  jhiTranslate="easycountApp.line.home.reindexLabel">
-            Reindex all lines
-            </span>
-        </button>
+
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
