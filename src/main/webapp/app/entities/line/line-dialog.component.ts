@@ -66,7 +66,12 @@ export class LineDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.categoryService.findAll().subscribe(
+        let reqCategories = {
+            page: 0,
+            size: 500,
+            sort: 'label,asc'
+        };
+        this.categoryService.query(reqCategories).subscribe(
             (res: Response) => {
                 this.categoriesOptions = [];
                 res.json().forEach(c =>
