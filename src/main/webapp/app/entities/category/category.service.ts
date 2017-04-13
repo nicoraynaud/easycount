@@ -55,7 +55,7 @@ export class CategoryService {
             params.set('page', req.page);
             params.set('size', req.size);
             if (req.sort) {
-                params.paramsMap.set('sort', req.sort);
+                params.set('sort', req.sort);
             }
             params.set('query', req.query);
 
