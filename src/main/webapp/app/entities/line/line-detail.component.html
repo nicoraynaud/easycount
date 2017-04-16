@@ -36,10 +36,6 @@
         <dd>
             <span>{{line.createDate | date:'medium'}}</span>
         </dd>
-        <dt><span jhiTranslate="easycountApp.line.effectiveDate">Effective Date</span></dt>
-        <dd>
-            <span>{{line.effectiveDate | date:'mediumDate'}}</span>
-        </dd>
         <dt><span jhiTranslate="easycountApp.line.categories">Categories</span></dt>
         <dd>
             <span *ngFor="let categories of line.categories; let last = last">

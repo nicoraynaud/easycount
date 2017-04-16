@@ -5,6 +5,7 @@ import { EasycountCurrencyModule } from './currency/currency.module';
 import { EasycountBankModule } from './bank/bank.module';
 import { EasycountBankAccountModule } from './bank-account/bank-account.module';
 import { EasycountLineModule } from './line/line.module';
+import { EasycountLineTemplateModule } from './line-template/line-template.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -14,6 +15,7 @@ import { EasycountLineModule } from './line/line.module';
         EasycountBankModule,
         EasycountBankAccountModule,
         EasycountLineModule,
+        EasycountLineTemplateModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

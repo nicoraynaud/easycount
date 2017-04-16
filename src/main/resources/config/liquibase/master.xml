@@ -10,9 +10,13 @@
     <include file="classpath:config/liquibase/changelog/20170306025910_added_entity_Bank.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170306025910_added_entity_BankAccount.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170306025910_added_entity_Line.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170417025910_added_entity_LineTemplate.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170417025910_removed_effective_date_entity_Line.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20170306025910_added_entity_constraints_Category.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170306025910_added_entity_constraints_BankAccount.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170306025910_added_entity_constraints_Line.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170417025910_added_entity_constraints_LineTemplate.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170417025910_added_entity_constraints_Line_to_LineTemplate.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

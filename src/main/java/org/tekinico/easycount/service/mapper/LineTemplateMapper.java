@@ -1,29 +1,26 @@
 package org.tekinico.easycount.service.mapper;
 
 import org.tekinico.easycount.domain.*;
-import org.tekinico.easycount.service.dto.LineDTO;
+import org.tekinico.easycount.service.dto.LineTemplateDTO;
 
 import org.mapstruct.*;
 import java.util.List;
 
 /**
- * Mapper for the entity Line and its DTO LineDTO.
+ * Mapper for the entity LineTemplate and its DTO LineTemplateDTO.
  */
 @Mapper(componentModel = "spring", uses = {CategoryMapper.class, BankAccountMapper.class, })
-public interface LineMapper {
+public interface LineTemplateMapper {
 
     @Mapping(source = "bankAccount.id", target = "bankAccountId")
-    @Mapping(source = "template.id", target = "lineTemplateId")
-    LineDTO lineToLineDTO(Line line);
+    LineTemplateDTO lineTemplateToLineTemplateDTO(LineTemplate lineTemplate);
 
-    List<LineDTO> linesToLineDTOs(List<Line> lines);
+    List<LineTemplateDTO> lineTemplatesToLineTemplateDTOs(List<LineTemplate> lineTemplates);
 
     @Mapping(source = "bankAccountId", target = "bankAccount")
-    @Mapping(source = "lineTemplateId", target = "template")
-    Line lineDTOToLine(LineDTO lineDTO);
+    LineTemplate lineTemplateDTOToLineTemplate(LineTemplateDTO lineTemplateDTO);
 
-    List<Line> lineDTOsToLines(List<LineDTO> lineDTOs);
-
+    List<LineTemplate> lineTemplateDTOsToLineTemplates(List<LineTemplateDTO> lineTemplateDTOs);
     /**
      * generating the fromId for all mappers if the databaseType is sql, as the class has relationship to it might need it, instead of
      * creating a new attribute to know if the entity has any relationship from some other entity
@@ -31,24 +28,6 @@ public interface LineMapper {
      * @param id id of the entity
      * @return the entity instance
      */
-    default Line lineFromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-        Line line = new Line();
-        line.setId(id);
-        return line;
-    }
-
-    default BankAccount bankAccountFromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-        BankAccount bankAccount = new BankAccount();
-        bankAccount.setId(id);
-        return bankAccount;
-    }
-
 
     default LineTemplate lineTemplateFromId(Long id) {
         if (id == null) {
@@ -59,5 +38,13 @@ public interface LineMapper {
         return lineTemplate;
     }
 
+    default BankAccount bankAccountFromId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setId(id);
+        return bankAccount;
+    }
 
 }

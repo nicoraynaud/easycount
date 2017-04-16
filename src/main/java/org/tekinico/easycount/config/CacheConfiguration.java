@@ -48,6 +48,8 @@ public class CacheConfiguration {
             cm.createCache(org.tekinico.easycount.domain.BankAccount.class.getName() + ".lines", jcacheConfiguration);
             cm.createCache(org.tekinico.easycount.domain.Line.class.getName(), jcacheConfiguration);
             cm.createCache(org.tekinico.easycount.domain.Line.class.getName() + ".categories", jcacheConfiguration);
+            cm.createCache(org.tekinico.easycount.domain.LineTemplate.class.getName(), jcacheConfiguration);
+            cm.createCache(org.tekinico.easycount.domain.LineTemplate.class.getName() + ".categories", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

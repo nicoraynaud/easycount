@@ -1,0 +1,53 @@
+
+<div *ngIf="lineTemplate">
+    <h2><span jhiTranslate="easycountApp.lineTemplate.detail.title">Line Template</span> {{lineTemplate.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="easycountApp.lineTemplate.date">Date</span></dt>
+        <dd>
+            <span>{{lineTemplate.date | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.lineTemplate.label">Label</span></dt>
+        <dd>
+            <span>{{lineTemplate.label}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.lineTemplate.debit">Debit</span></dt>
+        <dd>
+            <span>{{lineTemplate.debit}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.lineTemplate.credit">Credit</span></dt>
+        <dd>
+            <span>{{lineTemplate.credit}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.lineTemplate.balance">Balance</span></dt>
+        <dd>
+            <span>{{lineTemplate.balance}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.lineTemplate.categories">Categories</span></dt>
+        <dd>
+            <span *ngFor="let categories of lineTemplate.categories; let last = last">
+                <a [routerLink]="['/category', categories?.id ]">{{categories.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.lineTemplate.bankAccount">Bank Account</span></dt>
+        <dd>
+            <div *ngIf="lineTemplate.bankAccountId">
+                <a [routerLink]="['/bank-account', lineTemplate.bankAccountId]">{{lineTemplate.bankAccountId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'line-template/'+ lineTemplate.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

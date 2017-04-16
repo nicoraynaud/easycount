@@ -73,9 +73,6 @@ public class LineResourceIntTest {
     private static final ZonedDateTime DEFAULT_CREATE_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_CREATE_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final LocalDate DEFAULT_EFFECTIVE_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_EFFECTIVE_DATE = LocalDate.now(ZoneId.systemDefault());
-
     @Autowired
     private LineRepository lineRepository;
 
@@ -129,8 +126,7 @@ public class LineResourceIntTest {
             .balance(DEFAULT_BALANCE)
             .status(DEFAULT_STATUS)
             .source(DEFAULT_SOURCE)
-            .createDate(DEFAULT_CREATE_DATE)
-            .effectiveDate(DEFAULT_EFFECTIVE_DATE);
+            .createDate(DEFAULT_CREATE_DATE);
         return line;
     }
 
@@ -166,7 +162,6 @@ public class LineResourceIntTest {
         assertThat(testLine.getCreateDate().getDayOfMonth()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getDayOfMonth());
         assertThat(testLine.getCreateDate().getMonth()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getMonth());
         assertThat(testLine.getCreateDate().getYear()).isEqualTo(ZonedDateTime.now(ZoneId.systemDefault()).getYear());
-        assertThat(testLine.getEffectiveDate()).isEqualTo(DEFAULT_EFFECTIVE_DATE);
 
         // Validate the Line in Elasticsearch
         Line lineEs = lineSearchRepository.findOne(testLine.getId());
@@ -287,8 +282,7 @@ public class LineResourceIntTest {
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE.toString())))
-            .andExpect(jsonPath("$.[*].createDate").value(hasItem(sameInstant(DEFAULT_CREATE_DATE))))
-            .andExpect(jsonPath("$.[*].effectiveDate").value(hasItem(DEFAULT_EFFECTIVE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].createDate").value(hasItem(sameInstant(DEFAULT_CREATE_DATE))));
     }
 
     @Test
@@ -309,8 +303,7 @@ public class LineResourceIntTest {
             .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.doubleValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.source").value(DEFAULT_SOURCE.toString()))
-            .andExpect(jsonPath("$.createDate").value(sameInstant(DEFAULT_CREATE_DATE)))
-            .andExpect(jsonPath("$.effectiveDate").value(DEFAULT_EFFECTIVE_DATE.toString()));
+            .andExpect(jsonPath("$.createDate").value(sameInstant(DEFAULT_CREATE_DATE)));
     }
 
     @Test
@@ -339,8 +332,7 @@ public class LineResourceIntTest {
             .balance(UPDATED_BALANCE)
             .status(UPDATED_STATUS)
             .source(UPDATED_SOURCE)
-            .createDate(UPDATED_CREATE_DATE)
-            .effectiveDate(UPDATED_EFFECTIVE_DATE);
+            .createDate(UPDATED_CREATE_DATE);
         LineDTO lineDTO = lineMapper.lineToLineDTO(updatedLine);
 
         restLineMockMvc.perform(put("/api/lines")
@@ -360,7 +352,6 @@ public class LineResourceIntTest {
         assertThat(testLine.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testLine.getSource()).isEqualTo(UPDATED_SOURCE);
         assertThat(testLine.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
-        assertThat(testLine.getEffectiveDate()).isEqualTo(UPDATED_EFFECTIVE_DATE);
 
         // Validate the Line in Elasticsearch
         Line lineEs = lineSearchRepository.findOne(testLine.getId());
@@ -427,8 +418,7 @@ public class LineResourceIntTest {
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE.toString())))
-            .andExpect(jsonPath("$.[*].createDate").value(hasItem(sameInstant(DEFAULT_CREATE_DATE))))
-            .andExpect(jsonPath("$.[*].effectiveDate").value(hasItem(DEFAULT_EFFECTIVE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].createDate").value(hasItem(sameInstant(DEFAULT_CREATE_DATE))));
     }
 
     @Test

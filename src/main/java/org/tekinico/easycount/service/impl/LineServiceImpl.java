@@ -254,10 +254,6 @@ public class LineServiceImpl implements LineService{
         Line line = new Line();
         // Date -- 1
         line.setDate(LocalDate.parse(properties.get(1)));
-        // Effective date
-        if (StringUtils.isNotBlank(properties.get(2))) {
-            line.setEffectiveDate(LocalDate.parse(properties.get(2)));
-        }
         // Creation date
         LocalDateTime createDate = LocalDateTime.parse(properties.get(3), formatter);
         line.setCreateDate(createDate.atZone(ZoneId.systemDefault()));

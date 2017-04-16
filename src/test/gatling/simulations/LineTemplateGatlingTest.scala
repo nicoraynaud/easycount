@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the Line entity.
+ * Performance test for the LineTemplate entity.
  */
-class LineGatlingTest extends Simulation {
+class LineTemplateGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -42,7 +42,7 @@ class LineGatlingTest extends Simulation {
         "Authorization" -> "${access_token}"
     )
 
-    val scn = scenario("Test the Line entity")
+    val scn = scenario("Test the LineTemplate entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -60,26 +60,26 @@ class LineGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all lines")
-            .get("/api/lines")
+            exec(http("Get all lineTemplates")
+            .get("/api/line-templates")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new line")
-            .post("/api/lines")
+            .exec(http("Create new lineTemplate")
+            .post("/api/line-templates")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "date":"2020-01-01T00:00:00.000Z", "label":"SAMPLE_TEXT", "debit":null, "credit":null, "balance":null, "status":null, "source":null, "createDate":"2020-01-01T00:00:00.000Z"}""")).asJSON
+            .body(StringBody("""{"id":null, "date":"2020-01-01T00:00:00.000Z", "label":"SAMPLE_TEXT", "debit":null, "credit":null, "balance":null}""")).asJSON
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_line_url"))).exitHereIfFailed
+            .check(headerRegex("Location", "(.*)").saveAs("new_lineTemplate_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created line")
-                .get("${new_line_url}")
+                exec(http("Get created lineTemplate")
+                .get("${new_lineTemplate_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created line")
-            .delete("${new_line_url}")
+            .exec(http("Delete created lineTemplate")
+            .delete("${new_lineTemplate_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }

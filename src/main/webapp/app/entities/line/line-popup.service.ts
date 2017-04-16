@@ -32,13 +32,6 @@ export class LinePopupService {
                 }
                 line.createDate = this.datePipe
                     .transform(line.createDate, 'yyyy-MM-ddThh:mm');
-                if (line.effectiveDate) {
-                    line.effectiveDate = {
-                        year: line.effectiveDate.getFullYear(),
-                        month: line.effectiveDate.getMonth() + 1,
-                        day: line.effectiveDate.getDate()
-                    };
-                }
                 this.lineModalRef(component, line);
             });
         } else {

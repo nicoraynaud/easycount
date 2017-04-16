@@ -24,7 +24,6 @@ export class Line {
         public source?: LineSource,
         public categories?: Category[],
         public bankAccountId?: number,
-        public createDate?: any,
-        public effectiveDate?: any,
+        public createDate?: any
     ) { }
 }

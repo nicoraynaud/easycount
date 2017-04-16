@@ -1,0 +1,84 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myLineTemplateLabel" jhiTranslate="easycountApp.lineTemplate.home.createOrEditLabel">Create or edit a Line Template</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!lineTemplate.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="lineTemplate.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.date" for="field_date">Date</label>
+            <div class="input-group">
+                <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="lineTemplate.date"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="dateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.date?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.label" for="field_label">Label</label>
+            <input type="text" class="form-control" name="label" id="field_label"
+                [(ngModel)]="lineTemplate.label"
+            required />
+            <div [hidden]="!(editForm.controls.label?.dirty && editForm.controls.label?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.label?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.debit" for="field_debit">Debit</label>
+            <input type="number" class="form-control" name="debit" id="field_debit"
+                [(ngModel)]="lineTemplate.debit"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.credit" for="field_credit">Credit</label>
+            <input type="number" class="form-control" name="credit" id="field_credit"
+                [(ngModel)]="lineTemplate.credit"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.balance" for="field_balance">Balance</label>
+            <input type="number" class="form-control" name="balance" id="field_balance"
+                [(ngModel)]="lineTemplate.balance"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="easycountApp.lineTemplate.categories" for="field_categories">Categories</label>
+            <select class="form-control" id="field_categories" multiple name="categories" [(ngModel)]="lineTemplate.categories">
+                <option [ngValue]="getSelected(lineTemplate.categories, categoryOption)" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="easycountApp.lineTemplate.bankAccount" for="field_bankAccount">Bank Account</label>
+            <select class="form-control" id="field_bankAccount" name="bankAccount" [(ngModel)]="lineTemplate.bankAccountId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="bankAccountOption.id" *ngFor="let bankAccountOption of bankaccounts; trackBy: trackBankAccountById">{{bankAccountOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -2,6 +2,12 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "relationshipName": "lines",
+            "otherEntityName": "line",
+            "otherEntityRelationshipName": "template"
+        },
+        {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "",
             "relationshipName": "categories",
@@ -13,12 +19,6 @@
             "relationshipType": "many-to-one",
             "relationshipName": "bankAccount",
             "otherEntityName": "bankAccount",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "relationshipName": "template",
-            "otherEntityName": "lineTemplate",
             "otherEntityField": "id"
         }
     ],
@@ -48,31 +48,11 @@
         {
             "fieldName": "balance",
             "fieldType": "Double"
-        },
-        {
-            "fieldName": "status",
-            "fieldType": "LineStatus",
-            "fieldValues": "NEW,TICKED,CANCELLED",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "source",
-            "fieldType": "LineSource",
-            "fieldValues": "MANUAL,GENERATED"
-        },
-        {
-            "fieldName": "createDate",
-            "fieldType": "ZonedDateTime",
-            "fieldValidateRules": [
-                "required"
-            ]
         }
     ],
-    "changelogDate": "20170306025910",
+    "changelogDate": "20170417025910",
     "dto": "mapstruct",
     "service": "serviceImpl",
-    "entityTableName": "line",
+    "entityTableName": "line_template",
     "pagination": "pagination"
 }

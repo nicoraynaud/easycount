@@ -12,6 +12,7 @@
                 "bank": "Bank",
                 "bankAccount": "Bank Account",
                 "line": "Line",
+                "lineTemplate": "Line Template",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

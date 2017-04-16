@@ -18,8 +18,6 @@ export class LineService {
         copy.date = this.dateUtils
             .convertLocalDateToServer(line.date);
         copy.createDate = this.dateUtils.toDate(line.createDate);
-        copy.effectiveDate = this.dateUtils
-            .convertLocalDateToServer(line.effectiveDate);
 
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
@@ -31,8 +29,6 @@ export class LineService {
         copy.date = this.dateUtils
             .convertLocalDateToServer(line.date);
         copy.createDate = this.dateUtils.toDate(line.createDate);
-        copy.effectiveDate = this.dateUtils
-            .convertLocalDateToServer(line.effectiveDate);
 
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
@@ -82,7 +78,7 @@ export class LineService {
 
     createNew(bankAccountId: number, generated: boolean) {
         let line = new Line();
-        if (bankAccountId) line.bankAccountId = Number(bankAccountId);
+        if (bankAccountId) { line.bankAccountId = Number(bankAccountId); }
         generated ? line.source = LineSource.GENERATED : line.source = LineSource.MANUAL;
         line.status = LineStatus.NEW;
         return line;

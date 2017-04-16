@@ -1,0 +1,28 @@
+{
+    "easycountApp": {
+        "lineTemplate" : {
+            "home": {
+                "title": "Line Templates",
+                "createLabel": "Create a new Line Template",
+                "createOrEditLabel": "Create or edit a Line Template",
+                "search": "Search for Line Template"
+            },
+            "created": "A new Line Template is created with identifier {{ param }}",
+            "updated": "A Line Template is updated with identifier {{ param }}",
+            "deleted": "A Line Template is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Line Template {{ id }}?"
+            },
+            "detail": {
+                "title": "Line Template"
+            },
+            "date": "Date",
+            "label": "Label",
+            "debit": "Debit",
+            "credit": "Credit",
+            "balance": "Balance",
+            "categories": "Categories",
+            "bankAccount": "Bank Account"
+        }
+    }
+}
