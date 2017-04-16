@@ -1,13 +1,8 @@
 package org.tekinico.easycount.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import org.springframework.web.multipart.MultipartFile;
-import org.tekinico.easycount.service.BankAccountService;
-import org.tekinico.easycount.web.rest.util.HeaderUtil;
-import org.tekinico.easycount.web.rest.util.PaginationUtil;
-import org.tekinico.easycount.service.dto.BankAccountDTO;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,14 +11,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.tekinico.easycount.service.BankAccountService;
+import org.tekinico.easycount.service.dto.BankAccountDTO;
+import org.tekinico.easycount.web.rest.util.HeaderUtil;
+import org.tekinico.easycount.web.rest.util.PaginationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing BankAccount.
@@ -140,6 +139,20 @@ public class BankAccountResource {
     public ResponseEntity<Void> importLines(@PathVariable Long id,@RequestParam("file") MultipartFile file) {
         log.debug("REST request to import lines to BankAccount {} : file {}", id, file);
         bankAccountService.importLines(id, file);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * POST  /bank-accounts/:id/import-lines : imports lines as CSV.
+     *
+     * @param id the id of the bankAccount to import the lines to
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @PostMapping("/bank-accounts/{id}/generate")
+    @Timed
+    public ResponseEntity<Void> importLines(@PathVariable Long id, @RequestParam("date") LocalDate date) {
+        log.debug("REST request to generate lines to BankAccount {} : date {}", id, date);
+        bankAccountService.generateLines(id, date);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, id.toString())).build();
     }
 }

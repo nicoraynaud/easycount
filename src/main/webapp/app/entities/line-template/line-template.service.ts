@@ -14,8 +14,8 @@ export class LineTemplateService {
 
     create(lineTemplate: LineTemplate): Observable<LineTemplate> {
         const copy: LineTemplate = Object.assign({}, lineTemplate);
-        copy.date = this.dateUtils
-            .convertLocalDateToServer(lineTemplate.date);
+        copy.startDate = this.dateUtils
+            .convertLocalDateToServer(lineTemplate.startDate);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -23,8 +23,8 @@ export class LineTemplateService {
 
     update(lineTemplate: LineTemplate): Observable<LineTemplate> {
         const copy: LineTemplate = Object.assign({}, lineTemplate);
-        copy.date = this.dateUtils
-            .convertLocalDateToServer(lineTemplate.date);
+        copy.startDate = this.dateUtils
+            .convertLocalDateToServer(lineTemplate.startDate);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -33,8 +33,8 @@ export class LineTemplateService {
     find(id: number): Observable<LineTemplate> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
-            jsonResponse.date = this.dateUtils
-                .convertLocalDateFromServer(jsonResponse.date);
+            jsonResponse.startDate = this.dateUtils
+                .convertLocalDateFromServer(jsonResponse.startDate);
             return jsonResponse;
         });
     }
@@ -61,8 +61,8 @@ export class LineTemplateService {
     private convertResponse(res: any): any {
         const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {
-            jsonResponse[i].date = this.dateUtils
-                .convertLocalDateFromServer(jsonResponse[i].date);
+            jsonResponse[i].startDate = this.dateUtils
+                .convertLocalDateFromServer(jsonResponse[i].startDate);
         }
         res._body = jsonResponse;
         return res;

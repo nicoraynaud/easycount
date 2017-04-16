@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import org.tekinico.easycount.domain.enumeration.TemplateFrequency;
+
 /**
  * A LineTemplate.
  */
@@ -30,10 +32,6 @@ public class LineTemplate implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "jhi_date", nullable = false)
-    private LocalDate date;
-
-    @NotNull
     @Column(name = "jhi_label", nullable = false)
     private String label;
 
@@ -43,8 +41,28 @@ public class LineTemplate implements Serializable {
     @Column(name = "credit")
     private Double credit;
 
-    @Column(name = "balance")
-    private Double balance;
+    @Column(name = "active")
+    private Boolean active;
+
+    @Column(name = "day_of_month")
+    private Integer dayOfMonth;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "frequency", nullable = false)
+    private TemplateFrequency frequency;
+
+    @NotNull
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
+
+    @Column(name = "occurrences")
+    private Integer occurrences;
+
+    @OneToMany(mappedBy = "template")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Line> lines = new HashSet<>();
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -56,30 +74,12 @@ public class LineTemplate implements Serializable {
     @ManyToOne
     private BankAccount bankAccount;
 
-    @OneToMany(mappedBy = "template")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Line> lines = new HashSet<>();
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public LineTemplate date(LocalDate date) {
-        this.date = date;
-        return this;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public String getLabel() {
@@ -121,17 +121,94 @@ public class LineTemplate implements Serializable {
         this.credit = credit;
     }
 
-    public Double getBalance() {
-        return balance;
+    public Boolean isActive() {
+        return active;
     }
 
-    public LineTemplate balance(Double balance) {
-        this.balance = balance;
+    public LineTemplate active(Boolean active) {
+        this.active = active;
         return this;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Integer getDayOfMonth() {
+        return dayOfMonth;
+    }
+
+    public LineTemplate dayOfMonth(Integer dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+        return this;
+    }
+
+    public void setDayOfMonth(Integer dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+    }
+
+    public TemplateFrequency getFrequency() {
+        return frequency;
+    }
+
+    public LineTemplate frequency(TemplateFrequency frequency) {
+        this.frequency = frequency;
+        return this;
+    }
+
+    public void setFrequency(TemplateFrequency frequency) {
+        this.frequency = frequency;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LineTemplate startDate(LocalDate startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public Integer getOccurrences() {
+        return occurrences;
+    }
+
+    public LineTemplate occurrences(Integer occurrences) {
+        this.occurrences = occurrences;
+        return this;
+    }
+
+    public void setOccurrences(Integer occurrences) {
+        this.occurrences = occurrences;
+    }
+
+    public Set<Line> getLines() {
+        return lines;
+    }
+
+    public LineTemplate lines(Set<Line> lines) {
+        this.lines = lines;
+        return this;
+    }
+
+    public LineTemplate addLines(Line line) {
+        this.lines.add(line);
+        line.setTemplate(this);
+        return this;
+    }
+
+    public LineTemplate removeLines(Line line) {
+        this.lines.remove(line);
+        line.setTemplate(null);
+        return this;
+    }
+
+    public void setLines(Set<Line> lines) {
+        this.lines = lines;
     }
 
     public Set<Category> getCategories() {
@@ -194,11 +271,14 @@ public class LineTemplate implements Serializable {
     public String toString() {
         return "LineTemplate{" +
             "id=" + id +
-            ", date='" + date + "'" +
             ", label='" + label + "'" +
             ", debit='" + debit + "'" +
             ", credit='" + credit + "'" +
-            ", balance='" + balance + "'" +
+            ", active='" + active + "'" +
+            ", dayOfMonth='" + dayOfMonth + "'" +
+            ", frequency='" + frequency + "'" +
+            ", startDate='" + startDate + "'" +
+            ", occurrences='" + occurrences + "'" +
             '}';
     }
 }

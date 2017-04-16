@@ -4,6 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.tekinico.easycount.service.dto.BankAccountDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -48,4 +50,12 @@ public interface BankAccountService {
      * @param bankAccountId the id of the bank account to import lines to
      */
     void importLines(Long bankAccountId, MultipartFile file);
+
+    /**
+     * Generate the Automatic lines for a given bank account
+     *
+     * @param bankAccountId the id of the bank account to import lines to
+     * @param date the date to start the generation from
+     */
+    void generateLines(Long bankAccountId, LocalDate date);
 }

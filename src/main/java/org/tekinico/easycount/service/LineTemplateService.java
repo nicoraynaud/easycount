@@ -3,6 +3,8 @@ package org.tekinico.easycount.service;
 import org.tekinico.easycount.service.dto.LineTemplateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public interface LineTemplateService {
 
     /**
      *  Get all the lineTemplates.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -45,9 +47,17 @@ public interface LineTemplateService {
      * Search for the lineTemplate corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
     Page<LineTemplateDTO> search(String query, Pageable pageable);
+
+    /**
+     * Generate new Lines according to current active LineTemplates
+     *
+     * @param bankAccountId The Bank account to generate the lines into
+     * @param asOf the date as of to start the generation
+     */
+    void generateNewLinesForMonth(Long bankAccountId, LocalDate asOf);
 }

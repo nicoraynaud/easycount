@@ -17,6 +17,7 @@ public interface LineTemplateMapper {
 
     List<LineTemplateDTO> lineTemplatesToLineTemplateDTOs(List<LineTemplate> lineTemplates);
 
+    @Mapping(target = "lines", ignore = true)
     @Mapping(source = "bankAccountId", target = "bankAccount")
     LineTemplate lineTemplateDTOToLineTemplate(LineTemplateDTO lineTemplateDTO);
 

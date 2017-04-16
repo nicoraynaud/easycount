@@ -19,4 +19,7 @@ public interface LineTemplateRepository extends JpaRepository<LineTemplate,Long>
     @Query("select lineTemplate from LineTemplate lineTemplate left join fetch lineTemplate.categories where lineTemplate.id =:id")
     LineTemplate findOneWithEagerRelationships(@Param("id") Long id);
 
+    @Query("select distinct lineTemplate from LineTemplate lineTemplate left join fetch lineTemplate.categories where lineTemplate.active is true and lineTemplate.bankAccount.id =:bankAccountId")
+    List<LineTemplate> findAllForGeneration(@Param("bankAccountId") Long bankAccountId);
+
 }

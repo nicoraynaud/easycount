@@ -16,11 +16,15 @@
             "detail": {
                 "title": "Line Template"
             },
-            "date": "Date",
             "label": "Label",
             "debit": "Debit",
             "credit": "Credit",
-            "balance": "Balance",
+            "active": "Active",
+            "dayOfMonth": "Day Of Month",
+            "frequency": "Frequency",
+            "startDate": "Start Date",
+            "occurrences": "Occurrences",
+            "lines": "Lines",
             "categories": "Categories",
             "bankAccount": "Bank Account"
         }

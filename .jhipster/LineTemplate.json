@@ -24,13 +24,6 @@
     ],
     "fields": [
         {
-            "fieldName": "date",
-            "fieldType": "LocalDate",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "label",
             "fieldType": "String",
             "fieldValidateRules": [
@@ -46,8 +39,31 @@
             "fieldType": "Double"
         },
         {
-            "fieldName": "balance",
-            "fieldType": "Double"
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "dayOfMonth",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "frequency",
+            "fieldType": "TemplateFrequency",
+            "fieldValues": "MONTHLY,BI_MONTHLY,QUARTERLY,YEARLY",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "startDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "occurrences",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20170417025910",

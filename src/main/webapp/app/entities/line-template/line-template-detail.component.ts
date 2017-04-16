@@ -22,7 +22,7 @@ export class LineTemplateDetailComponent implements OnInit, OnDestroy {
         private lineTemplateService: LineTemplateService,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['lineTemplate']);
+        this.jhiLanguageService.setLocations(['lineTemplate', 'templateFrequency']);
     }
 
     ngOnInit() {

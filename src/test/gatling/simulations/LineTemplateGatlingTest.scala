@@ -68,7 +68,7 @@ class LineTemplateGatlingTest extends Simulation {
             .exec(http("Create new lineTemplate")
             .post("/api/line-templates")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "date":"2020-01-01T00:00:00.000Z", "label":"SAMPLE_TEXT", "debit":null, "credit":null, "balance":null}""")).asJSON
+            .body(StringBody("""{"id":null, "label":"SAMPLE_TEXT", "debit":null, "credit":null, "active":null, "dayOfMonth":"0", "frequency":null, "startDate":"2020-01-01T00:00:00.000Z", "occurrences":"0"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_lineTemplate_url"))).exitHereIfFailed
             .pause(10)

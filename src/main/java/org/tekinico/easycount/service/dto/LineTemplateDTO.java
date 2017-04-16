@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import org.tekinico.easycount.domain.enumeration.TemplateFrequency;
 
 /**
  * A DTO for the LineTemplate entity.
@@ -15,16 +16,23 @@ public class LineTemplateDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private LocalDate date;
-
-    @NotNull
     private String label;
 
     private Double debit;
 
     private Double credit;
 
-    private Double balance;
+    private Boolean active;
+
+    private Integer dayOfMonth;
+
+    @NotNull
+    private TemplateFrequency frequency;
+
+    @NotNull
+    private LocalDate startDate;
+
+    private Integer occurrences;
 
     private Set<CategoryDTO> categories = new HashSet<>();
 
@@ -36,13 +44,6 @@ public class LineTemplateDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
     public String getLabel() {
         return label;
@@ -65,12 +66,40 @@ public class LineTemplateDTO implements Serializable {
     public void setCredit(Double credit) {
         this.credit = credit;
     }
-    public Double getBalance() {
-        return balance;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    public Integer getDayOfMonth() {
+        return dayOfMonth;
+    }
+
+    public void setDayOfMonth(Integer dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+    }
+    public TemplateFrequency getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(TemplateFrequency frequency) {
+        this.frequency = frequency;
+    }
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+    public Integer getOccurrences() {
+        return occurrences;
+    }
+
+    public void setOccurrences(Integer occurrences) {
+        this.occurrences = occurrences;
     }
 
     public Set<CategoryDTO> getCategories() {
@@ -114,11 +143,14 @@ public class LineTemplateDTO implements Serializable {
     public String toString() {
         return "LineTemplateDTO{" +
             "id=" + id +
-            ", date='" + date + "'" +
             ", label='" + label + "'" +
             ", debit='" + debit + "'" +
             ", credit='" + credit + "'" +
-            ", balance='" + balance + "'" +
+            ", active='" + active + "'" +
+            ", dayOfMonth='" + dayOfMonth + "'" +
+            ", frequency='" + frequency + "'" +
+            ", startDate='" + startDate + "'" +
+            ", occurrences='" + occurrences + "'" +
             '}';
     }
 }

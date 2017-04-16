@@ -21,11 +21,11 @@ export class LineTemplatePopupService {
 
         if (id) {
             this.lineTemplateService.find(id).subscribe((lineTemplate) => {
-                if (lineTemplate.date) {
-                    lineTemplate.date = {
-                        year: lineTemplate.date.getFullYear(),
-                        month: lineTemplate.date.getMonth() + 1,
-                        day: lineTemplate.date.getDate()
+                if (lineTemplate.startDate) {
+                    lineTemplate.startDate = {
+                        year: lineTemplate.startDate.getFullYear(),
+                        month: lineTemplate.startDate.getMonth() + 1,
+                        day: lineTemplate.startDate.getDate()
                     };
                 }
                 this.lineTemplateModalRef(component, lineTemplate);

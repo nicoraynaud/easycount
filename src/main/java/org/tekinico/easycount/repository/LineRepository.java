@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.tekinico.easycount.domain.Line;
+import org.tekinico.easycount.domain.LineTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,5 +31,7 @@ public interface LineRepository extends JpaRepository<Line,Long> {
 
     @Query(value = "select sum(credit) - sum(debit) as balance from line where bank_account_id = :bankAccountId and status like 'TICKED'", nativeQuery = true)
     Double banlanceOfAccountAndTicked(@Param("bankAccountId") Long bankAccountId);
+
+    boolean existsByTemplateAndDateGreaterThanEqualAndDateLessThanEqual(LineTemplate template, LocalDate startDate, LocalDate endDate);
 
 }

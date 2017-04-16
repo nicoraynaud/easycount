@@ -7,6 +7,7 @@ import org.tekinico.easycount.service.BankAccountService;
 import org.tekinico.easycount.domain.BankAccount;
 import org.tekinico.easycount.repository.BankAccountRepository;
 import org.tekinico.easycount.service.LineService;
+import org.tekinico.easycount.service.LineTemplateService;
 import org.tekinico.easycount.service.dto.BankAccountDTO;
 import org.tekinico.easycount.service.exceptions.ImportException;
 import org.tekinico.easycount.service.mapper.BankAccountMapper;
@@ -41,14 +42,18 @@ public class BankAccountServiceImpl implements BankAccountService{
 
     private final LineRepository lineRepository;
 
+    private final LineTemplateService lineTemplateService;
+
     public BankAccountServiceImpl(BankAccountRepository bankAccountRepository,
                                   BankAccountMapper bankAccountMapper,
                                   LineService lineService,
-                                  LineRepository lineRepository) {
+                                  LineRepository lineRepository,
+                                  LineTemplateService lineTemplateService) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountMapper = bankAccountMapper;
         this.lineService = lineService;
         this.lineRepository = lineRepository;
+        this.lineTemplateService = lineTemplateService;
     }
 
     /**
@@ -144,5 +149,11 @@ public class BankAccountServiceImpl implements BankAccountService{
 
         // Save all
         bankAccountRepository.saveAndFlush(ba);
+    }
+
+    @Override
+    public void generateLines(Long bankAccountId, LocalDate date) {
+        log.debug("Request to generate lines into bank account : {} and date : {}", bankAccountId, date);
+        lineTemplateService.generateNewLinesForMonth(bankAccountId, date);
     }
 }

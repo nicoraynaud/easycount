@@ -51,7 +51,7 @@ currentAccount: any;
             this.predicate = data['pagingParams'].predicate;
         });
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
-        this.jhiLanguageService.setLocations(['lineTemplate']);
+        this.jhiLanguageService.setLocations(['lineTemplate', 'templateFrequency']);
     }
 
     loadAll() {

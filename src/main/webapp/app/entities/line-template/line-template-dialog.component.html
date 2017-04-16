@@ -13,22 +13,6 @@
                    [(ngModel)]="lineTemplate.id" readonly />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.date" for="field_date">Date</label>
-            <div class="input-group">
-                <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="lineTemplate.date"
-                required/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="dateDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-            <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.date?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.label" for="field_label">Label</label>
             <input type="text" class="form-control" name="label" id="field_label"
                 [(ngModel)]="lineTemplate.label"
@@ -53,9 +37,52 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.balance" for="field_balance">Balance</label>
-            <input type="number" class="form-control" name="balance" id="field_balance"
-                [(ngModel)]="lineTemplate.balance"
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.active" for="field_active">Active</label>
+            <input type="checkbox" class="form-control" name="active" id="field_active"
+                [(ngModel)]="lineTemplate.active"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.dayOfMonth" for="field_dayOfMonth">Day Of Month</label>
+            <input type="number" class="form-control" name="dayOfMonth" id="field_dayOfMonth"
+                [(ngModel)]="lineTemplate.dayOfMonth"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.frequency" for="field_frequency">Frequency</label>
+            <select class="form-control" name="frequency" [(ngModel)]="lineTemplate.frequency" id="field_frequency"  required>
+                <option value="MONTHLY" jhiTranslate="easycountApp.TemplateFrequency.MONTHLY">MONTHLY</option>
+                <option value="BI_MONTHLY" jhiTranslate="easycountApp.TemplateFrequency.BI_MONTHLY">BI_MONTHLY</option>
+                <option value="QUARTERLY" jhiTranslate="easycountApp.TemplateFrequency.QUARTERLY">QUARTERLY</option>
+                <option value="YEARLY" jhiTranslate="easycountApp.TemplateFrequency.YEARLY">YEARLY</option>
+            </select>
+            <div [hidden]="!(editForm.controls.frequency?.dirty && editForm.controls.frequency?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.frequency?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.startDate" for="field_startDate">Start Date</label>
+            <div class="input-group">
+                <input id="field_startDate" type="text" class="form-control" name="startDate" ngbDatepicker  #startDateDp="ngbDatepicker" [(ngModel)]="lineTemplate.startDate"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="startDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.startDate?.dirty && editForm.controls.startDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.startDate?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="easycountApp.lineTemplate.occurrences" for="field_occurrences">Occurrences</label>
+            <input type="number" class="form-control" name="occurrences" id="field_occurrences"
+                [(ngModel)]="lineTemplate.occurrences"
              />
         </div>
 

@@ -1,5 +1,11 @@
 package org.tekinico.easycount.service.impl;
 
+import org.joda.time.Months;
+import org.tekinico.easycount.domain.Line;
+import org.tekinico.easycount.domain.enumeration.LineSource;
+import org.tekinico.easycount.domain.enumeration.LineStatus;
+import org.tekinico.easycount.repository.LineRepository;
+import org.tekinico.easycount.service.LineService;
 import org.tekinico.easycount.service.LineTemplateService;
 import org.tekinico.easycount.domain.LineTemplate;
 import org.tekinico.easycount.repository.LineTemplateRepository;
@@ -13,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,20 +33,27 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class LineTemplateServiceImpl implements LineTemplateService{
+public class LineTemplateServiceImpl implements LineTemplateService {
 
     private final Logger log = LoggerFactory.getLogger(LineTemplateServiceImpl.class);
-    
+
     private final LineTemplateRepository lineTemplateRepository;
 
     private final LineTemplateMapper lineTemplateMapper;
 
     private final LineTemplateSearchRepository lineTemplateSearchRepository;
 
-    public LineTemplateServiceImpl(LineTemplateRepository lineTemplateRepository, LineTemplateMapper lineTemplateMapper, LineTemplateSearchRepository lineTemplateSearchRepository) {
+    private final LineRepository lineRepository;
+
+    public LineTemplateServiceImpl(
+        LineTemplateRepository lineTemplateRepository,
+        LineTemplateMapper lineTemplateMapper,
+        LineTemplateSearchRepository lineTemplateSearchRepository,
+        LineRepository lineRepository) {
         this.lineTemplateRepository = lineTemplateRepository;
         this.lineTemplateMapper = lineTemplateMapper;
         this.lineTemplateSearchRepository = lineTemplateSearchRepository;
+        this.lineRepository = lineRepository;
     }
 
     /**
@@ -58,10 +73,10 @@ public class LineTemplateServiceImpl implements LineTemplateService{
     }
 
     /**
-     *  Get all the lineTemplates.
-     *  
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * Get all the lineTemplates.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -72,10 +87,10 @@ public class LineTemplateServiceImpl implements LineTemplateService{
     }
 
     /**
-     *  Get one lineTemplate by id.
+     * Get one lineTemplate by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -87,9 +102,9 @@ public class LineTemplateServiceImpl implements LineTemplateService{
     }
 
     /**
-     *  Delete the  lineTemplate by id.
+     * Delete the  lineTemplate by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -101,9 +116,9 @@ public class LineTemplateServiceImpl implements LineTemplateService{
     /**
      * Search for the lineTemplate corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param query    the query of the search
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -111,5 +126,46 @@ public class LineTemplateServiceImpl implements LineTemplateService{
         log.debug("Request to search for a page of LineTemplates for query {}", query);
         Page<LineTemplate> result = lineTemplateSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(lineTemplate -> lineTemplateMapper.lineTemplateToLineTemplateDTO(lineTemplate));
+    }
+
+    /**
+     * Generate new Lines according to current active LineTemplates
+     *
+     * @param bankAccountId The Bank account to generate the lines into
+     * @param asOf the date as of to start the generation
+     */
+    @Override
+    public void generateNewLinesForMonth(Long bankAccountId, LocalDate asOf) {
+
+        List<LineTemplate> lineTemplates = lineTemplateRepository.findAllForGeneration(bankAccountId);
+
+        for (LineTemplate tpl : lineTemplates) {
+
+            // If date is past, d'ont generate
+            if (tpl.getDayOfMonth() < asOf.getDayOfMonth()) {
+                continue;
+            }
+
+            // if template has already been used for this month, d'ont generate
+            LocalDate startDate = asOf.withDayOfMonth(1);
+            LocalDate endDate = asOf.withDayOfMonth(asOf.lengthOfMonth());
+            if (lineRepository.existsByTemplateAndDateGreaterThanEqualAndDateLessThanEqual(tpl, startDate, endDate)) {
+                continue;
+            }
+
+            Line line = new Line();
+            line.setDate(LocalDate.of(asOf.getYear(), asOf.getMonth(), tpl.getDayOfMonth()));
+            line.setTemplate(tpl);
+            line.setStatus(LineStatus.NEW);
+            line.setSource(LineSource.GENERATED);
+            line.setDebit(tpl.getDebit());
+            line.setCredit(tpl.getCredit());
+            line.setLabel(tpl.getLabel());
+            line.setBankAccount(tpl.getBankAccount());
+            line.setCreateDate(ZonedDateTime.now());
+            line.getCategories().addAll(tpl.getCategories());
+
+            lineRepository.save(line);
+        }
     }
 }

@@ -22,7 +22,7 @@ export class LineTemplateDeleteDialogComponent {
         public activeModal: NgbActiveModal,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['lineTemplate']);
+        this.jhiLanguageService.setLocations(['lineTemplate', 'templateFrequency']);
     }
 
     clear() {

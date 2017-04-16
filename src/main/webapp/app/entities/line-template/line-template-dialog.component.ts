@@ -33,7 +33,7 @@ export class LineTemplateDialogComponent implements OnInit {
         private bankAccountService: BankAccountService,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['lineTemplate']);
+        this.jhiLanguageService.setLocations(['lineTemplate', 'templateFrequency']);
     }
 
     ngOnInit() {

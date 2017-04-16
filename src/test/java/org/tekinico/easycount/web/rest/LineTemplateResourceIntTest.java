@@ -34,6 +34,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.tekinico.easycount.domain.enumeration.TemplateFrequency;
 /**
  * Test class for the LineTemplateResource REST controller.
  *
@@ -42,9 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EasycountApp.class)
 public class LineTemplateResourceIntTest {
-
-    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_LABEL = "AAAAAAAAAA";
     private static final String UPDATED_LABEL = "BBBBBBBBBB";
@@ -55,8 +53,20 @@ public class LineTemplateResourceIntTest {
     private static final Double DEFAULT_CREDIT = 1D;
     private static final Double UPDATED_CREDIT = 2D;
 
-    private static final Double DEFAULT_BALANCE = 1D;
-    private static final Double UPDATED_BALANCE = 2D;
+    private static final Boolean DEFAULT_ACTIVE = false;
+    private static final Boolean UPDATED_ACTIVE = true;
+
+    private static final Integer DEFAULT_DAY_OF_MONTH = 1;
+    private static final Integer UPDATED_DAY_OF_MONTH = 2;
+
+    private static final TemplateFrequency DEFAULT_FREQUENCY = TemplateFrequency.MONTHLY;
+    private static final TemplateFrequency UPDATED_FREQUENCY = TemplateFrequency.BI_MONTHLY;
+
+    private static final LocalDate DEFAULT_START_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_START_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Integer DEFAULT_OCCURRENCES = 1;
+    private static final Integer UPDATED_OCCURRENCES = 2;
 
     @Autowired
     private LineTemplateRepository lineTemplateRepository;
@@ -104,11 +114,14 @@ public class LineTemplateResourceIntTest {
      */
     public static LineTemplate createEntity(EntityManager em) {
         LineTemplate lineTemplate = new LineTemplate()
-            .date(DEFAULT_DATE)
             .label(DEFAULT_LABEL)
             .debit(DEFAULT_DEBIT)
             .credit(DEFAULT_CREDIT)
-            .balance(DEFAULT_BALANCE);
+            .active(DEFAULT_ACTIVE)
+            .dayOfMonth(DEFAULT_DAY_OF_MONTH)
+            .frequency(DEFAULT_FREQUENCY)
+            .startDate(DEFAULT_START_DATE)
+            .occurrences(DEFAULT_OCCURRENCES);
         return lineTemplate;
     }
 
@@ -134,11 +147,14 @@ public class LineTemplateResourceIntTest {
         List<LineTemplate> lineTemplateList = lineTemplateRepository.findAll();
         assertThat(lineTemplateList).hasSize(databaseSizeBeforeCreate + 1);
         LineTemplate testLineTemplate = lineTemplateList.get(lineTemplateList.size() - 1);
-        assertThat(testLineTemplate.getDate()).isEqualTo(DEFAULT_DATE);
         assertThat(testLineTemplate.getLabel()).isEqualTo(DEFAULT_LABEL);
         assertThat(testLineTemplate.getDebit()).isEqualTo(DEFAULT_DEBIT);
         assertThat(testLineTemplate.getCredit()).isEqualTo(DEFAULT_CREDIT);
-        assertThat(testLineTemplate.getBalance()).isEqualTo(DEFAULT_BALANCE);
+        assertThat(testLineTemplate.isActive()).isEqualTo(DEFAULT_ACTIVE);
+        assertThat(testLineTemplate.getDayOfMonth()).isEqualTo(DEFAULT_DAY_OF_MONTH);
+        assertThat(testLineTemplate.getFrequency()).isEqualTo(DEFAULT_FREQUENCY);
+        assertThat(testLineTemplate.getStartDate()).isEqualTo(DEFAULT_START_DATE);
+        assertThat(testLineTemplate.getOccurrences()).isEqualTo(DEFAULT_OCCURRENCES);
 
         // Validate the LineTemplate in Elasticsearch
         LineTemplate lineTemplateEs = lineTemplateSearchRepository.findOne(testLineTemplate.getId());
@@ -167,10 +183,10 @@ public class LineTemplateResourceIntTest {
 
     @Test
     @Transactional
-    public void checkDateIsRequired() throws Exception {
+    public void checkLabelIsRequired() throws Exception {
         int databaseSizeBeforeTest = lineTemplateRepository.findAll().size();
         // set the field null
-        lineTemplate.setDate(null);
+        lineTemplate.setLabel(null);
 
         // Create the LineTemplate, which fails.
         LineTemplateDTO lineTemplateDTO = lineTemplateMapper.lineTemplateToLineTemplateDTO(lineTemplate);
@@ -186,10 +202,29 @@ public class LineTemplateResourceIntTest {
 
     @Test
     @Transactional
-    public void checkLabelIsRequired() throws Exception {
+    public void checkFrequencyIsRequired() throws Exception {
         int databaseSizeBeforeTest = lineTemplateRepository.findAll().size();
         // set the field null
-        lineTemplate.setLabel(null);
+        lineTemplate.setFrequency(null);
+
+        // Create the LineTemplate, which fails.
+        LineTemplateDTO lineTemplateDTO = lineTemplateMapper.lineTemplateToLineTemplateDTO(lineTemplate);
+
+        restLineTemplateMockMvc.perform(post("/api/line-templates")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(lineTemplateDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<LineTemplate> lineTemplateList = lineTemplateRepository.findAll();
+        assertThat(lineTemplateList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkStartDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = lineTemplateRepository.findAll().size();
+        // set the field null
+        lineTemplate.setStartDate(null);
 
         // Create the LineTemplate, which fails.
         LineTemplateDTO lineTemplateDTO = lineTemplateMapper.lineTemplateToLineTemplateDTO(lineTemplate);
@@ -214,11 +249,14 @@ public class LineTemplateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(lineTemplate.getId().intValue())))
-            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())))
             .andExpect(jsonPath("$.[*].debit").value(hasItem(DEFAULT_DEBIT.doubleValue())))
             .andExpect(jsonPath("$.[*].credit").value(hasItem(DEFAULT_CREDIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].dayOfMonth").value(hasItem(DEFAULT_DAY_OF_MONTH)))
+            .andExpect(jsonPath("$.[*].frequency").value(hasItem(DEFAULT_FREQUENCY.toString())))
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].occurrences").value(hasItem(DEFAULT_OCCURRENCES)));
     }
 
     @Test
@@ -232,11 +270,14 @@ public class LineTemplateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(lineTemplate.getId().intValue()))
-            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.label").value(DEFAULT_LABEL.toString()))
             .andExpect(jsonPath("$.debit").value(DEFAULT_DEBIT.doubleValue()))
             .andExpect(jsonPath("$.credit").value(DEFAULT_CREDIT.doubleValue()))
-            .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.doubleValue()));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
+            .andExpect(jsonPath("$.dayOfMonth").value(DEFAULT_DAY_OF_MONTH))
+            .andExpect(jsonPath("$.frequency").value(DEFAULT_FREQUENCY.toString()))
+            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
+            .andExpect(jsonPath("$.occurrences").value(DEFAULT_OCCURRENCES));
     }
 
     @Test
@@ -258,11 +299,14 @@ public class LineTemplateResourceIntTest {
         // Update the lineTemplate
         LineTemplate updatedLineTemplate = lineTemplateRepository.findOne(lineTemplate.getId());
         updatedLineTemplate
-            .date(UPDATED_DATE)
             .label(UPDATED_LABEL)
             .debit(UPDATED_DEBIT)
             .credit(UPDATED_CREDIT)
-            .balance(UPDATED_BALANCE);
+            .active(UPDATED_ACTIVE)
+            .dayOfMonth(UPDATED_DAY_OF_MONTH)
+            .frequency(UPDATED_FREQUENCY)
+            .startDate(UPDATED_START_DATE)
+            .occurrences(UPDATED_OCCURRENCES);
         LineTemplateDTO lineTemplateDTO = lineTemplateMapper.lineTemplateToLineTemplateDTO(updatedLineTemplate);
 
         restLineTemplateMockMvc.perform(put("/api/line-templates")
@@ -274,11 +318,14 @@ public class LineTemplateResourceIntTest {
         List<LineTemplate> lineTemplateList = lineTemplateRepository.findAll();
         assertThat(lineTemplateList).hasSize(databaseSizeBeforeUpdate);
         LineTemplate testLineTemplate = lineTemplateList.get(lineTemplateList.size() - 1);
-        assertThat(testLineTemplate.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testLineTemplate.getLabel()).isEqualTo(UPDATED_LABEL);
         assertThat(testLineTemplate.getDebit()).isEqualTo(UPDATED_DEBIT);
         assertThat(testLineTemplate.getCredit()).isEqualTo(UPDATED_CREDIT);
-        assertThat(testLineTemplate.getBalance()).isEqualTo(UPDATED_BALANCE);
+        assertThat(testLineTemplate.isActive()).isEqualTo(UPDATED_ACTIVE);
+        assertThat(testLineTemplate.getDayOfMonth()).isEqualTo(UPDATED_DAY_OF_MONTH);
+        assertThat(testLineTemplate.getFrequency()).isEqualTo(UPDATED_FREQUENCY);
+        assertThat(testLineTemplate.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testLineTemplate.getOccurrences()).isEqualTo(UPDATED_OCCURRENCES);
 
         // Validate the LineTemplate in Elasticsearch
         LineTemplate lineTemplateEs = lineTemplateSearchRepository.findOne(testLineTemplate.getId());
@@ -338,11 +385,14 @@ public class LineTemplateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(lineTemplate.getId().intValue())))
-            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL.toString())))
             .andExpect(jsonPath("$.[*].debit").value(hasItem(DEFAULT_DEBIT.doubleValue())))
             .andExpect(jsonPath("$.[*].credit").value(hasItem(DEFAULT_CREDIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].dayOfMonth").value(hasItem(DEFAULT_DAY_OF_MONTH)))
+            .andExpect(jsonPath("$.[*].frequency").value(hasItem(DEFAULT_FREQUENCY.toString())))
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].occurrences").value(hasItem(DEFAULT_OCCURRENCES)));
     }
 
     @Test
