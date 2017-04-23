@@ -1,6 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+
 import { EasycountSharedModule } from '../../shared';
 import {
     LineTemplateService,
@@ -24,7 +26,8 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         EasycountSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
+        RouterModule.forRoot(ENTITY_STATES, { useHash: true }),
+        MultiselectDropdownModule
     ],
     declarations: [
         LineTemplateComponent,

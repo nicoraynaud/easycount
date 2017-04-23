@@ -1,5 +1,6 @@
 
-import {Category} from "../category/category.model";
+import {Category} from '../category/category.model';
+
 export const enum LineStatus {
     'NEW',
     'TICKED',

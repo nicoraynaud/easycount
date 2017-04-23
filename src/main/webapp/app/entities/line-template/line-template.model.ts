@@ -1,5 +1,7 @@
 
-const enum TemplateFrequency {
+import {Category} from '../category/category.model';
+
+export const enum TemplateFrequency {
     'MONTHLY',
     'BI_MONTHLY',
     'QUARTERLY',
@@ -18,7 +20,7 @@ export class LineTemplate {
         public startDate?: any,
         public occurrences?: number,
         public linesId?: number,
-        public categoriesId?: number,
+        public categories?: Category[],
         public bankAccountId?: number,
     ) {
         this.active = false;

@@ -2,31 +2,31 @@
     "easycountApp": {
         "lineTemplate" : {
             "home": {
-                "title": "LineTemplates",
-                "createLabel": "Créer un nouveau Line Template",
-                "createOrEditLabel": "Créer ou éditer un Line Template",
-                "search": "Recherche pour Line Template"
+                "title": "Lignes automatiques",
+                "createLabel": "Créer une nouvelle ligne automatique",
+                "createOrEditLabel": "Créer ou éditer une ligne automatique",
+                "search": "Recherche une ligne automatique"
             },
-            "created": "Un nouveau Line Template a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Line Template avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Line Template avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle ligne automatique a été créée avec l'identifiant {{ param }}",
+            "updated": "La Ligne automatique avec l'identifiant {{ param }} a été mise à jour",
+            "deleted": "La Ligne automatique avec l'identifiant {{ param }} a été supprimée",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Line Template {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la Ligne automatique {{ id }} ?"
             },
             "detail": {
-                "title": "Line Template"
+                "title": "Ligne automatique"
             },
-            "label": "Label",
-            "debit": "Debit",
-            "credit": "Credit",
+            "label": "Libellé",
+            "debit": "Débit",
+            "credit": "Crédit",
             "active": "Active",
-            "dayOfMonth": "Day Of Month",
-            "frequency": "Frequency",
-            "startDate": "Start Date",
+            "dayOfMonth": "Jour du mois",
+            "frequency": "Fréquence",
+            "startDate": "Date de début",
             "occurrences": "Occurrences",
-            "lines": "Lines",
-            "categories": "Categories",
-            "bankAccount": "Bank Account",
+            "lines": "Lignes",
+            "categories": "Catégories",
+            "bankAccount": "Compte bancaire",
             "asOfDate": "Date à partir de laquelle générer les lignes automatiques pour le mois"
         }
     }

@@ -11,7 +11,7 @@ import { LineService } from './line.service';
 import { Category, CategoryService } from '../category';
 import { BankAccount, BankAccountService } from '../bank-account';
 
-import { IMultiSelectOption, IMultiSelectSettings,IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
     selector: 'jhi-line-dialog',

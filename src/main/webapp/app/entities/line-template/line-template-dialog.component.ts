@@ -11,6 +11,8 @@ import { LineTemplateService } from './line-template.service';
 import { Category, CategoryService } from '../category';
 import { BankAccount, BankAccountService } from '../bank-account';
 
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+
 @Component({
     selector: 'jhi-line-template-dialog',
     templateUrl: './line-template-dialog.component.html'
@@ -21,10 +23,32 @@ export class LineTemplateDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    categories: Category[];
+    categoriesOptions: IMultiSelectOption[];
+    categoriesSettings: IMultiSelectSettings = {
+        pullRight: false,
+        enableSearch: true,
+        checkedStyle: 'fontawesome',
+        buttonClasses: 'btn btn-default',
+        selectionLimit: 0,
+        closeOnSelect: false,
+        showCheckAll: false,
+        showUncheckAll: false,
+        dynamicTitleMaxItems: 5,
+        maxHeight: '300px',
+    };
+    categoriesTexts: IMultiSelectTexts = {
+        checkAll: 'Check all',
+        uncheckAll: 'Uncheck all',
+        checked: 'checked',
+        checkedPlural: 'checked',
+        searchPlaceholder: 'Search...',
+        defaultTitle: 'Select',
+    };
+    selectedCategories: number[];
 
     bankaccounts: BankAccount[];
-        constructor(
+
+    constructor(
         public activeModal: NgbActiveModal,
         private jhiLanguageService: JhiLanguageService,
         private alertService: AlertService,
@@ -39,11 +63,35 @@ export class LineTemplateDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.categoryService.query().subscribe(
-            (res: Response) => { this.categories = res.json(); }, (res: Response) => this.onError(res.json()));
+        let reqCategories = {
+            page: 0,
+            size: 500,
+            sort: 'label,asc'
+        };
+        this.categoryService.query(reqCategories).subscribe(
+            (res: Response) => {
+                this.categoriesOptions = [];
+                res.json().forEach(c =>
+                    this.categoriesOptions.push( {id:  c.id, name: c.label} )
+                );
+                this.selectedCategories = new Array<number>();
+                if (this.lineTemplate.categories) {
+                    this.lineTemplate.categories.forEach(c => this.selectedCategories.push(c.id));
+                }
+            },
+            (res: Response) => this.onError(res.json()));
         this.bankAccountService.query().subscribe(
             (res: Response) => { this.bankaccounts = res.json(); }, (res: Response) => this.onError(res.json()));
     }
+
+    onChange($event) {
+        // reset categories
+        this.lineTemplate.categories = new Array<Category>();
+        // push again the categories
+        this.selectedCategories.forEach(catId =>
+            this.lineTemplate.categories.push({ id: catId }));
+    }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
