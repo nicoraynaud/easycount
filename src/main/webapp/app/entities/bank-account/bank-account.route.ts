@@ -1,17 +1,14 @@
-import {Injectable} from '@angular/core';
-import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate} from '@angular/router';
+import {Injectable} from "@angular/core";
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes} from "@angular/router";
+import {PaginationUtil} from "ng-jhipster";
 
-import {UserRouteAccessService} from '../../shared';
-import {PaginationUtil} from 'ng-jhipster';
-
-import {BankAccountComponent} from './bank-account.component';
-import {BankAccountDetailComponent} from './bank-account-detail.component';
-import {BankAccountPopupComponent} from './bank-account-dialog.component';
-import {BankAccountDeletePopupComponent} from './bank-account-delete-dialog.component';
-import {BankAccountDashboardComponent} from './bank-account-dashboard.component';
-import {BankAccountImportLinesPopupComponent} from './bank-account-import-lines-dialog.component';
-
-import {Principal} from '../../shared';
+import {BankAccountComponent} from "./bank-account.component";
+import {BankAccountDetailComponent} from "./bank-account-detail.component";
+import {BankAccountPopupComponent} from "./bank-account-dialog.component";
+import {BankAccountDeletePopupComponent} from "./bank-account-delete-dialog.component";
+import {BankAccountDashboardComponent} from "./bank-account-dashboard.component";
+import {BankAccountImportLinesPopupComponent} from "./bank-account-import-lines-dialog.component";
+import {BankAccountGenerateLinesPopupComponent} from "./bank-account-generate-lines-dialog.component";
 
 @Injectable()
 export class BankAccountResolvePagingParams implements Resolve<any> {
@@ -82,6 +79,15 @@ export const bankAccountPopupRoute: Routes = [
     {
         path: 'bank-account/:id/import-lines',
         component: BankAccountImportLinesPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'easycountApp.bankAccount.home.title'
+        },
+        outlet: 'popup'
+    },
+    {
+        path: 'bank-account/:id/generate-lines',
+        component: BankAccountGenerateLinesPopupComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'easycountApp.bankAccount.home.title'

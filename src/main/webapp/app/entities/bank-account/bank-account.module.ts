@@ -17,7 +17,9 @@ import {
     bankAccountPopupRoute,
     BankAccountResolvePagingParams,
     BankAccountImportLinesDialogComponent,
-    BankAccountImportLinesPopupComponent
+    BankAccountImportLinesPopupComponent,
+    BankAccountGenerateLinesDialogComponent,
+    BankAccountGenerateLinesPopupComponent
 } from './';
 
 let ENTITY_STATES = [
@@ -39,7 +41,9 @@ let ENTITY_STATES = [
         BankAccountPopupComponent,
         BankAccountDeletePopupComponent,
         BankAccountImportLinesDialogComponent,
-        BankAccountImportLinesPopupComponent
+        BankAccountImportLinesPopupComponent,
+        BankAccountGenerateLinesDialogComponent,
+        BankAccountGenerateLinesPopupComponent
     ],
     entryComponents: [
         BankAccountComponent,
@@ -48,7 +52,9 @@ let ENTITY_STATES = [
         BankAccountDeleteDialogComponent,
         BankAccountDeletePopupComponent,
         BankAccountImportLinesDialogComponent,
-        BankAccountImportLinesPopupComponent
+        BankAccountImportLinesPopupComponent,
+        BankAccountGenerateLinesDialogComponent,
+        BankAccountGenerateLinesPopupComponent
     ],
     providers: [
         BankAccountService,

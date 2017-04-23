@@ -5,7 +5,8 @@
                 "title": "Comptes Bancaire",
                 "createLabel": "Créer un nouveau Compte Bancaire",
                 "createOrEditLabel": "Créer ou éditer un Compte Bancaire",
-                "importLines": "Importer des lignes dans le compte"
+                "importLines": "Importer des lignes dans le compte",
+                "generateLines": "Générer lignes"
             },
             "created": "Un nouveau Compte Bancaire a été créé avec l'identifiant {{ param }}",
             "updated": "Le Compte Bancaire avec l'identifiant {{ param }} a été mis à jour",

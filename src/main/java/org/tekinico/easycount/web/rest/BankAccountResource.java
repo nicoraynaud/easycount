@@ -148,7 +148,7 @@ public class BankAccountResource {
      * @param id the id of the bankAccount to import the lines to
      * @return the ResponseEntity with status 200 (OK)
      */
-    @PostMapping("/bank-accounts/{id}/generate")
+    @PostMapping("/bank-accounts/{id}/generate-lines")
     @Timed
     public ResponseEntity<Void> importLines(@PathVariable Long id, @RequestParam("date") LocalDate date) {
         log.debug("REST request to generate lines to BankAccount {} : date {}", id, date);

@@ -3,13 +3,14 @@ import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/ht
 import { Observable } from 'rxjs/Rx';
 
 import { BankAccount } from './bank-account.model';
+import { DateUtils } from 'ng-jhipster';
 
 @Injectable()
 export class BankAccountService {
 
     private resourceUrl = 'api/bank-accounts';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(bankAccount: BankAccount): Observable<BankAccount> {
         let copy: BankAccount = Object.assign({}, bankAccount);
@@ -43,8 +44,16 @@ export class BankAccountService {
 
     importLines(id: number, file: File): Observable<Response> {
         let formData = new FormData();
-        formData.append("file", file, file.name);
+        formData.append('file', file, file.name);
         return this.http.post(`${this.resourceUrl}/${id}/import-lines`, formData);
+    }
+
+    generateLines(id: number, date: Date): Observable<Response> {
+        let options: BaseRequestOptions = new BaseRequestOptions();
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('date', this.dateUtils.convertLocalDateToServer(date));
+        options.search = params;
+        return this.http.post(`${this.resourceUrl}/${id}/generate-lines`, null, options);
     }
 
     private createRequestOption(req?: any): BaseRequestOptions {

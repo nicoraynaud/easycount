@@ -26,7 +26,8 @@
             "occurrences": "Occurrences",
             "lines": "Lines",
             "categories": "Categories",
-            "bankAccount": "Bank Account"
+            "bankAccount": "Bank Account",
+            "asOfDate": "Date from which to generate automatic lines for this month"
         }
     }
 }
