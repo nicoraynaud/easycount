@@ -1,6 +1,6 @@
 {
   "name": "easycount",
-  "version": "1.0.3",
+  "version": "1.0.4-SNAPSHOT",
   "description": "Description for easycount",
   "private": true,
   "cacheDirectories": [
