@@ -13,14 +13,14 @@ export class BankAccountService {
     constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(bankAccount: BankAccount): Observable<BankAccount> {
-        let copy: BankAccount = Object.assign({}, bankAccount);
+        const copy: BankAccount = Object.assign({}, bankAccount);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
     update(bankAccount: BankAccount): Observable<BankAccount> {
-        let copy: BankAccount = Object.assign({}, bankAccount);
+        const copy: BankAccount = Object.assign({}, bankAccount);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -33,7 +33,7 @@ export class BankAccountService {
     }
 
     query(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
         ;
     }
@@ -43,23 +43,23 @@ export class BankAccountService {
     }
 
     importLines(id: number, file: File): Observable<Response> {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append('file', file, file.name);
         return this.http.post(`${this.resourceUrl}/${id}/import-lines`, formData);
     }
 
     generateLines(id: number, date: Date): Observable<Response> {
-        let options: BaseRequestOptions = new BaseRequestOptions();
-        let params: URLSearchParams = new URLSearchParams();
+        const options: BaseRequestOptions = new BaseRequestOptions();
+        const params: URLSearchParams = new URLSearchParams();
         params.set('date', this.dateUtils.convertLocalDateToServer(date));
         options.search = params;
         return this.http.post(`${this.resourceUrl}/${id}/generate-lines`, null, options);
     }
 
     private createRequestOption(req?: any): BaseRequestOptions {
-        let options: BaseRequestOptions = new BaseRequestOptions();
+        const options: BaseRequestOptions = new BaseRequestOptions();
         if (req) {
-            let params: URLSearchParams = new URLSearchParams();
+            const params: URLSearchParams = new URLSearchParams();
             params.set('page', req.page);
             params.set('size', req.size);
             if (req.sort) {

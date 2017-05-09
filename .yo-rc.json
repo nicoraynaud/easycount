@@ -1,6 +1,6 @@
 {
   "generator-jhipster": {
-    "jhipsterVersion": "4.1.1",
+    "jhipsterVersion": "4.4.1",
     "baseName": "easycount",
     "packageName": "org.tekinico.easycount",
     "packageFolder": "org/tekinico/easycount",

@@ -17,7 +17,7 @@ import {
     CategoryResolvePagingParams,
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...categoryRoute,
     ...categoryPopupRoute,
 ];

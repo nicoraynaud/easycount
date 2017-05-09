@@ -10,12 +10,12 @@ import { EasycountAdminModule } from './admin/admin.module';
 import { EasycountAccountModule } from './account/account.module';
 import { EasycountEntityModule } from './entities/entity.module';
 
-import { LayoutRoutingModule } from './layouts';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 import {
     JhiMainComponent,
+    LayoutRoutingModule,
     NavbarComponent,
     FooterComponent,
     ProfileService,
@@ -23,7 +23,6 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
-
 
 @NgModule({
     imports: [
@@ -46,8 +45,6 @@ import {
     ],
     providers: [
         ProfileService,
-        { provide: Window, useValue: window },
-        { provide: Document, useValue: document },
         customHttpProvider(),
         PaginationConfig,
         UserRouteAccessService

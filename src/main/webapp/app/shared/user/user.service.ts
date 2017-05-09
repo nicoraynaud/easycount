@@ -23,7 +23,7 @@ export class UserService {
     }
 
     query(req?: any): Observable<Response> {
-        let params: URLSearchParams = new URLSearchParams();
+        const params: URLSearchParams = new URLSearchParams();
         if (req) {
             params.set('page', req.page);
             params.set('size', req.size);
@@ -32,7 +32,7 @@ export class UserService {
             }
         }
 
-        let options = {
+        const options = {
             search: params
         };
 
@@ -42,4 +42,12 @@ export class UserService {
     delete(login: string): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${login}`);
     }
+
+    authorities(): Observable<string[]> {
+        return this.http.get('api/users/authorities').map((res: Response) => {
+            const json = res.json();
+            return <string[]> json;
+        });
+    }
+
 }

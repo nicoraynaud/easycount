@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { JhiLanguageService } from 'ng-jhipster';
 
 import { PasswordResetFinish } from './password-reset-finish.service';
 import { LoginModalService } from '../../../shared';
@@ -21,17 +20,15 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     key: string;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private passwordResetFinish: PasswordResetFinish,
         private loginModalService: LoginModalService,
         private route: ActivatedRoute,
         private elementRef: ElementRef, private renderer: Renderer
     ) {
-        this.jhiLanguageService.setLocations(['reset']);
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(params => {
+        this.route.queryParams.subscribe((params) => {
             this.key = params['key'];
         });
         this.resetAccount = {};

@@ -17,7 +17,7 @@ import {
     BankResolvePagingParams,
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...bankRoute,
     ...bankPopupRoute,
 ];

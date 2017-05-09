@@ -1,8 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-
 import { EasycountSharedModule } from '../../shared';
 
 import {
@@ -19,7 +17,7 @@ import {
     LineResolvePagingParams,
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...lineRoute,
     ...linePopupRoute,
 ];
@@ -27,8 +25,7 @@ let ENTITY_STATES = [
 @NgModule({
     imports: [
         EasycountSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true }),
-        MultiselectDropdownModule
+        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
         LineComponent,

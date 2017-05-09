@@ -11,9 +11,6 @@ import { LineService } from './line.service';
 import { Category, CategoryService } from '../category';
 import { BankAccount, BankAccountService } from '../bank-account';
 
-import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
-import {activateRoute} from '../../account/activate/activate.route';
-
 @Component({
     selector: 'jhi-line-dialog',
     templateUrl: './line-dialog.component.html'
@@ -25,27 +22,27 @@ export class LineDialogComponent implements OnInit {
     isSaving: boolean;
     isSaveAndCreate = false;
 
-    categoriesOptions: IMultiSelectOption[];
-    categoriesSettings: IMultiSelectSettings = {
-        pullRight: false,
-        enableSearch: true,
-        checkedStyle: 'fontawesome',
-        buttonClasses: 'btn btn-default',
-        selectionLimit: 0,
-        closeOnSelect: false,
-        showCheckAll: false,
-        showUncheckAll: false,
-        dynamicTitleMaxItems: 5,
-        maxHeight: '300px',
-    };
-    categoriesTexts: IMultiSelectTexts = {
-        checkAll: 'Check all',
-        uncheckAll: 'Uncheck all',
-        checked: 'checked',
-        checkedPlural: 'checked',
-        searchPlaceholder: 'Search...',
-        defaultTitle: 'Select',
-    };
+    // categoriesOptions: IMultiSelectOption[];
+    // categoriesSettings: IMultiSelectSettings = {
+    //     pullRight: false,
+    //     enableSearch: true,
+    //     checkedStyle: 'fontawesome',
+    //     buttonClasses: 'btn btn-default',
+    //     selectionLimit: 0,
+    //     closeOnSelect: false,
+    //     showCheckAll: false,
+    //     showUncheckAll: false,
+    //     dynamicTitleMaxItems: 5,
+    //     maxHeight: '300px',
+    // };
+    // categoriesTexts: IMultiSelectTexts = {
+    //     checkAll: 'Check all',
+    //     uncheckAll: 'Uncheck all',
+    //     checked: 'checked',
+    //     checkedPlural: 'checked',
+    //     searchPlaceholder: 'Search...',
+    //     defaultTitle: 'Select',
+    // };
     selectedCategories: number[];
 
     bankaccounts: BankAccount[];
@@ -77,14 +74,14 @@ export class LineDialogComponent implements OnInit {
         };
         this.categoryService.query(reqCategories).subscribe(
             (res: Response) => {
-                this.categoriesOptions = [];
-                res.json().forEach(c =>
-                    this.categoriesOptions.push( {id:  c.id, name: c.label} )
-                );
-                this.selectedCategories = new Array<number>();
-                if (this.line.categories) {
-                    this.line.categories.forEach(c => this.selectedCategories.push(c.id));
-                }
+                // this.categoriesOptions = [];
+                // res.json().forEach(c =>
+                //     this.categoriesOptions.push( {id:  c.id, name: c.label} )
+                // );
+                // this.selectedCategories = new Array<number>();
+                // if (this.line.categories) {
+                //     this.line.categories.forEach(c => this.selectedCategories.push(c.id));
+                // }
             },
             (res: Response) => this.onError(res.json()));
         this.bankAccountService.query().subscribe(

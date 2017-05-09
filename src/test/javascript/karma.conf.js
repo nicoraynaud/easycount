@@ -58,6 +58,10 @@ module.exports = function (config) {
                         loaders: ['to-string-loader', 'css-loader', 'sass-loader']
                     },
                     {
+                        test: /\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
+                        loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
+                    },
+                    {
                         test: /src[\/|\\]main[\/|\\]webapp[\/|\\].+\.ts$/,
                         enforce: 'post',
                         exclude: /(test|node_modules)/,
@@ -85,11 +89,17 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['dots', 'junit', 'progress', 'karma-remap-istanbul'],
+        reporters: ['dots', 'junit', 'progress', 'karma-remap-istanbul', 'notify'],
 
         junitReporter: {
             outputFile: '../../../../build/test-results/karma/TESTS-results.xml'
         },
+
+        notifyReporter: {
+            reportEachFailure: true, // Default: false, will notify on every failed sepc
+            reportSuccess: true // Default: true, will notify when a suite was successful
+        },
+
 
         remapIstanbulReporter: {
             reports: { // eslint-disable-line

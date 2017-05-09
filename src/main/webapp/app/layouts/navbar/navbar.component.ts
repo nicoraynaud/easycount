@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageService, EventManager } from 'ng-jhipster';
 
-import { Subscription } from 'rxjs';
-import { ProfileService } from '../profiles/profile.service'; // FIXME barrel doesn't work here
+import { ProfileService } from '../profiles/profile.service';
 import { JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
 
-import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
-import { BankAccountService } from '../../entities/bank-account/bank-account.service';
-import { BankAccount } from '../../entities/bank-account/bank-account.model';
+import { VERSION } from '../../app.constants';
+import { BankAccountService, BankAccount } from '../../entities/bank-account';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'jhi-navbar',
@@ -41,7 +40,7 @@ export class NavbarComponent implements OnInit {
         private bankAccountService: BankAccountService,
         private eventManager: EventManager
     ) {
-        this.version = DEBUG_INFO_ENABLED ? 'v' + VERSION : '';
+        this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
         this.languageService.addLocation('home');
     }
@@ -51,7 +50,7 @@ export class NavbarComponent implements OnInit {
             this.languages = languages;
         });
 
-        this.profileService.getProfileInfo().subscribe(profileInfo => {
+        this.profileService.getProfileInfo().subscribe((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
@@ -61,7 +60,7 @@ export class NavbarComponent implements OnInit {
     }
 
     loadBankAccounts() {
-        this.bankAccountService.query().subscribe(res => {
+        this.bankAccountService.query().subscribe((res) => {
             this.bankAccounts = res.json();
         });
     }

@@ -22,7 +22,7 @@ import {
     BankAccountGenerateLinesPopupComponent
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...bankAccountRoute,
     ...bankAccountPopupRoute,
 ];

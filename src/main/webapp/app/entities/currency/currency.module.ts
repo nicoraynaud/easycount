@@ -17,7 +17,7 @@ import {
     CurrencyResolvePagingParams,
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...currencyRoute,
     ...currencyPopupRoute,
 ];
