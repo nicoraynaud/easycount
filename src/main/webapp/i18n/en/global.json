@@ -37,7 +37,10 @@
                 "database": "Database",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
-            "language": "Language"
+            "language": "Language",
+            "bankAccount": {
+                "main": "Bank accounts"
+            }
         },
         "form": {
             "username": "Username",

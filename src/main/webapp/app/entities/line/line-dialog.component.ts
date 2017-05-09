@@ -13,7 +13,8 @@ import { BankAccount, BankAccountService } from '../bank-account';
 
 @Component({
     selector: 'jhi-line-dialog',
-    templateUrl: './line-dialog.component.html'
+    templateUrl: './line-dialog.component.html',
+    styleUrls: ['line-dialog.component.scss']
 })
 export class LineDialogComponent implements OnInit {
 
@@ -22,28 +23,8 @@ export class LineDialogComponent implements OnInit {
     isSaving: boolean;
     isSaveAndCreate = false;
 
-    // categoriesOptions: IMultiSelectOption[];
-    // categoriesSettings: IMultiSelectSettings = {
-    //     pullRight: false,
-    //     enableSearch: true,
-    //     checkedStyle: 'fontawesome',
-    //     buttonClasses: 'btn btn-default',
-    //     selectionLimit: 0,
-    //     closeOnSelect: false,
-    //     showCheckAll: false,
-    //     showUncheckAll: false,
-    //     dynamicTitleMaxItems: 5,
-    //     maxHeight: '300px',
-    // };
-    // categoriesTexts: IMultiSelectTexts = {
-    //     checkAll: 'Check all',
-    //     uncheckAll: 'Uncheck all',
-    //     checked: 'checked',
-    //     checkedPlural: 'checked',
-    //     searchPlaceholder: 'Search...',
-    //     defaultTitle: 'Select',
-    // };
-    selectedCategories: number[];
+    categoriesOptions: any[];
+    selectedCategories: any[];
 
     bankaccounts: BankAccount[];
 
@@ -74,26 +55,28 @@ export class LineDialogComponent implements OnInit {
         };
         this.categoryService.query(reqCategories).subscribe(
             (res: Response) => {
-                // this.categoriesOptions = [];
-                // res.json().forEach(c =>
-                //     this.categoriesOptions.push( {id:  c.id, name: c.label} )
-                // );
-                // this.selectedCategories = new Array<number>();
-                // if (this.line.categories) {
-                //     this.line.categories.forEach(c => this.selectedCategories.push(c.id));
-                // }
+                this.categoriesOptions = [];
+                res.json().forEach(c =>
+                    this.categoriesOptions.push( {value:  c.id, display: c.label} )
+                );
+                this.selectedCategories = new Array<any>();
+                if (this.line.categories) {
+                    this.line.categories.forEach(c => this.selectedCategories.push({value:  c.id, display: c.label, key: c.label}));
+                } else {
+                    this.line.categories = [];
+                }
             },
             (res: Response) => this.onError(res.json()));
         this.bankAccountService.query().subscribe(
             (res: Response) => { this.bankaccounts = res.json(); }, (res: Response) => this.onError(res.json()));
     }
 
-    onChange($event) {
-        // reset categories
-        this.line.categories = new Array<Category>();
-        // push again the categories
-        this.selectedCategories.forEach(catId =>
-            this.line.categories.push({ id: catId }));
+    onAdd($event) {
+        this.line.categories.push({ id: $event.value });
+    }
+
+    onRemove($event) {
+        this.line.categories = this.line.categories.filter((c) => c.id !== $event.value);
     }
 
     clear () {

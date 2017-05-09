@@ -3,6 +3,9 @@ import { RouterModule } from '@angular/router';
 
 import { EasycountSharedModule } from '../../shared';
 
+import { TagInputModule } from 'ng2-tag-input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // this is needed!
+
 import {
     LineService,
     LinePopupService,
@@ -25,7 +28,9 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         EasycountSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
+        RouterModule.forRoot(ENTITY_STATES, { useHash: true }),
+        TagInputModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         LineComponent,

@@ -1,0 +1,7 @@
+/* ============================================================
+bugfix ng2-tag-input to display autocomplete under field
+============================================================ */
+:host /deep/ ng2-dropdown-menu div{
+    left: inherit !important;
+    top: inherit !important;
+}
