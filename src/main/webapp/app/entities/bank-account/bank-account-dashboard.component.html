@@ -126,7 +126,7 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let line of lines ;let i = index; trackBy: trackId" (click)="setClickedRow(line)"
-                        [class.active]="line == selectedLine">
+                        [class.active]="line == selectedLine" [class.generated]="line.source.toString() === 'GENERATED'">
                         <td>{{line.date | date:'mediumDate'}}</td>
                         <td>{{line.label}}</td>
                         <td class="text-right">{{line.debit | currencyFormat :'':currency.decimals:' ':'.':3}}</td>
@@ -141,7 +141,7 @@
                             </a>
                         </td>
                         <td>
-                            <i class="fa fa-cog" ngbTooltip="line.source" *ngIf="line.source === 'GENERATED'"></i>
+                            <i class="fa fa-cog" (ngbTooltip)="line.source" *ngIf="line.source === 'GENERATED'"></i>
                         </td>
                         <td class="text-xs-right">
                             <div class="btn-group flex-btn-group-container">

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import { Category, CategoryService } from '../category';
 import { BankAccount, BankAccountService } from '../bank-account';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import {activateRoute} from '../../account/activate/activate.route';
 
 @Component({
     selector: 'jhi-line-dialog',
@@ -22,6 +23,7 @@ export class LineDialogComponent implements OnInit {
     line: Line;
     authorities: any[];
     isSaving: boolean;
+    isSaveAndCreate = false;
 
     categoriesOptions: IMultiSelectOption[];
     categoriesSettings: IMultiSelectSettings = {
@@ -55,7 +57,9 @@ export class LineDialogComponent implements OnInit {
         private lineService: LineService,
         private categoryService: CategoryService,
         private bankAccountService: BankAccountService,
-        private eventManager: EventManager
+        private eventManager: EventManager,
+        private router: Router,
+        private activatedRoute: ActivatedRoute
     ) {
         // Use addLocation i/o setLocations in order not to remove other necessary ones in the background
         this.jhiLanguageService.addLocation('line');
@@ -110,10 +114,19 @@ export class LineDialogComponent implements OnInit {
         }
     }
 
+    saveAndCreate() {
+        this.isSaveAndCreate = true;
+        this.save();
+    }
+
     private onSaveSuccess (result: Line) {
         this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
         this.isSaving = false;
-        this.activeModal.dismiss(result);
+        if (this.isSaveAndCreate) {
+            this.line = new Line().bankAccountId = this.line.bankAccountId;
+        } else {
+            this.activeModal.dismiss(result);
+        }
     }
 
     private onSaveError (error) {

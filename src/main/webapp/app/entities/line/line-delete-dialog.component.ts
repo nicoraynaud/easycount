@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, JhiLanguageService } from 'ng-jhipster';
+import { EventManager } from 'ng-jhipster';
 
 import { Line } from './line.model';
 import { LinePopupService } from './line-popup.service';
@@ -17,12 +17,10 @@ export class LineDeleteDialogComponent {
     line: Line;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private lineService: LineService,
         public activeModal: NgbActiveModal,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['line', 'lineStatus', 'lineSource']);
     }
 
     clear () {

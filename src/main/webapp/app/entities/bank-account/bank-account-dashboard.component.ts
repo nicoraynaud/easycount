@@ -16,7 +16,7 @@ import { CurrencyService } from '../currency/currency.service';
 @Component({
     selector: 'jhi-bank-account-dashboard',
     templateUrl: './bank-account-dashboard.component.html',
-    styleUrls: ['./bank-account-dashboard.component.css']
+    styleUrls: ['./bank-account-dashboard.component.scss']
 })
 export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
