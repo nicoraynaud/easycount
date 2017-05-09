@@ -1,0 +1,10 @@
+{
+    "easycountApp": {
+        "BankAccountType" : {
+            "null": "",
+            "CHECKING": "CHECKING",
+            "SAVINGS": "SAVINGS",
+            "OTHER": "OTHER"
+        }
+    }
+}

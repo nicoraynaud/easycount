@@ -1,0 +1,10 @@
+{
+    "easycountApp": {
+        "LineStatus" : {
+            "null": "",
+            "NEW": "NEW",
+            "TICKED": "TICKED",
+            "CANCELLED": "CANCELLED"
+        }
+    }
+}

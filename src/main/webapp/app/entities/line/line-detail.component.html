@@ -1,0 +1,71 @@
+
+<div *ngIf="line">
+    <h2><span jhiTranslate="easycountApp.line.detail.title">Line</span> {{line.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="easycountApp.line.date">Date</span></dt>
+        <dd>
+            <span>{{line.date | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.label">Label</span></dt>
+        <dd>
+            <span>{{line.label}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.debit">Debit</span></dt>
+        <dd>
+            <span>{{line.debit}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.credit">Credit</span></dt>
+        <dd>
+            <span>{{line.credit}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.balance">Balance</span></dt>
+        <dd>
+            <span>{{line.balance}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.status">Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'easycountApp.LineStatus.' + line.status}}">{{line.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.source">Source</span></dt>
+        <dd>
+            <span jhiTranslate="{{'easycountApp.LineSource.' + line.source}}">{{line.source}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{line.createDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.categories">Categories</span></dt>
+        <dd>
+            <span *ngFor="let categories of line.categories; let last = last">
+                <a [routerLink]="['/category', categories?.id ]">{{categories.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.bankAccount">Bank Account</span></dt>
+        <dd>
+            <div *ngIf="line.bankAccountId">
+                <a [routerLink]="['/bank-account', line.bankAccountId]">{{line.bankAccountId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="easycountApp.line.template">Template</span></dt>
+        <dd>
+            <div *ngIf="line.templateId">
+                <a [routerLink]="['/line-template', line.templateId]">{{line.templateId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'line/'+ line.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

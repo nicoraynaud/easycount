@@ -1,0 +1,25 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "bankAccounts",
+            "otherEntityName": "bankAccount",
+            "otherEntityRelationshipName": "bank"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "label",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170306025910",
+    "entityTableName": "bank",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "no"
+}
