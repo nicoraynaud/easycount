@@ -21,9 +21,9 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/easycount
+        url: jdbc:postgresql://boitatou:5432/easycount
         username: easycount
-        password:
+        password: easycount
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -37,7 +37,11 @@ spring:
     data:
         elasticsearch:
             cluster-name:
-            cluster-nodes: localhost:9300
+            cluster-nodes:
+            properties:
+                path:
+                  logs: elasticsearch/log
+                  data: elasticsearch/data
     mail:
         host: localhost
         port: 25
@@ -67,7 +71,7 @@ liquibase:
 #        keyAlias: easycount
 # ===================================================================
 server:
-    port: 8080
+    port: 8123
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
