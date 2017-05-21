@@ -59,12 +59,7 @@ export class LineDialogComponent implements OnInit {
                 res.json().forEach(c =>
                     this.categoriesOptions.push( {value:  c.id, display: c.label} )
                 );
-                this.selectedCategories = new Array<any>();
-                if (this.line.categories) {
-                    this.line.categories.forEach(c => this.selectedCategories.push({value:  c.id, display: c.label, key: c.label}));
-                } else {
-                    this.line.categories = [];
-                }
+                this.setCategories();
             },
             (res: Response) => this.onError(res.json()));
         this.bankAccountService.query().subscribe(
@@ -77,6 +72,15 @@ export class LineDialogComponent implements OnInit {
 
     onRemove($event) {
         this.line.categories = this.line.categories.filter((c) => c.id !== $event.value);
+    }
+
+    setCategories() {
+        this.selectedCategories = new Array<any>();
+        if (this.line.categories) {
+            this.line.categories.forEach(c => this.selectedCategories.push({value:  c.id, display: c.label, key: c.label}));
+        } else {
+            this.line.categories = [];
+        }
     }
 
     clear () {
@@ -103,7 +107,9 @@ export class LineDialogComponent implements OnInit {
         this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
         this.isSaving = false;
         if (this.isSaveAndCreate) {
-            this.line = new Line().bankAccountId = this.line.bankAccountId;
+            this.line = this.lineService.createNew(this.line.bankAccountId, false);
+            this.setCategories();
+            this.isSaveAndCreate = false;
         } else {
             this.activeModal.dismiss(result);
         }
