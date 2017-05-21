@@ -34,7 +34,7 @@
 
             <label class="col-sm-2 col-form-label" jhiTranslate="easycountApp.lineTemplate.startDate" for="field_startDate">Start Date</label>
             <div class="input-group col-sm-4">
-                <input id="field_startDate" type="text" class="form-control" name="startDate" ngbDatepicker  #startDateDp="ngbDatepicker" [(ngModel)]="lineTemplate.startDate"
+                <input id="field_startDate" type="text" class="form-control" name="startDate" ngbDatepicker  placeholder="yyyy-mm-dd" #startDateDp="ngbDatepicker" [(ngModel)]="lineTemplate.startDate"
                        required/>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" (click)="startDateDp.toggle()"><i class="fa fa-calendar"></i></button>

@@ -13,7 +13,7 @@
             <label jhiTranslate="easycountApp.lineTemplate.asOfDate" for="field_date">Date</label>
             <div>
                 <div class="input-group">
-                    <input autofocus id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="date"
+                    <input autofocus id="field_date" type="text" class="form-control" name="date" ngbDatepicker placeholder="yyyy-mm-dd" #dateDp="ngbDatepicker" [(ngModel)]="date"
                            required/>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" (click)="dateDp.open()"><i class="fa fa-calendar"></i></button>
