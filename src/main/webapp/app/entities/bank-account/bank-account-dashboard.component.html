@@ -2,6 +2,13 @@
 <div *ngIf="bankAccount">
     <h2>{{bankAccount.bankLabel}} - {{bankAccount.label}}
 
+        <button type="button"
+                [routerLink]="['/', { outlets: { popup: 'bank-account/'+ bankAccount.id + '/edit'} }]"
+                replaceUrl="true"
+                class="btn btn-primary">
+            <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+        </button>
+
         <button class="btn btn-primary float-right create-line"
                 style="margin-left: 10px;"
                 [routerLink]="['/', { outlets: { popup: 'line-new/'+ bankAccountId } }]"
@@ -175,16 +182,4 @@
         </div>
     </dl>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
-
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'bank-account/'+ bankAccount.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
 </div>

@@ -1,0 +1,140 @@
+
+<div *ngIf="bankAccount">
+    <h2>{{bankAccount.bankLabel}} - {{bankAccount.label}} </h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row">
+        <div class="col-md-2">
+            <dt><span jhiTranslate="easycountApp.bankAccount.label">Label</span></dt>
+            <dd>
+                <span>{{bankAccount.label}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.number">Number</span></dt>
+            <dd>
+                <span>{{bankAccount.number}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.type">Type</span></dt>
+            <dd>
+                <span jhiTranslate="{{'easycountApp.BankAccountType.' + bankAccount.type}}">{{bankAccount.type}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.bank">Bank</span></dt>
+            <dd>
+                <div *ngIf="bankAccount.bankId">
+                    <a [routerLink]="['/bank', bankAccount.bankId]">{{bankAccount.bankLabel}}</a>
+                </div>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.currency">Currency</span></dt>
+            <dd>
+                <div *ngIf="bankAccount.currencyId">
+                    <a [routerLink]="['/currency', bankAccount.currencyId]">{{bankAccount.currencyLabel}}</a>
+                </div>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balance">Balance</span></dt>
+            <dd>
+                <span>{{bankAccount.balance | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balanceTicked">Balance Ticked</span></dt>
+            <dd>
+                <span>{{bankAccount.balanceTicked | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balanceEom">BalanceEom</span></dt>
+            <dd>
+                <span>{{bankAccount.balanceEom | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
+            </dd>
+            <dt><span jhiTranslate="easycountApp.bankAccount.balanceEomP1">BalanceEomP1</span></dt>
+            <dd>
+                <span>{{bankAccount.balanceEomP1 | currencyFormat :currency.symbol:currency.decimals:' ':'.':3}}</span>
+            </dd>
+
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="searchForm" class="form-inline">
+                        <div class="input-group w-100 mt-3">
+                            <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'easycountApp.line.home.search' | translate }}">
+                            <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                                <span class="fa fa-search"></span>
+                            </button>
+                            <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                                <span class="fa fa-trash-o"></span>
+                            </button>
+                            <button class="input-group-addon btn secondary" (click)="showHelpToggle()">
+                                <span class="fa fa-question"></span>
+                            </button>
+                        </div>
+                    </form>
+                    <div *ngIf="showHelp">
+                        <br/>
+                        <div class="alert alert-info" role="alert">
+                            &bull; <strong><em>date:[2017-02-26 TO 2017-02-28] AND categories.label:courses</em></strong> search for lines between two dates and with a specific label.<br/>
+                            &bull; <strong><em>debit:[180000 TO *]</em></strong> debit gte 180 000.<br/>
+                            &bull; <strong><em>createDate:&#123;* TO 2017-01-01&#125;</em></strong> creation date strictly gt 2017-01-01.<br/>
+                            &bull; <strong><em>debit:[25000 TO *] AND date:[2017-03-06 TO *]</em></strong> debit gte 25 000 and date gte 2017-03-06.<br/>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart" *ngIf="advancedDebitPiePerCategory && advancedDebitPiePerCategory.length > 0">
+                        <blockquote>
+                            <p>
+                                <h3>Débits</h3>
+                            </p>
+                        </blockquote>
+                        <hr>
+                        <ngx-charts-advanced-pie-chart
+                            [view]="view"
+                            [results]="advancedDebitPiePerCategory"
+                            [label]="Debit">
+                        </ngx-charts-advanced-pie-chart>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart" *ngIf="advancedCreditPiePerCategory && advancedCreditPiePerCategory.length > 0">
+                        <blockquote>
+                            <p>
+                                <h3>Crédits</h3>
+                            </p>
+                        </blockquote>
+                        <hr>
+                        <ngx-charts-advanced-pie-chart
+                            [view]="view"
+                            [results]="advancedCreditPiePerCategory"
+                            [label]="Credit">
+                        </ngx-charts-advanced-pie-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart" *ngIf="monthlyData && monthlyData.length > 0">
+                        <blockquote>
+                            <p>
+                            <h3>Monthly</h3>
+                            </p>
+                        </blockquote>
+                        <hr>
+                        <ngx-charts-bar-vertical-2d
+                            [view]="view2"
+                            [results]="monthlyData"
+                            [gradient]="gradient"
+                            [xAxis]="true"
+                            [yAxis]="true"
+                            [legend]="true"
+                            [showXAxisLabel]="true"
+                            [showYAxisLabel]="true"
+                            [xAxisLabel]="Month"
+                            [yAxisLabel]="Total">
+                        </ngx-charts-bar-vertical-2d>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dl>
+
+</div>

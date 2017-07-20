@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
@@ -14,7 +16,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
             defaultI18nLocation: 'all',
             defaultI18nLang: 'fr'
         }),
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        NgxChartsModule,
+        BrowserAnimationsModule
     ],
     exports: [
         FormsModule,
@@ -22,7 +26,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
         CommonModule,
         NgbModule,
         NgJhipsterModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        NgxChartsModule,
+        BrowserAnimationsModule
     ]
 })
 export class EasycountSharedLibsModule {}

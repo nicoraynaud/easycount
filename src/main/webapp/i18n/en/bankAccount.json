@@ -8,6 +8,9 @@
                 "importLines": "Import lines to Bank Account",
                 "generateLines": "Generate lines"
             },
+            "charts": {
+                "title": "Bank account charts"
+            },
             "created": "A new Bank Account is created with identifier {{ param }}",
             "updated": "A Bank Account is updated with identifier {{ param }}",
             "deleted": "A Bank Account is deleted with identifier {{ param }}",

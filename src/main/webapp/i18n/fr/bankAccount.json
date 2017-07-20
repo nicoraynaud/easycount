@@ -8,6 +8,9 @@
                 "importLines": "Importer des lignes dans le compte",
                 "generateLines": "Générer lignes"
             },
+            "charts": {
+                "title": "Bank account charts"
+            },
             "created": "Un nouveau Compte Bancaire a été créé avec l'identifiant {{ param }}",
             "updated": "Le Compte Bancaire avec l'identifiant {{ param }} a été mis à jour",
             "deleted": "Le Compte Bancaire avec l'identifiant {{ param }} a été supprimé",

@@ -21,6 +21,7 @@ import {
     BankAccountGenerateLinesDialogComponent,
     BankAccountGenerateLinesPopupComponent
 } from './';
+import {BankAccountChartsComponent} from './bank-account-charts.component';
 
 const ENTITY_STATES = [
     ...bankAccountRoute,
@@ -36,6 +37,7 @@ const ENTITY_STATES = [
         BankAccountComponent,
         BankAccountDetailComponent,
         BankAccountDashboardComponent,
+        BankAccountChartsComponent,
         BankAccountDialogComponent,
         BankAccountDeleteDialogComponent,
         BankAccountPopupComponent,

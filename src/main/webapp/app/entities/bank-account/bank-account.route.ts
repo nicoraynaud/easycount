@@ -9,6 +9,7 @@ import {BankAccountDeletePopupComponent} from "./bank-account-delete-dialog.comp
 import {BankAccountDashboardComponent} from "./bank-account-dashboard.component";
 import {BankAccountImportLinesPopupComponent} from "./bank-account-import-lines-dialog.component";
 import {BankAccountGenerateLinesPopupComponent} from "./bank-account-generate-lines-dialog.component";
+import {BankAccountChartsComponent} from './bank-account-charts.component';
 
 @Injectable()
 export class BankAccountResolvePagingParams implements Resolve<any> {
@@ -45,6 +46,14 @@ export const bankAccountRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'easycountApp.bankAccount.home.title'
+        }
+    },
+    {
+        path: 'bank-account/:id/charts',
+        component: BankAccountChartsComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'easycountApp.bankAccount.charts.title'
         }
     },
     {

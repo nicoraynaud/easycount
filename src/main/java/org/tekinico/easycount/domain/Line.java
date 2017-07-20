@@ -63,7 +63,7 @@ public class Line implements Serializable {
     @Column(name = "create_date", nullable = false)
     private ZonedDateTime createDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "line_categories",
                joinColumns = @JoinColumn(name="lines_id", referencedColumnName="id"),

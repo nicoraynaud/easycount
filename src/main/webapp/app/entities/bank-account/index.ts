@@ -5,6 +5,7 @@ export * from './bank-account-dialog.component';
 export * from './bank-account-delete-dialog.component';
 export * from './bank-account-detail.component';
 export * from './bank-account-dashboard.component';
+export * from './bank-account-charts.component';
 export * from './bank-account-import-lines-dialog.component';
 export * from './bank-account-generate-lines-dialog.component';
 export * from './bank-account.component';
