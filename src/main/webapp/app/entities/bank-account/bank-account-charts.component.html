@@ -87,7 +87,7 @@
                         <ngx-charts-advanced-pie-chart
                             [view]="view"
                             [results]="advancedDebitPiePerCategory"
-                            [label]="Debit">
+                            [label]="'easycountApp.bankAccount.charts.debit' | translate">
                         </ngx-charts-advanced-pie-chart>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                         <ngx-charts-advanced-pie-chart
                             [view]="view"
                             [results]="advancedCreditPiePerCategory"
-                            [label]="Credit">
+                            [label]="'easycountApp.bankAccount.charts.credit' | translate">
                         </ngx-charts-advanced-pie-chart>
                     </div>
                 </div>
@@ -116,14 +116,13 @@
                         <ngx-charts-bar-vertical-2d
                             [view]="view2"
                             [results]="monthlyData"
-                            [gradient]="gradient"
                             [xAxis]="true"
                             [yAxis]="true"
                             [legend]="true"
                             [showXAxisLabel]="true"
                             [showYAxisLabel]="true"
-                            [xAxisLabel]="Month"
-                            [yAxisLabel]="Total">
+                            [xAxisLabel]="'easycountApp.bankAccount.charts.month' | translate"
+                            [yAxisLabel]="'easycountApp.bankAccount.charts.total' | translate">
                         </ngx-charts-bar-vertical-2d>
                     </div>
                 </div>

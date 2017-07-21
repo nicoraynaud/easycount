@@ -3,6 +3,7 @@ import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/ht
 import { Observable } from 'rxjs/Rx';
 
 import { Currency } from './currency.model';
+
 @Injectable()
 export class CurrencyService {
 
@@ -11,14 +12,14 @@ export class CurrencyService {
     constructor(private http: Http) { }
 
     create(currency: Currency): Observable<Currency> {
-        let copy: Currency = Object.assign({}, currency);
+        const copy: Currency = Object.assign({}, currency);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
     update(currency: Currency): Observable<Currency> {
-        let copy: Currency = Object.assign({}, currency);
+        const copy: Currency = Object.assign({}, currency);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -31,7 +32,7 @@ export class CurrencyService {
     }
 
     query(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
         ;
     }
@@ -40,12 +41,10 @@ export class CurrencyService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-
-
     private createRequestOption(req?: any): BaseRequestOptions {
-        let options: BaseRequestOptions = new BaseRequestOptions();
+        const options: BaseRequestOptions = new BaseRequestOptions();
         if (req) {
-            let params: URLSearchParams = new URLSearchParams();
+            const params: URLSearchParams = new URLSearchParams();
             params.set('page', req.page);
             params.set('size', req.size);
             if (req.sort) {

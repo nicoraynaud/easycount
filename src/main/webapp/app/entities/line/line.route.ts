@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate} from '@angular/router';
+import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes} from '@angular/router';
 
 import {UserRouteAccessService} from '../../shared';
 import {PaginationUtil} from 'ng-jhipster';
@@ -9,8 +9,6 @@ import {LineDetailComponent} from './line-detail.component';
 import {LinePopupComponent} from './line-dialog.component';
 import {LineDeletePopupComponent} from './line-delete-dialog.component';
 
-import {Principal} from '../../shared';
-
 @Injectable()
 export class LineResolvePagingParams implements Resolve<any> {
 
@@ -18,8 +16,8 @@ export class LineResolvePagingParams implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        let page = route.queryParams['page'] ? route.queryParams['page'] : '1';
-        let sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+        const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
+        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
         return {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),

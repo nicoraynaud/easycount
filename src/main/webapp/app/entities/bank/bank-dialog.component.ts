@@ -38,11 +38,11 @@ export class BankDialogComponent implements OnInit {
         this.bankAccountService.query().subscribe(
             (res: Response) => { this.bankaccounts = res.json(); }, (res: Response) => this.onError(res.json()));
     }
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.bank.id !== undefined) {
             this.bankService.update(this.bank)
@@ -55,18 +55,18 @@ export class BankDialogComponent implements OnInit {
         }
     }
 
-    private onSaveSuccess (result: Bank) {
+    private onSaveSuccess(result: Bank) {
         this.eventManager.broadcast({ name: 'bankListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
@@ -84,13 +84,13 @@ export class BankPopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private bankPopupService: BankPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.modalRef = this.bankPopupService
                     .open(BankDialogComponent, params['id']);

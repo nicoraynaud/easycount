@@ -9,8 +9,6 @@ import { LineTemplateDetailComponent } from './line-template-detail.component';
 import { LineTemplatePopupComponent } from './line-template-dialog.component';
 import { LineTemplateDeletePopupComponent } from './line-template-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class LineTemplateResolvePagingParams implements Resolve<any> {
 

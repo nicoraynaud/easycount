@@ -28,6 +28,8 @@ export class LineDialogComponent implements OnInit {
 
     bankaccounts: BankAccount[];
 
+    dateDp: any;
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiLanguageService: JhiLanguageService,
@@ -48,7 +50,7 @@ export class LineDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        let reqCategories = {
+        const reqCategories = {
             page: 0,
             size: 500,
             sort: 'label,asc'
@@ -56,7 +58,7 @@ export class LineDialogComponent implements OnInit {
         this.categoryService.query(reqCategories).subscribe(
             (res: Response) => {
                 this.categoriesOptions = [];
-                res.json().forEach(c =>
+                res.json().forEach((c) =>
                     this.categoriesOptions.push( {value:  c.id, display: c.label} )
                 );
                 this.setCategories();
@@ -77,17 +79,17 @@ export class LineDialogComponent implements OnInit {
     setCategories() {
         this.selectedCategories = new Array<any>();
         if (this.line.categories) {
-            this.line.categories.forEach(c => this.selectedCategories.push({value:  c.id, display: c.label, key: c.label}));
+            this.line.categories.forEach((c) => this.selectedCategories.push({value:  c.id, display: c.label, key: c.label}));
         } else {
             this.line.categories = [];
         }
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.line.id !== undefined) {
             this.lineService.update(this.line)
@@ -103,7 +105,7 @@ export class LineDialogComponent implements OnInit {
         this.save();
     }
 
-    private onSaveSuccess (result: Line) {
+    private onSaveSuccess(result: Line) {
         this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
         this.isSaving = false;
         if (this.isSaveAndCreate) {
@@ -115,12 +117,12 @@ export class LineDialogComponent implements OnInit {
         }
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
@@ -153,13 +155,13 @@ export class LinePopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private linePopupService: LinePopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.modalRef = this.linePopupService
                     .open(LineDialogComponent, params['id']);

@@ -25,12 +25,12 @@ export class CategoryDeleteDialogComponent {
         this.jhiLanguageService.setLocations(['category']);
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete (id: number) {
-        this.categoryService.delete(id).subscribe(response => {
+    confirmDelete(id: number) {
+        this.categoryService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'categoryListModification',
                 content: 'Deleted an category'
@@ -49,13 +49,13 @@ export class CategoryDeletePopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private categoryPopupService: CategoryPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             this.modalRef = this.categoryPopupService
                 .open(CategoryDeleteDialogComponent, params['id']);
         });

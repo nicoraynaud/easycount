@@ -11,14 +11,14 @@ export class BankService {
     constructor(private http: Http) { }
 
     create(bank: Bank): Observable<Bank> {
-        let copy: Bank = Object.assign({}, bank);
+        const copy: Bank = Object.assign({}, bank);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
     update(bank: Bank): Observable<Bank> {
-        let copy: Bank = Object.assign({}, bank);
+        const copy: Bank = Object.assign({}, bank);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -31,7 +31,7 @@ export class BankService {
     }
 
     query(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
         ;
     }
@@ -40,12 +40,10 @@ export class BankService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-
-
     private createRequestOption(req?: any): BaseRequestOptions {
-        let options: BaseRequestOptions = new BaseRequestOptions();
+        const options: BaseRequestOptions = new BaseRequestOptions();
         if (req) {
-            let params: URLSearchParams = new URLSearchParams();
+            const params: URLSearchParams = new URLSearchParams();
             params.set('page', req.page);
             params.set('size', req.size);
             if (req.sort) {

@@ -3,24 +3,25 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Bank } from './bank.model';
 import { BankService } from './bank.service';
+
 @Injectable()
 export class BankPopupService {
     private isOpen = false;
-    constructor (
+    constructor(
         private modalService: NgbModal,
         private router: Router,
         private bankService: BankService
 
     ) {}
 
-    open (component: Component, id?: number | any): NgbModalRef {
+    open(component: Component, id?: number | any): NgbModalRef {
         if (this.isOpen) {
             return;
         }
         this.isOpen = true;
 
         if (id) {
-            this.bankService.find(id).subscribe(bank => {
+            this.bankService.find(id).subscribe((bank) => {
                 this.bankModalRef(component, bank);
             });
         } else {
@@ -29,9 +30,9 @@ export class BankPopupService {
     }
 
     bankModalRef(component: Component, bank: Bank): NgbModalRef {
-        let modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
+        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
         modalRef.componentInstance.bank = bank;
-        modalRef.result.then(result => {
+        modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
             this.isOpen = false;
         }, (reason) => {

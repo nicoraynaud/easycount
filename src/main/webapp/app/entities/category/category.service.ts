@@ -3,6 +3,7 @@ import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/ht
 import { Observable } from 'rxjs/Rx';
 
 import { Category } from './category.model';
+
 @Injectable()
 export class CategoryService {
 
@@ -11,14 +12,14 @@ export class CategoryService {
     constructor(private http: Http) { }
 
     create(category: Category): Observable<Category> {
-        let copy: Category = Object.assign({}, category);
+        const copy: Category = Object.assign({}, category);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
     update(category: Category): Observable<Category> {
-        let copy: Category = Object.assign({}, category);
+        const copy: Category = Object.assign({}, category);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -31,7 +32,7 @@ export class CategoryService {
     }
 
     findAll(): Observable<Category> {
-        let req = {
+        const req = {
             page: 0,
             size: 500
         };
@@ -39,7 +40,7 @@ export class CategoryService {
     }
 
     query(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
         ;
     }
@@ -49,9 +50,9 @@ export class CategoryService {
     }
 
     private createRequestOption(req?: any): BaseRequestOptions {
-        let options: BaseRequestOptions = new BaseRequestOptions();
+        const options: BaseRequestOptions = new BaseRequestOptions();
         if (req) {
-            let params: URLSearchParams = new URLSearchParams();
+            const params: URLSearchParams = new URLSearchParams();
             params.set('page', req.page);
             params.set('size', req.size);
             if (req.sort) {

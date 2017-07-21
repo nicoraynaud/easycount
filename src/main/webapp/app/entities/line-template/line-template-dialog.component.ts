@@ -27,6 +27,8 @@ export class LineTemplateDialogComponent implements OnInit {
 
     bankaccounts: BankAccount[];
 
+    startDateDp: any;
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiLanguageService: JhiLanguageService,
@@ -42,7 +44,7 @@ export class LineTemplateDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        let reqCategories = {
+        const reqCategories = {
             page: 0,
             size: 500,
             sort: 'label,asc'
@@ -50,12 +52,12 @@ export class LineTemplateDialogComponent implements OnInit {
         this.categoryService.query(reqCategories).subscribe(
             (res: Response) => {
                 this.categoriesOptions = [];
-                res.json().forEach(c =>
+                res.json().forEach((c) =>
                     this.categoriesOptions.push( {value:  c.id, display: c.label} )
                 );
                 this.selectedCategories = [];
                 if (this.lineTemplate.categories) {
-                    this.lineTemplate.categories.forEach(c => this.selectedCategories.push({value:  c.id, display: c.label, key: c.label}));
+                    this.lineTemplate.categories.forEach((c) => this.selectedCategories.push({value:  c.id, display: c.label, key: c.label}));
                 } else {
                     this.lineTemplate.categories = [];
                 }

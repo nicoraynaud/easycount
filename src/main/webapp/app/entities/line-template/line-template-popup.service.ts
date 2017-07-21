@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LineTemplate } from './line-template.model';
 import { LineTemplateService } from './line-template.service';
+
 @Injectable()
 export class LineTemplatePopupService {
     private isOpen = false;

@@ -1,14 +1,14 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes} from "@angular/router";
-import {PaginationUtil} from "ng-jhipster";
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes} from '@angular/router';
+import {PaginationUtil} from 'ng-jhipster';
 
-import {BankAccountComponent} from "./bank-account.component";
-import {BankAccountDetailComponent} from "./bank-account-detail.component";
-import {BankAccountPopupComponent} from "./bank-account-dialog.component";
-import {BankAccountDeletePopupComponent} from "./bank-account-delete-dialog.component";
-import {BankAccountDashboardComponent} from "./bank-account-dashboard.component";
-import {BankAccountImportLinesPopupComponent} from "./bank-account-import-lines-dialog.component";
-import {BankAccountGenerateLinesPopupComponent} from "./bank-account-generate-lines-dialog.component";
+import {BankAccountComponent} from './bank-account.component';
+import {BankAccountDetailComponent} from './bank-account-detail.component';
+import {BankAccountPopupComponent} from './bank-account-dialog.component';
+import {BankAccountDeletePopupComponent} from './bank-account-delete-dialog.component';
+import {BankAccountDashboardComponent} from './bank-account-dashboard.component';
+import {BankAccountImportLinesPopupComponent} from './bank-account-import-lines-dialog.component';
+import {BankAccountGenerateLinesPopupComponent} from './bank-account-generate-lines-dialog.component';
 import {BankAccountChartsComponent} from './bank-account-charts.component';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class BankAccountResolvePagingParams implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        let page = route.queryParams['page'] ? route.queryParams['page'] : '1';
-        let sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+        const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
+        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
         return {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),

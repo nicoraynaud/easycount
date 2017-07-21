@@ -9,7 +9,6 @@ import { Currency } from '../currency/currency.model';
 import { CurrencyService } from '../currency/currency.service';
 import { ActivatedRoute } from '@angular/router';
 import { Line } from '../line/line.model';
-import {DateFormatter} from '@angular/common/src/pipes/intl';
 
 @Component({
     selector: 'jhi-bank-account-charts',
@@ -47,26 +46,26 @@ export class BankAccountChartsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
     }
 
-    load (id) {
+    load(id) {
         this.bankAccountId = id;
-        this.bankAccountService.find(this.bankAccountId).subscribe(bankAccount => {
-            this.currencyService.find(bankAccount.currencyId).subscribe(currency => {
+        this.bankAccountService.find(this.bankAccountId).subscribe((bankAccount) => {
+            this.currencyService.find(bankAccount.currencyId).subscribe((currency) => {
                 this.currency = currency;
                 this.bankAccount = bankAccount;
             });
         });
     }
 
-    clear () {
+    clear() {
         this.currentSearch = null;
     }
 
-    search (query) {
+    search(query) {
         if (!query) {
             return this.clear();
         }
@@ -83,13 +82,13 @@ export class BankAccountChartsComponent implements OnInit {
         return;
     }
 
-    private onLoadLineSuccess (data, headers) {
+    private onLoadLineSuccess(data, headers) {
         this.totalItems = headers.get('X-Total-Count');
 
-        let sortedDebitData: Map<string, number> = new Map<string, number>();
-        let sortedCreditData: Map<string, number> = new Map<string, number>();
-        let sortedMonthlyDebitData: Map<string, number> = new Map<string, number>();
-        let sortedMonthlyCreditData: Map<string, number> = new Map<string, number>();
+        const sortedDebitData: Map<string, number> = new Map<string, number>();
+        const sortedCreditData: Map<string, number> = new Map<string, number>();
+        const sortedMonthlyDebitData: Map<string, number> = new Map<string, number>();
+        const sortedMonthlyCreditData: Map<string, number> = new Map<string, number>();
         data.forEach((line: Line) => {
             const categoryLabel = line.categories.length !== 0 ? line.categories[0].label : 'none';
             const monthLabel = new Date(line.date).getMonth().toString();
@@ -110,31 +109,34 @@ export class BankAccountChartsComponent implements OnInit {
 
         this.advancedDebitPiePerCategory = [];
         sortedDebitData.forEach((value, key) =>
-            this.advancedDebitPiePerCategory.push( {name:  key, value: value} )
+            this.advancedDebitPiePerCategory.push( {name:  key, value} )
         );
 
         this.advancedCreditPiePerCategory = [];
         sortedCreditData.forEach((value, key) =>
-            this.advancedCreditPiePerCategory.push( {name:  key, value: value} )
+            this.advancedCreditPiePerCategory.push( {name:  key, value} )
         );
 
         this.monthlyData = [];
         sortedMonthlyDebitData.forEach((value, key) =>
-            this.monthlyData.push( {name: key, series: [ {name: "Debit", value: value} ] } )
+            this.monthlyData.push( {name: key, series: [ {name: 'Debit', value} ] } )
         );
         sortedMonthlyCreditData.forEach((value, key) => {
-            let month = this.monthlyData.find((i) => i.name === key);
+            const month = this.monthlyData.find((i) => i.name === key);
             if (month) {
-                month.series.push({name: "Credit", value: value})
+                month.series.push({name: 'Credit', value});
             } else {
-                this.monthlyData.push( {name: key, series: [ {name: "Credit", value: value} ] } )
+                this.monthlyData.push( {name: key, series: [ {name: 'Credit', value} ] } );
             }
         });
 
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
+    showHelpToggle() {
+        this.showHelp = !this.showHelp;
+    }
 }

@@ -22,13 +22,13 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
     }
 
-    load (id) {
-        this.categoryService.find(id).subscribe(category => {
+    load(id) {
+        this.categoryService.find(id).subscribe((category) => {
             this.category = category;
         });
     }

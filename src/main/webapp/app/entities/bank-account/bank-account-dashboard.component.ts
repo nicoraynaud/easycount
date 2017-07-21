@@ -39,7 +39,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
 
-    selectedLine : Line;
+    selectedLine: Line;
 
     showHelp: boolean;
 
@@ -64,12 +64,12 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         this.jhiLanguageService.setLocations(['bankAccount', 'bankAccountType', 'line', 'lineStatus', 'lineSource']);
     }
 
-    setClickedRow (line) {
+    setClickedRow(line) {
         this.selectedLine = line;
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
         this.registerChangeInLines();
@@ -79,10 +79,10 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('lineListModification', (response) => this.load(this.bankAccountId));
     }
 
-    load (id) {
+    load(id) {
         this.bankAccountId = id;
-        this.bankAccountService.find(this.bankAccountId).subscribe(bankAccount => {
-            this.currencyService.find(bankAccount.currencyId).subscribe(currency => {
+        this.bankAccountService.find(this.bankAccountId).subscribe((bankAccount) => {
+            this.currencyService.find(bankAccount.currencyId).subscribe((currency) => {
                 this.currency = currency;
                 this.bankAccount = bankAccount;
                 this.loadLines();
@@ -111,21 +111,21 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         );
     }
 
-    loadPage (page: number) {
+    loadPage(page: number) {
         if (page !== this.previousPage) {
             this.previousPage = page;
             this.transition();
         }
     }
 
-    clear () {
+    clear() {
         this.page = 0;
         this.currentSearch = null;
         this.searchQuery = null;
         this.loadLines();
     }
 
-    search (query) {
+    search(query) {
         if (!query) {
             return this.clear();
         }
@@ -135,30 +135,30 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
     }
 
     createLine() {
-        this.router.navigate([{ outlets: { popup: 'line-new/'+ this.bankAccountId }}], { replaceUrl: true });
+        this.router.navigate([{ outlets: { popup: 'line-new/' + this.bankAccountId }}], { replaceUrl: true });
     }
 
-    editLine (line) {
+    editLine(line) {
         if (line) {
             this.router.navigate([{outlets: {popup: 'line/' + line.id + '/edit'}}], {replaceUrl: true});
         }
     }
 
-    tickLine (line) {
+    tickLine(line) {
         if (line) {
             this.lineService.tickLine(line)
                 .subscribe((res: Line) => this.onSaveSuccess(res), (res: Response) => this.onError(res.json()));
         }
     }
 
-    cancelLine (line) {
+    cancelLine(line) {
         if (line) {
             this.lineService.cancelLine(line)
                 .subscribe((res: Line) => this.onSaveSuccess(res), (res: Response) => this.onError(res.json()));
         }
     }
 
-    private onSaveSuccess (result: Line) {
+    private onSaveSuccess(result: Line) {
         this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
     }
 
@@ -168,19 +168,19 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     /** STYLING / INTERFACE **/
 
-    getColorOfStatusTicked (status: string, modulo: number) {
+    getColorOfStatusTicked(status: string, modulo: number) {
         if (status === 'TICKED') {
-            return "green";
+            return 'green';
         } else {
-            return modulo%2 == 0 ? "white" : "whitesmoke";
+            return modulo % 2 === 0 ? 'white' : 'whitesmoke';
         }
     }
 
-    getColorOfStatusCancelled (status: string, modulo: number) {
+    getColorOfStatusCancelled(status: string, modulo: number) {
         if (status === 'CANCELLED') {
-            return "red";
+            return 'red';
         } else {
-            return modulo%2 == 0 ? "white" : "whitesmoke";
+            return modulo % 2 === 0 ? 'white' : 'whitesmoke';
         }
     }
 
@@ -208,7 +208,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
     /** NAVIGATION OF LINES **/
 
-    upLine (line) {
+    upLine(line) {
         if (line && this.lines.indexOf(line) !== 0) {
             this.selectedLine = this.lines[this.lines.indexOf(line) - 1];
         } else {
@@ -216,7 +216,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    downLine (line) {
+    downLine(line) {
         if (line && this.lines.indexOf(line) !== this.lines.length) {
             this.selectedLine = this.lines[this.lines.indexOf(line) + 1];
         } else {
@@ -238,7 +238,7 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
         this.loadLines();
     }
 
-    private onLoadLineSuccess (data, headers) {
+    private onLoadLineSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
@@ -246,20 +246,20 @@ export class BankAccountDashboardComponent implements OnInit, OnDestroy {
 
         // Set back the selected line after reload
         if (this.selectedLine) {
-            this.selectedLine = this.lines.filter(x => x.id === this.selectedLine.id)[0];
+            this.selectedLine = this.lines.filter((x) => x.id === this.selectedLine.id)[0];
         }
     }
 
-    trackId (index: number, item: Line) {
+    trackId(index: number, item: Line) {
         return item.id;
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
-    sort () {
-        let result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc'), 'id,asc'];
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc'), 'id,asc'];
         return result;
     }
 }

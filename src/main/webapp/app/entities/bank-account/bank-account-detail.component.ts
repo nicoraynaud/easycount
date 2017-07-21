@@ -22,13 +22,13 @@ export class BankAccountDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
     }
 
-    load (id) {
-        this.bankAccountService.find(id).subscribe(bankAccount => {
+    load(id) {
+        this.bankAccountService.find(id).subscribe((bankAccount) => {
             this.bankAccount = bankAccount;
         });
     }

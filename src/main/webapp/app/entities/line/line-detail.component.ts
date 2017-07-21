@@ -22,13 +22,13 @@ export class LineDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
     }
 
-    load (id) {
-        this.lineService.find(id).subscribe(line => {
+    load(id) {
+        this.lineService.find(id).subscribe((line) => {
             this.line = line;
         });
     }

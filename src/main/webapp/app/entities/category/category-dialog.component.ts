@@ -36,11 +36,12 @@ export class CategoryDialogComponent implements OnInit {
         this.categoryService.query().subscribe(
             (res: Response) => { this.categories = res.json(); }, (res: Response) => this.onError(res.json()));
     }
-    clear () {
+
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.category.id !== undefined) {
             this.categoryService.update(this.category)
@@ -53,18 +54,18 @@ export class CategoryDialogComponent implements OnInit {
         }
     }
 
-    private onSaveSuccess (result: Category) {
+    private onSaveSuccess(result: Category) {
         this.eventManager.broadcast({ name: 'categoryListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
@@ -82,13 +83,13 @@ export class CategoryPopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private categoryPopupService: CategoryPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.modalRef = this.categoryPopupService
                     .open(CategoryDialogComponent, params['id']);

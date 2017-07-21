@@ -17,6 +17,7 @@ export class BankAccountGenerateLinesDialogComponent implements OnInit {
 
     bankAccount: BankAccount;
     date: any;
+    dateDp: any;
 
     authorities: any[];
     isSaving: boolean;
@@ -46,13 +47,13 @@ export class BankAccountGenerateLinesDialogComponent implements OnInit {
         this.activeModal.dismiss('cancel');
     }
 
-    private onSaveSuccess () {
+    private onSaveSuccess() {
         this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss('ok');
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.alertService.error(error.message, null, null);
     }
@@ -67,13 +68,13 @@ export class BankAccountGenerateLinesPopupComponent implements OnInit, OnDestroy
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private bankAccountPopupService: BankAccountPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             this.modalRef = this.bankAccountPopupService
                 .open(BankAccountGenerateLinesDialogComponent, params['id']);
 

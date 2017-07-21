@@ -32,11 +32,11 @@ export class CurrencyDialogComponent implements OnInit {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.currency.id !== undefined) {
             this.currencyService.update(this.currency)
@@ -49,18 +49,18 @@ export class CurrencyDialogComponent implements OnInit {
         }
     }
 
-    private onSaveSuccess (result: Currency) {
+    private onSaveSuccess(result: Currency) {
         this.eventManager.broadcast({ name: 'currencyListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 }
@@ -74,13 +74,13 @@ export class CurrencyPopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private currencyPopupService: CurrencyPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.modalRef = this.currencyPopupService
                     .open(CurrencyDialogComponent, params['id']);

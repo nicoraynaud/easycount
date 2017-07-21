@@ -6,13 +6,14 @@ export const enum LineStatus {
     'TICKED',
     'CANCELLED'
 
-};
+}
 
 export const enum LineSource {
     'MANUAL',
     'GENERATED'
 
-};
+}
+
 export class Line {
     constructor(
         public id?: number,

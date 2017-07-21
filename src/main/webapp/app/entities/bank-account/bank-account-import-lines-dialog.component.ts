@@ -38,7 +38,7 @@ export class BankAccountImportLinesDialogComponent implements OnInit {
     }
 
     onFileChange(event) {
-        var files = event.srcElement.files;
+        const files = event.srcElement.files;
         this.file = files[0];
     }
 
@@ -52,13 +52,13 @@ export class BankAccountImportLinesDialogComponent implements OnInit {
         this.activeModal.dismiss('cancel');
     }
 
-    private onSaveSuccess () {
+    private onSaveSuccess() {
         this.eventManager.broadcast({ name: 'lineListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss('ok');
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.alertService.error(error.message, null, null);
     }
@@ -73,13 +73,13 @@ export class BankAccountImportLinesPopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private bankAccountPopupService: BankAccountPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             this.modalRef = this.bankAccountPopupService
                 .open(BankAccountImportLinesDialogComponent, params['id']);
 

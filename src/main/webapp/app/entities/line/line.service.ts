@@ -14,7 +14,7 @@ export class LineService {
     constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(line: Line): Observable<Line> {
-        let copy: Line = Object.assign({}, line);
+        const copy: Line = Object.assign({}, line);
         copy.date = this.dateUtils
             .convertLocalDateToServer(line.date);
         copy.createDate = this.dateUtils.toDate(line.createDate);
@@ -25,7 +25,7 @@ export class LineService {
     }
 
     update(line: Line): Observable<Line> {
-        let copy: Line = Object.assign({}, line);
+        const copy: Line = Object.assign({}, line);
         copy.date = this.dateUtils
             .convertLocalDateToServer(line.date);
         copy.createDate = this.dateUtils.toDate(line.createDate);
@@ -37,7 +37,7 @@ export class LineService {
 
     find(id: number): Observable<Line> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            let jsonResponse = res.json();
+            const jsonResponse = res.json();
             jsonResponse.date = this.dateUtils
                 .convertLocalDateFromServer(jsonResponse.date);
             jsonResponse.createDate = this.dateUtils
@@ -50,12 +50,12 @@ export class LineService {
     }
 
     findByBankAccount(bankAccountId: number, req?: any): Observable<Line> {
-        let options = this.createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.bankAccountResourceUrl.replace(/:bankAccountId/, bankAccountId.toString()), options);
     }
 
     query(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
             .map((res: any) => this.convertResponse(res))
         ;
@@ -70,14 +70,14 @@ export class LineService {
     }
 
     search(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.resourceSearchUrl, options)
             .map((res: any) => this.convertResponse(res))
             ;
     }
 
     createNew(bankAccountId: number, generated: boolean) {
-        let line = new Line();
+        const line = new Line();
         if (bankAccountId) { line.bankAccountId = Number(bankAccountId); }
         generated ? line.source = LineSource.GENERATED : line.source = LineSource.MANUAL;
         line.status = LineStatus.NEW;
@@ -85,21 +85,21 @@ export class LineService {
     }
 
     tickLine(line: Line): Observable<Line> {
-        let copy: Line = Object.assign({}, line);
+        const copy: Line = Object.assign({}, line);
         return this.http.put(`${this.resourceUrl}/${line.id}/tick`, null).map((res: Response) => {
             return res.json();
         });
     }
 
     cancelLine(line: Line): Observable<Line> {
-        let copy: Line = Object.assign({}, line);
+        const copy: Line = Object.assign({}, line);
         return this.http.put(`${this.resourceUrl}/${line.id}/cancel`, null).map((res: Response) => {
             return res.json();
         });
     }
 
     private convertResponse(res: any): any {
-        let jsonResponse = res.json();
+        const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {
             jsonResponse[i].date = this.dateUtils
                 .convertLocalDateFromServer(jsonResponse[i].date);
@@ -113,9 +113,9 @@ export class LineService {
     }
 
     private createRequestOption(req?: any): BaseRequestOptions {
-        let options: BaseRequestOptions = new BaseRequestOptions();
+        const options: BaseRequestOptions = new BaseRequestOptions();
         if (req) {
-            let params: URLSearchParams = new URLSearchParams();
+            const params: URLSearchParams = new URLSearchParams();
             params.set('page', req.page);
             params.set('size', req.size);
             if (req.sort) {

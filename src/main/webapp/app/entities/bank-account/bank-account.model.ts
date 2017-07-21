@@ -4,7 +4,8 @@ const enum BankAccountType {
     'SAVINGS',
     'OTHER'
 
-};
+}
+
 export class BankAccount {
     constructor(
         public id?: number,
@@ -16,9 +17,9 @@ export class BankAccount {
         public bankLabel?: string,
         public currencyId?: number,
         public currencyLabel?: number,
-        public balance? :number,
-        public balanceTicked? :number,
-        public balanceEom? :number,
-        public balanceEomP1? :number
+        public balance?: number,
+        public balanceTicked?: number,
+        public balanceEom?: number,
+        public balanceEomP1?: number
     ) { }
 }

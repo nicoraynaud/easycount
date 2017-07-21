@@ -22,13 +22,13 @@ export class CurrencyDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
     }
 
-    load (id) {
-        this.currencyService.find(id).subscribe(currency => {
+    load(id) {
+        this.currencyService.find(id).subscribe((currency) => {
             this.currency = currency;
         });
     }
