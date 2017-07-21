@@ -43,6 +43,7 @@ deploy:
   provider: releases
   api_key:
     secure: "JPmb5XcrlFl4bey5/FC7JZl2sDisRtGZIcPeA7aD2D9zez6bIWy3lnCFK6pwnWT7UUdzCh4bsBA5IWxCp148jlOEXmUvnnnzoM281UTI8rB2BXx+9CVZapH5HzLDcDn5HnNshieh73WMAIL5hpgIrNq8mcES5DH5oB5zXZKXuXFhtjNz+nXzAKwPHFVY9oa0ZdrUqrzxMhycKNb1O1KT37vurbfWhFNU13PZGNR8Z8lbGYW9sLIb+v+o+smnoUQPIs83bWEvSQQV+4dz86kKepBKzBh/urr1PoCdTxb6cJEZMNJu9BNLXV9JS98p4JyW5Au+wa61qt9cLEoY2BddfyWtkUi8La6IItvTaSyKy5duvV1JIUoLa/EzvnK1mCND1ZDJRYSBiwDT1da5WnbkiAA9CItHbjPTlC9Kr3S4zZR3tYzsQ3Yb4PBjWwojQAjAFoJX8icU4M87iWAdj/Y7YK8u3MJeFkh1cOYuX3AnbTfj1bd01NmBz+ozg229nc067DOFV5754ky+zrEUo3OPGUrUvdPMYZlBS+D1DMXN8rST3wYeQO9iDOj/0PAOgsZ+00YN8S3BEog7rJFM39V0tKy141si4Fd5nVVnPklUSYyxJV141nhBKImvjlxYx8h0JcDGN1tZa3QlyVRTU/XXj/Lq0IoD1tP+dnXlWh7HHhY="
+  file_glob: true
   file: "build/libs/*.war"
   skip_cleanup: true
   on:
