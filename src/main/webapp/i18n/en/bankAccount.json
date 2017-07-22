@@ -9,7 +9,12 @@
                 "generateLines": "Generate lines"
             },
             "charts": {
-                "title": "Bank account charts"
+                "title": "Bank account charts",
+                "debit": "Debits",
+                "credit": "Credits",
+                "month": "Month",
+                "total": "Total",
+                "monthly": "Monthly"
             },
             "created": "A new Bank Account is created with identifier {{ param }}",
             "updated": "A Bank Account is updated with identifier {{ param }}",

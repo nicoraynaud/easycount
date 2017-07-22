@@ -9,7 +9,12 @@
                 "generateLines": "Générer lignes"
             },
             "charts": {
-                "title": "Bank account charts"
+                "title": "Bank account charts",
+                "debit": "Débits",
+                "credit": "Crédits",
+                "month": "Mois",
+                "total": "Total",
+                "monthly": "Mensuel"
             },
             "created": "Un nouveau Compte Bancaire a été créé avec l'identifiant {{ param }}",
             "updated": "Le Compte Bancaire avec l'identifiant {{ param }} a été mis à jour",

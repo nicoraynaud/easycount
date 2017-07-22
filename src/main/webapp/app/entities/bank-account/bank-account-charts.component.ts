@@ -30,8 +30,10 @@ export class BankAccountChartsComponent implements OnInit {
     advancedCreditPiePerCategory: any[];
     monthlyData: any[];
 
+    language: string;
+
     view: any[] = [450, 180];
-    view2: any[] = [900, 500];
+    view2: any[] = [1100, 500];
 
     constructor(
         private jhiLanguageService: JhiLanguageService,
@@ -49,6 +51,8 @@ export class BankAccountChartsComponent implements OnInit {
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
+
+        this.jhiLanguageService.getCurrent().then((x) => this.language = x);
     }
 
     load(id) {
@@ -73,6 +77,7 @@ export class BankAccountChartsComponent implements OnInit {
 
         this.lineService.search({
             query: this.searchQuery,
+            sort: ['date,asc'],
             page: 0,
             size: 100000
         }).subscribe(
@@ -91,7 +96,7 @@ export class BankAccountChartsComponent implements OnInit {
         const sortedMonthlyCreditData: Map<string, number> = new Map<string, number>();
         data.forEach((line: Line) => {
             const categoryLabel = line.categories.length !== 0 ? line.categories[0].label : 'none';
-            const monthLabel = new Date(line.date).getMonth().toString();
+            const monthLabel = new Date(line.date).toLocaleDateString(this.language, { month: "long", year: "numeric" });
             if (line.debit && line.debit !== 0) {
                 const previousValue = sortedDebitData.has(categoryLabel) ? sortedDebitData.get(categoryLabel) : 0;
                 sortedDebitData.set(categoryLabel, Math.abs(previousValue + line.debit));

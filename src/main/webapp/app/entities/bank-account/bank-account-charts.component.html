@@ -81,7 +81,7 @@
                 <div class="col-md-6">
                     <div class="chart" *ngIf="advancedDebitPiePerCategory && advancedDebitPiePerCategory.length > 0">
                         <blockquote>
-                            <h3>Débits</h3>
+                            <h3 jhiTranslate="easycountApp.bankAccount.charts.debit">Débits</h3>
                         </blockquote>
                         <hr>
                         <ngx-charts-advanced-pie-chart
@@ -94,7 +94,7 @@
                 <div class="col-md-6">
                     <div class="chart" *ngIf="advancedCreditPiePerCategory && advancedCreditPiePerCategory.length > 0">
                         <blockquote>
-                            <h3>Crédits</h3>
+                            <h3 jhiTranslate="easycountApp.bankAccount.charts.credit">Crédits</h3>
                         </blockquote>
                         <hr>
                         <ngx-charts-advanced-pie-chart
@@ -110,7 +110,7 @@
                 <div class="col-md-12">
                     <div class="chart" *ngIf="monthlyData && monthlyData.length > 0">
                         <blockquote>
-                            <h3>Monthly</h3>
+                            <h3 jhiTranslate="easycountApp.bankAccount.charts.monthly">Monthly</h3>
                         </blockquote>
                         <hr>
                         <ngx-charts-bar-vertical-2d
