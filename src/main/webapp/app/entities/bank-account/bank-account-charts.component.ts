@@ -96,7 +96,7 @@ export class BankAccountChartsComponent implements OnInit {
         const sortedMonthlyCreditData: Map<string, number> = new Map<string, number>();
         data.forEach((line: Line) => {
             const categoryLabel = line.categories.length !== 0 ? line.categories[0].label : 'none';
-            const monthLabel = new Date(line.date).toLocaleDateString(this.language, { month: "long", year: "numeric" });
+            const monthLabel = new Date(line.date).toLocaleDateString(this.language, { month: 'long', year: 'numeric' });
             if (line.debit && line.debit !== 0) {
                 const previousValue = sortedDebitData.has(categoryLabel) ? sortedDebitData.get(categoryLabel) : 0;
                 sortedDebitData.set(categoryLabel, Math.abs(previousValue + line.debit));
